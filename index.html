@@ -8,8 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- PINTEREST EDITORIAL MIX: Playfair Display + Syne + Plus Jakarta Sans + JetBrains Mono -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400;1,600;1,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<!-- Three.js for 3D Cursor-Tracking Mascot -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- Official Spline 3D Viewer Web Component -->
+<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.72/build/spline-viewer.js"></script>
 
 <style>
 :root {
@@ -67,7 +67,7 @@ body {
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* DANGLING CHERRY CHARM (TOP RIGHT PENDULUM SWING) */
+/* DANGLING CHERRY CHARM */
 .dangling-cherry-rig {
   position: fixed;
   top: 0;
@@ -171,7 +171,6 @@ header {
   gap: 24px;
 }
 
-/* BENTO CARDS */
 .bento-card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
@@ -187,7 +186,6 @@ header {
   transform-style: preserve-3d;
 }
 
-/* SPECULAR CARD HIGHLIGHT ON MOUSEMOVE */
 .bento-card::before {
   content: "";
   position: absolute;
@@ -201,7 +199,7 @@ header {
 
 .card-hero {
   grid-column: span 8;
-  min-height: 480px;
+  min-height: 500px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -300,7 +298,7 @@ header {
   max-width: 480px;
 }
 
-/* ECLECTIC BUTTON MIX (NOT ALL SAME GLOW!) */
+/* ECLECTIC BUTTON MIX */
 .hero-buttons {
   display: flex;
   gap: 16px;
@@ -308,7 +306,6 @@ header {
   align-items: center;
 }
 
-/* STYLE 1: GLOSSY CHERRY JELLY BUTTON (WITH CHERRY POP BURST ON CLICK) */
 .btn-cherry-jelly {
   position: relative;
   background: linear-gradient(135deg, #d90429 0%, #9b111e 100%);
@@ -331,11 +328,8 @@ header {
   transform: translateY(-3px) scale(1.03);
   box-shadow: 0 12px 32px rgba(217, 4, 41, 0.55), inset 0 2px 6px rgba(255, 255, 255, 0.4);
 }
-.btn-cherry-jelly:active {
-  transform: scale(0.96);
-}
+.btn-cherry-jelly:active { transform: scale(0.96); }
 
-/* STYLE 2: TACTILE PAPER STICKER BUTTON (SCRAPBOOK WASHI TAPE STYLE) */
 .btn-paper-sticker {
   background: #fdfbf7;
   color: #1a0e14;
@@ -375,7 +369,6 @@ header {
   box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.45);
 }
 
-/* STYLE 3: VINTAGE BOTANICAL TAG */
 .btn-botanical-tag {
   background: rgba(253, 240, 213, 0.08);
   border: 1px solid rgba(253, 240, 213, 0.25);
@@ -397,32 +390,66 @@ header {
   transform: translateY(-2px);
 }
 
-/* 3D MASCOT CANVAS IN HERO */
-.mascot-3d-stage {
-  width: 320px;
-  height: 340px;
+/* SPLINE 3D VIEWER CONTAINER */
+.spline-3d-stage {
+  width: 360px;
+  height: 380px;
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--card-border);
 }
-#three-mascot-canvas {
+spline-viewer {
   width: 100%;
   height: 100%;
-  cursor: grab;
-  border-radius: var(--radius);
+  display: block;
 }
-#three-mascot-canvas:active { cursor: grabbing; }
 
-.mascot-hint {
+/* SPLINE SCENE SWITCHER PILLS */
+.spline-controls {
   position: absolute;
-  bottom: 6px;
-  font-size: 11px;
+  top: 12px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+  background: rgba(13, 8, 12, 0.75);
+  backdrop-filter: blur(12px);
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid var(--card-border);
+}
+.spline-tab-btn {
+  background: transparent;
+  border: none;
   color: var(--ink-muted);
-  background: rgba(0, 0, 0, 0.45);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.spline-tab-btn.active {
+  background: var(--cherry);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(217, 4, 41, 0.4);
+}
+
+.spline-hint-badge {
+  position: absolute;
+  bottom: 8px;
+  font-size: 10px;
+  color: var(--ink-muted);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(8px);
-  padding: 4px 12px;
+  padding: 3px 10px;
   border-radius: 999px;
   border: 1px solid var(--card-border);
   pointer-events: none;
@@ -842,14 +869,11 @@ footer {
 <div class="dangling-cherry-rig" onclick="spawnCherryBurst(event)" title="Click me for a cherry pop!">
   <div class="cherry-thread"></div>
   <svg class="cherry-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Green Stems & Leaves -->
     <path d="M32 4 C32 18, 18 24, 18 38" stroke="#38b000" stroke-width="3" stroke-linecap="round"/>
     <path d="M32 4 C32 18, 46 24, 46 38" stroke="#38b000" stroke-width="3" stroke-linecap="round"/>
     <path d="M32 4 Q42 1 48 8 Q40 12 32 4" fill="#38b000"/>
-    <!-- Left Cherry with Gloss -->
     <circle cx="18" cy="42" r="14" fill="url(#cherryGrad1)"/>
     <ellipse cx="14" cy="38" rx="4" ry="2.5" fill="#fff" opacity="0.6" transform="rotate(-30 14 38)"/>
-    <!-- Right Cherry with Gloss -->
     <circle cx="46" cy="42" r="14" fill="url(#cherryGrad2)"/>
     <ellipse cx="42" cy="38" rx="4" ry="2.5" fill="#fff" opacity="0.6" transform="rotate(-30 42 38)"/>
     <defs>
@@ -890,7 +914,7 @@ footer {
 <main class="container">
   <div class="bento-grid">
 
-    <!-- 1. HERO BENTO CARD -->
+    <!-- 1. HERO BENTO CARD WITH EMBEDDED SPLINE 3D VIEWER -->
     <div class="bento-card card-hero">
       <div class="hero-left-col">
         <div class="hero-author-header">
@@ -924,10 +948,20 @@ footer {
         </div>
       </div>
 
-      <!-- 3D INTERACTIVE CURSOR-TRACKING MASCOT (THREE.JS) -->
-      <div class="mascot-3d-stage">
-        <canvas id="three-mascot-canvas"></canvas>
-        <div class="mascot-hint">✦ Character tracks your cursor</div>
+      <!-- SPLINE 3D VIEWER WITH LIVE SCENE SWITCHER -->
+      <div class="spline-3d-stage">
+        <div class="spline-controls">
+          <button class="spline-tab-btn active" id="btn-scene-1" onclick="switchSplineScene('https://prod.spline.design/WI1YEhbk0gUY-0qJ/scene.splinecode', 1)">
+            ✦ 3D Scene 01
+          </button>
+          <button class="spline-tab-btn" id="btn-scene-2" onclick="switchSplineScene('https://prod.spline.design/8zmcRSF4KAcWF5FV/scene.splinecode', 2)">
+            ✦ 3D Scene 02
+          </button>
+        </div>
+
+        <spline-viewer id="spline-viewport" url="https://prod.spline.design/WI1YEhbk0gUY-0qJ/scene.splinecode"></spline-viewer>
+
+        <div class="spline-hint-badge">✦ Interactive 3D Spline • Orbit with mouse</div>
       </div>
     </div>
 
@@ -1105,13 +1139,13 @@ footer {
         <div class="editorial-project-card">
           <div class="project-card-header">
             <h4>AURA // NEXUS <span class="serif-italic">Agentic OS</span></h4>
-            <div class="editorial-kicker" style="margin:4px 0 0;font-size:10px;">3D WebGL • ToT • n8n Webhook</div>
+            <div class="editorial-kicker" style="margin:4px 0 0;font-size:10px;">Spline 3D • ToT • n8n Webhook</div>
           </div>
           <p class="project-card-desc">
-            Autonomous Spatial Agentic Operating System featuring a physics-based 3D neural canvas, Tree-of-Thought speculative reasoning, bi-directional n8n webhooks, and Model Context Protocol (MCP).
+            Autonomous Spatial Agentic Operating System featuring a physics-based Spline 3D canvas, Tree-of-Thought speculative reasoning, bi-directional n8n webhooks, and Model Context Protocol (MCP).
           </p>
           <div class="tag-collection">
-            <span class="tag-badge">3D WebGL</span>
+            <span class="tag-badge">Spline 3D</span>
             <span class="tag-badge">Tree-of-Thought</span>
             <span class="tag-badge">n8n Automation</span>
             <span class="tag-badge">FastAPI</span>
@@ -1174,7 +1208,7 @@ footer {
           <div class="skill-row">
             <div class="skill-bullet">n8n Workflow Automation</div>
             <div class="skill-bullet">Zapier REST Webhooks</div>
-            <div class="skill-bullet">Three.js / Spatial 3D UI</div>
+            <div class="skill-bullet">Spline 3D &amp; Spatial UI</div>
             <div class="skill-bullet">Figma &amp; Modern UI/UX</div>
           </div>
         </div>
@@ -1214,7 +1248,7 @@ footer {
   </div>
 
   <footer>
-    Designed &amp; Engineered by <b>Gaddam Sasikala</b> • Built with Playfair Typography, Three.js &amp; Cherry Aesthetics
+    Designed &amp; Engineered by <b>Gaddam Sasikala</b> • Built with Spline 3D, Playfair Typography &amp; Cherry Aesthetics
   </footer>
 </main>
 
@@ -1224,8 +1258,17 @@ footer {
   <img id="modalImg" src="" alt="Certificate" />
 </div>
 
-<!-- JAVASCRIPT: THREE.JS 3D MASCOT WITH BLINKING, HEAD ROTATION & CHERRY PARTICLES -->
+<!-- JAVASCRIPT: SPLINE SCENE SWITCHER & CHERRY PARTICLE CANNON -->
 <script>
+// --- SPLINE SCENE SWITCHER ---
+function switchSplineScene(url, index) {
+  const viewer = document.getElementById('spline-viewport');
+  viewer.setAttribute('url', url);
+
+  document.getElementById('btn-scene-1').classList.toggle('active', index === 1);
+  document.getElementById('btn-scene-2').classList.toggle('active', index === 2);
+}
+
 // --- CHERRY BURST PARTICLE CANNON ---
 function spawnCherryBurst(e) {
   const x = e.clientX || window.innerWidth / 2;
@@ -1242,7 +1285,7 @@ function spawnCherryBurst(e) {
     const angle = Math.random() * Math.PI * 2;
     const dist = 60 + Math.random() * 90;
     const tx = Math.cos(angle) * dist;
-    const ty = Math.sin(angle) * dist - 30; // initial pop upwards
+    const ty = Math.sin(angle) * dist - 30;
 
     p.style.setProperty('--tx', tx + 'px');
     p.style.setProperty('--ty', ty + 'px');
@@ -1263,168 +1306,14 @@ document.querySelectorAll('.bento-card').forEach(card => {
 
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    const tiltX = (y - centerY) / centerY * -4;
-    const tiltY = (x - centerX) / centerX * 4;
+    const tiltX = (y - centerY) / centerY * -3;
+    const tiltY = (x - centerX) / centerX * 3;
     card.style.transform = 'perspective(1000px) rotateX(' + tiltX + 'deg) rotateY(' + tiltY + 'deg) translateY(-2px)';
   });
 
   card.addEventListener('mouseleave', () => {
     card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
   });
-});
-
-// --- THREE.JS CURSOR-TRACKING MASCOT (WITH BLINKING & CHERRY CHARM) ---
-let mascotScene, mascotCamera, mascotRenderer, mascotHead, eyeLeft, eyeRight, cherryCharmGroup;
-let targetLookX = 0, targetLookY = 0;
-let blinkProgress = 0, isBlinking = false;
-
-function init3DMascot() {
-  const container = document.querySelector('.mascot-3d-stage');
-  const canvas = document.getElementById('three-mascot-canvas');
-  if (!container || !canvas) return;
-  const w = container.clientWidth;
-  const h = container.clientHeight;
-
-  mascotScene = new THREE.Scene();
-  mascotCamera = new THREE.PerspectiveCamera(40, w / h, 0.1, 1000);
-  mascotCamera.position.z = 4.8;
-
-  mascotRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-  mascotRenderer.setSize(w, h);
-  mascotRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-  // Ambient & Warm Studio Lights
-  const ambLight = new THREE.AmbientLight(0xffffff, 0.9);
-  mascotScene.add(ambLight);
-
-  const keyLight = new THREE.PointLight(0xff4d6d, 3.8, 40);
-  keyLight.position.set(4, 4, 4);
-  mascotScene.add(keyLight);
-
-  const fillLight = new THREE.PointLight(0xd90429, 3.2, 40);
-  fillLight.position.set(-4, -2, 3);
-  mascotScene.add(fillLight);
-
-  // Group for the Mascot
-  mascotHead = new THREE.Group();
-  mascotScene.add(mascotHead);
-
-  // 1. Glossy Pearlescent Head Sphere (With soft blush cheeks)
-  const headGeom = new THREE.SphereGeometry(1.15, 64, 64);
-  const headMat = new THREE.MeshPhysicalMaterial({
-    color: 0x1f121a,
-    roughness: 0.1,
-    metalness: 0.2,
-    clearcoat: 1.0,
-    clearcoatRoughness: 0.08,
-    reflectivity: 0.9
-  });
-  const headMesh = new THREE.Mesh(headGeom, headMat);
-  mascotHead.add(headMesh);
-
-  // 2. Glowing Expressive Capsule Eyes
-  const eyeGeom = new THREE.CylinderGeometry(0.13, 0.13, 0.38, 16);
-  const eyeMat = new THREE.MeshBasicMaterial({ color: 0xff4d6d });
-
-  eyeLeft = new THREE.Mesh(eyeGeom, eyeMat);
-  eyeLeft.position.set(-0.38, 0.15, 1.02);
-  eyeLeft.rotation.z = 0.08;
-  mascotHead.add(eyeLeft);
-
-  eyeRight = new THREE.Mesh(eyeGeom, eyeMat);
-  eyeRight.position.set(0.38, 0.15, 1.02);
-  eyeRight.rotation.z = -0.08;
-  mascotHead.add(eyeRight);
-
-  // 3. Cute Cherry Stem Antenna on Head
-  cherryCharmGroup = new THREE.Group();
-  const stemCurve = new THREE.CylinderGeometry(0.025, 0.025, 0.6, 16);
-  const stemMat = new THREE.MeshStandardMaterial({ color: 0x38b000, roughness: 0.3 });
-  const stemMesh = new THREE.Mesh(stemCurve, stemMat);
-  stemMesh.position.set(0, 0.3, 0);
-  stemMesh.rotation.z = 0.25;
-  cherryCharmGroup.add(stemMesh);
-
-  const miniCherryGeom = new THREE.SphereGeometry(0.18, 32, 32);
-  const miniCherryMat = new THREE.MeshPhysicalMaterial({ color: 0xd90429, roughness: 0.1, clearcoat: 1.0 });
-  const miniCherry = new THREE.Mesh(miniCherryGeom, miniCherryMat);
-  miniCherry.position.set(0.12, 0.58, 0);
-  cherryCharmGroup.add(miniCherry);
-
-  cherryCharmGroup.position.set(0, 1.05, 0);
-  mascotHead.add(cherryCharmGroup);
-
-  // 4. Floating Halo Ring
-  const haloGeom = new THREE.TorusGeometry(1.65, 0.025, 16, 100);
-  const haloMat = new THREE.MeshStandardMaterial({ color: 0xff4d6d, metalness: 0.85, roughness: 0.2 });
-  const haloRing = new THREE.Mesh(haloGeom, haloMat);
-  haloRing.rotation.x = Math.PI / 2.3;
-  mascotScene.add(haloRing);
-
-  // Global cursor tracking
-  window.addEventListener('mousemove', e => {
-    const nx = (e.clientX / window.innerWidth - 0.5) * 2;
-    const ny = (e.clientY / window.innerHeight - 0.5) * 2;
-    targetLookX = nx * 0.8;
-    targetLookY = -ny * 0.6;
-  });
-
-  // Mascot click reaction
-  canvas.addEventListener('click', e => {
-    spawnCherryBurst(e);
-    mascotHead.position.y += 0.2; // cute hop!
-  });
-
-  // Periodic blinking
-  setInterval(() => {
-    isBlinking = true;
-    blinkProgress = 0;
-  }, 3800);
-
-  animateMascot();
-}
-
-function animateMascot() {
-  requestAnimationFrame(animateMascot);
-
-  // Fluid cursor tracking with spring easing
-  if (mascotHead) {
-    mascotHead.rotation.y += (targetLookX - mascotHead.rotation.y) * 0.07;
-    mascotHead.rotation.x += (targetLookY - mascotHead.rotation.x) * 0.07;
-    // Gentle floating breathing bob
-    mascotHead.position.y += (Math.sin(Date.now() * 0.002) * 0.08 - mascotHead.position.y) * 0.05;
-  }
-
-  // Blinking animation
-  if (isBlinking && eyeLeft && eyeRight) {
-    blinkProgress += 0.15;
-    const scaleY = Math.abs(Math.cos(blinkProgress * Math.PI));
-    eyeLeft.scale.y = scaleY;
-    eyeRight.scale.y = scaleY;
-    if (blinkProgress >= 1) {
-      eyeLeft.scale.y = 1;
-      eyeRight.scale.y = 1;
-      isBlinking = false;
-    }
-  }
-
-  // Stem gentle wiggle
-  if (cherryCharmGroup) {
-    cherryCharmGroup.rotation.z = Math.sin(Date.now() * 0.003) * 0.1;
-  }
-
-  mascotRenderer.render(mascotScene, mascotCamera);
-}
-
-window.addEventListener('load', init3DMascot);
-window.addEventListener('resize', () => {
-  const container = document.querySelector('.mascot-3d-stage');
-  if (!container || !mascotRenderer) return;
-  const w = container.clientWidth;
-  const h = container.clientHeight;
-  mascotCamera.aspect = w / h;
-  mascotCamera.updateProjectionMatrix();
-  mascotRenderer.setSize(w, h);
 });
 
 // --- THEME TOGGLE (CHERRY NOIR <-> COQUETTE CREAM) ---
