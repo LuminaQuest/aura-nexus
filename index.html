@@ -3,67 +3,54 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sasikala Gaddam — AI Systems & Agentic Architecture</title>
+<title>Sasikala Gaddam — AI Systems &amp; Agentic Architecture</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- PINTEREST LUXURY EDITORIAL MIX: Playfair Display + Syne + Plus Jakarta Sans + JetBrains Mono -->
+<!-- PINTEREST EDITORIAL MIX: Playfair Display + Syne + Plus Jakarta Sans + JetBrains Mono -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400;1,600;1,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<!-- Three.js for 3D Interactive Mascot & Holographic Physics -->
+<!-- Three.js for 3D Cursor-Tracking Mascot -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
 :root {
-  --bg: #0b080d;
-  --bg-gradient: radial-gradient(circle at 15% 15%, rgba(138, 38, 70, 0.22) 0%, transparent 45%),
-                 radial-gradient(circle at 85% 80%, rgba(224, 122, 95, 0.16) 0%, transparent 45%),
-                 radial-gradient(circle at 50% 50%, rgba(192, 132, 252, 0.08) 0%, transparent 60%);
-  --card-bg: rgba(22, 16, 25, 0.72);
+  /* WHIMSICAL CHERRY NOIR & VINTAGE CREAM PALETTE */
+  --bg: #0d080c;
+  --bg-gradient: radial-gradient(circle at 10% 15%, rgba(217, 4, 41, 0.18) 0%, transparent 40%),
+                 radial-gradient(circle at 90% 75%, rgba(138, 38, 70, 0.2) 0%, transparent 45%),
+                 radial-gradient(circle at 50% 40%, rgba(253, 240, 213, 0.05) 0%, transparent 60%);
+  --card-bg: rgba(24, 16, 22, 0.75);
   --card-border: rgba(255, 255, 255, 0.08);
-  --card-hover-border: rgba(224, 122, 95, 0.5);
-  --primary: #e07a5f;
-  --primary-accent: #f4a261;
-  --terracotta: #e07a5f;
-  --burgundy: #a12c48;
-  --lilac: #d8b4fe;
-  --ink: #f8f5f0;
-  --ink-muted: #a69ba8;
-  --radius: 24px;
+  --card-hover-border: rgba(217, 4, 41, 0.45);
+  --cherry: #d90429;
+  --cherry-dark: #660708;
+  --cherry-blush: #ff758f;
+  --cream: #fff8f0;
+  --champagne: #fdf0d5;
+  --stem-green: #38b000;
+  --ink: #fff8f0;
+  --ink-muted: #bda8b3;
+  --radius: 26px;
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-display: 'Syne', sans-serif;
   --font-body: 'Plus Jakarta Sans', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-[data-theme="obsidian"] {
-  --bg: #07090e;
-  --bg-gradient: radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.14) 0%, transparent 50%),
-                 radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.16) 0%, transparent 50%);
-  --card-bg: rgba(14, 18, 28, 0.75);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --card-hover-border: rgba(56, 189, 248, 0.45);
-  --primary: #38bdf8;
-  --primary-accent: #c084fc;
-  --terracotta: #38bdf8;
-  --burgundy: #6366f1;
-  --lilac: #c084fc;
-  --ink: #f1f5f9;
-  --ink-muted: #8292a8;
-}
-
-[data-theme="pearl"] {
-  --bg: #f7f5f2;
-  --bg-gradient: radial-gradient(circle at 10% 20%, rgba(224, 122, 95, 0.14) 0%, transparent 50%),
-                 radial-gradient(circle at 90% 80%, rgba(161, 44, 72, 0.1) 0%, transparent 50%);
+[data-theme="coquette-cream"] {
+  --bg: #fcf8f2;
+  --bg-gradient: radial-gradient(circle at 15% 15%, rgba(255, 117, 143, 0.18) 0%, transparent 50%),
+                 radial-gradient(circle at 85% 85%, rgba(217, 4, 41, 0.12) 0%, transparent 50%),
+                 radial-gradient(circle at 50% 30%, rgba(253, 240, 213, 0.3) 0%, transparent 60%);
   --card-bg: rgba(255, 255, 255, 0.88);
   --card-border: rgba(0, 0, 0, 0.06);
-  --card-hover-border: rgba(224, 122, 95, 0.5);
-  --primary: #c2593f;
-  --primary-accent: #87223b;
-  --terracotta: #c2593f;
-  --burgundy: #87223b;
-  --lilac: #7e22ce;
-  --ink: #1c181f;
-  --ink-muted: #6e6573;
+  --card-hover-border: rgba(217, 4, 41, 0.4);
+  --cherry: #ba181b;
+  --cherry-dark: #660708;
+  --cherry-blush: #ff4d6d;
+  --cream: #1f1418;
+  --champagne: #f5ebe0;
+  --ink: #1f1418;
+  --ink-muted: #6e5e65;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -80,6 +67,42 @@ body {
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
+/* DANGLING CHERRY CHARM (TOP RIGHT PENDULUM SWING) */
+.dangling-cherry-rig {
+  position: fixed;
+  top: 0;
+  right: 180px;
+  z-index: 200;
+  transform-origin: top center;
+  animation: cherryBreeze 4.5s ease-in-out infinite;
+  cursor: pointer;
+  filter: drop-shadow(0 8px 16px rgba(217, 4, 41, 0.4));
+  transition: transform 0.2s;
+}
+.dangling-cherry-rig:hover {
+  animation: cherrySpun 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes cherryBreeze {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+@keyframes cherrySpun {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.15) rotate(18deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+.cherry-thread {
+  width: 2px;
+  height: 48px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.4), var(--stem-green));
+  margin: 0 auto;
+}
+.cherry-svg {
+  width: 36px;
+  height: 36px;
+  margin-top: -4px;
+}
+
 /* NAVBAR */
 header {
   position: sticky;
@@ -87,14 +110,14 @@ header {
   z-index: 100;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  background: rgba(11, 8, 13, 0.65);
+  background: rgba(13, 8, 12, 0.65);
   border-bottom: 1px solid var(--card-border);
   padding: 16px 36px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-[data-theme="pearl"] header { background: rgba(247, 245, 242, 0.75); }
+[data-theme="coquette-cream"] header { background: rgba(252, 248, 242, 0.75); }
 
 .brand-wrap {
   display: flex;
@@ -106,11 +129,11 @@ header {
   height: 44px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--primary);
-  box-shadow: 0 4px 16px rgba(224, 122, 95, 0.35);
+  border: 2px solid var(--cherry);
+  box-shadow: 0 4px 16px rgba(217, 4, 41, 0.35);
   transition: transform 0.25s ease;
 }
-.brand-photo:hover { transform: scale(1.08); }
+.brand-photo:hover { transform: scale(1.08) rotate(-4deg); }
 .brand-name {
   font-family: var(--font-display);
   font-size: 17px;
@@ -121,7 +144,7 @@ header {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
-  color: var(--primary);
+  color: var(--cherry-blush);
   margin-left: 2px;
 }
 .brand-title {
@@ -134,47 +157,6 @@ header {
   display: flex;
   align-items: center;
   gap: 16px;
-}
-.pill-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(224, 122, 95, 0.12);
-  border: 1px solid rgba(224, 122, 95, 0.25);
-  color: var(--primary);
-  font-size: 11px;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 999px;
-  letter-spacing: 0.02em;
-}
-.pulsing-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--primary);
-  box-shadow: 0 0 10px var(--primary);
-  animation: dotPulse 2s infinite;
-}
-@keyframes dotPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
-
-.theme-pill-btn {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  color: var(--ink);
-  padding: 8px 16px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.25s ease;
-}
-.theme-pill-btn:hover {
-  border-color: var(--card-hover-border);
-  transform: translateY(-2px);
 }
 
 /* CONTAINER & BENTO GRID */
@@ -189,6 +171,7 @@ header {
   gap: 24px;
 }
 
+/* BENTO CARDS */
 .bento-card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
@@ -200,10 +183,11 @@ header {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
   transform-style: preserve-3d;
 }
 
+/* SPECULAR CARD HIGHLIGHT ON MOUSEMOVE */
 .bento-card::before {
   content: "";
   position: absolute;
@@ -230,9 +214,7 @@ header {
   flex-direction: column;
   justify-content: space-between;
 }
-.card-awards {
-  grid-column: span 12;
-}
+.card-awards { grid-column: span 12; }
 .card-n8n { grid-column: span 6; }
 .card-agent-sim { grid-column: span 6; }
 .card-projects { grid-column: span 12; }
@@ -249,7 +231,7 @@ header {
   .card-connect { grid-column: span 12; }
 }
 
-/* HERO LEFT COLUMN WITH PHOTO BADGE */
+/* HERO LEFT COLUMN */
 .hero-author-header {
   display: flex;
   align-items: center;
@@ -257,12 +239,12 @@ header {
   margin-bottom: 20px;
 }
 .hero-portrait-frame {
-  width: 72px;
-  height: 72px;
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
   padding: 3px;
-  background: linear-gradient(135deg, var(--burgundy), var(--terracotta));
-  box-shadow: 0 8px 24px rgba(161, 44, 72, 0.35);
+  background: linear-gradient(135deg, var(--cherry), var(--cherry-blush));
+  box-shadow: 0 8px 24px rgba(217, 4, 41, 0.35);
   flex-shrink: 0;
 }
 .hero-portrait-img {
@@ -278,14 +260,14 @@ header {
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--primary);
+  color: var(--cherry-blush);
   display: flex;
   align-items: center;
   gap: 8px;
 }
 .editorial-kicker::before {
-  content: "✦";
-  font-size: 12px;
+  content: "🍒";
+  font-size: 13px;
 }
 
 .hero-heading {
@@ -300,14 +282,14 @@ header {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
-  color: var(--primary);
+  color: var(--cherry-blush);
   transition: all 0.3s ease;
   display: inline-block;
   cursor: pointer;
 }
 .hero-heading .serif-italic:hover {
-  transform: skewX(-8deg) scale(1.05);
-  color: var(--primary-accent);
+  transform: skewX(-8deg) scale(1.06);
+  color: #ff4d6d;
 }
 
 .hero-description {
@@ -318,12 +300,20 @@ header {
   max-width: 480px;
 }
 
+/* ECLECTIC BUTTON MIX (NOT ALL SAME GLOW!) */
 .hero-buttons {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   flex-wrap: wrap;
+  align-items: center;
 }
-.btn-magnetic {
+
+/* STYLE 1: GLOSSY CHERRY JELLY BUTTON (WITH CHERRY POP BURST ON CLICK) */
+.btn-cherry-jelly {
+  position: relative;
+  background: linear-gradient(135deg, #d90429 0%, #9b111e 100%);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 13px 26px;
   border-radius: 999px;
   font-size: 13px;
@@ -333,30 +323,81 @@ header {
   align-items: center;
   gap: 8px;
   cursor: pointer;
+  box-shadow: 0 8px 24px rgba(217, 4, 41, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: visible;
 }
-.btn-primary-mag {
-  background: linear-gradient(135deg, var(--burgundy), var(--terracotta));
-  color: #fff;
-  border: none;
-  box-shadow: 0 8px 24px rgba(161, 44, 72, 0.35);
+.btn-cherry-jelly:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 32px rgba(217, 4, 41, 0.55), inset 0 2px 6px rgba(255, 255, 255, 0.4);
 }
-.btn-primary-mag:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 12px 32px rgba(161, 44, 72, 0.45);
-}
-.btn-outline-mag {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--card-border);
-  color: var(--ink);
-}
-.btn-outline-mag:hover {
-  border-color: var(--primary);
-  transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.08);
+.btn-cherry-jelly:active {
+  transform: scale(0.96);
 }
 
-/* 3D MASCOT */
+/* STYLE 2: TACTILE PAPER STICKER BUTTON (SCRAPBOOK WASHI TAPE STYLE) */
+.btn-paper-sticker {
+  background: #fdfbf7;
+  color: #1a0e14;
+  border: 1px dashed #d1c7bd;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 3px 4px 0px rgba(0, 0, 0, 0.35);
+  transform: rotate(-1.5deg);
+  transition: all 0.2s ease;
+  position: relative;
+}
+.btn-paper-sticker::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 20%;
+  width: 32px;
+  height: 12px;
+  background: rgba(255, 117, 143, 0.5);
+  transform: rotate(2deg);
+}
+.btn-paper-sticker:hover {
+  transform: rotate(0deg) translateY(-2px);
+  box-shadow: 4px 6px 0px rgba(0, 0, 0, 0.45);
+  background: #ffffff;
+}
+.btn-paper-sticker:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.45);
+}
+
+/* STYLE 3: VINTAGE BOTANICAL TAG */
+.btn-botanical-tag {
+  background: rgba(253, 240, 213, 0.08);
+  border: 1px solid rgba(253, 240, 213, 0.25);
+  color: var(--champagne);
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-botanical-tag:hover {
+  border-color: var(--cherry-blush);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* 3D MASCOT CANVAS IN HERO */
 .mascot-3d-stage {
   width: 320px;
   height: 340px;
@@ -404,14 +445,14 @@ header {
   transition: all 0.25s ease;
 }
 .metric-tile:hover {
-  border-color: var(--primary);
+  border-color: var(--cherry);
   transform: translateX(4px);
 }
 .metric-digit {
   font-family: var(--font-serif);
   font-size: 34px;
   font-weight: 800;
-  color: var(--primary);
+  color: var(--cherry-blush);
   line-height: 1;
   margin-bottom: 4px;
 }
@@ -420,7 +461,7 @@ header {
   color: var(--ink-muted);
 }
 
-/* VERIFIED HONORS & BUILDATHON CARDS */
+/* AWARDS BENTO */
 .award-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
@@ -439,7 +480,7 @@ header {
   cursor: pointer;
 }
 .award-item:hover {
-  border-color: var(--primary);
+  border-color: var(--cherry);
   transform: translateY(-4px);
   background: rgba(255, 255, 255, 0.05);
 }
@@ -459,7 +500,7 @@ header {
   color: #fff;
   margin-bottom: 4px;
 }
-[data-theme="pearl"] .award-details h4 { color: #0f172a; }
+[data-theme="coquette-cream"] .award-details h4 { color: #1f1418; }
 .award-details p {
   font-size: 12px;
   color: var(--ink-muted);
@@ -482,7 +523,7 @@ header {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
-  color: var(--primary);
+  color: var(--cherry-blush);
 }
 
 .interactive-node-flow {
@@ -508,14 +549,14 @@ header {
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .flow-pill:hover, .flow-pill.active {
-  border-color: var(--primary);
+  border-color: var(--cherry);
   transform: scale(1.06);
-  box-shadow: 0 8px 20px rgba(224, 122, 95, 0.25);
+  box-shadow: 0 8px 20px rgba(217, 4, 41, 0.3);
 }
 .flow-pill-name {
   font-size: 12px;
   font-weight: 700;
-  color: var(--primary);
+  color: var(--cherry-blush);
   margin-bottom: 4px;
 }
 .flow-pill-sub {
@@ -523,7 +564,7 @@ header {
   color: var(--ink-muted);
 }
 .arrow-sep {
-  color: var(--primary);
+  color: var(--cherry);
   font-weight: bold;
   font-size: 14px;
   opacity: 0.7;
@@ -536,7 +577,7 @@ header {
   padding: 16px;
   font-family: var(--font-mono);
   font-size: 11px;
-  color: #a7f3d0;
+  color: #ffb4a2;
   max-height: 120px;
   overflow-y: auto;
   line-height: 1.6;
@@ -565,7 +606,7 @@ header {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: var(--burgundy);
+  background: var(--cherry);
   color: #fff;
   font-family: var(--font-serif);
   font-style: italic;
@@ -599,7 +640,7 @@ header {
   outline: none;
 }
 .btn-sim-trigger {
-  background: linear-gradient(135deg, var(--burgundy), var(--terracotta));
+  background: linear-gradient(135deg, var(--cherry), var(--cherry-blush));
   color: #fff;
   border: none;
   padding: 12px 22px;
@@ -632,7 +673,7 @@ header {
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .editorial-project-card:hover {
-  border-color: var(--primary);
+  border-color: var(--cherry);
   transform: translateY(-6px);
   background: rgba(255, 255, 255, 0.04);
 }
@@ -646,7 +687,7 @@ header {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
-  color: var(--primary);
+  color: var(--cherry-blush);
 }
 .project-card-desc {
   font-size: 13px;
@@ -684,14 +725,14 @@ header {
   transition: all 0.2s;
 }
 .link-action.fill {
-  background: var(--primary);
+  background: var(--cherry);
   color: #fff;
 }
 .link-action.hollow {
   border: 1px solid var(--card-border);
   color: var(--ink);
 }
-.link-action.hollow:hover { border-color: var(--primary); }
+.link-action.hollow:hover { border-color: var(--cherry); }
 
 /* CAPABILITIES & CONTACT */
 .skills-column h5 {
@@ -699,7 +740,7 @@ header {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--primary);
+  color: var(--cherry-blush);
   margin-bottom: 14px;
 }
 .skill-row {
@@ -714,8 +755,7 @@ header {
   gap: 10px;
 }
 .skill-bullet::before {
-  content: "✦";
-  color: var(--primary);
+  content: "🍒";
   font-size: 11px;
 }
 
@@ -740,7 +780,7 @@ header {
   transition: all 0.2s;
 }
 .contact-row-btn:hover {
-  border-color: var(--primary);
+  border-color: var(--cherry);
   transform: translateX(6px);
   background: rgba(255, 255, 255, 0.06);
 }
@@ -773,6 +813,21 @@ header {
   cursor: pointer;
 }
 
+/* CHERRY POP BURST PARTICLES */
+.cherry-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  font-size: 20px;
+  user-select: none;
+  animation: cherryFall 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+@keyframes cherryFall {
+  0% { opacity: 1; transform: translate(0, 0) scale(1.2) rotate(0deg); }
+  50% { opacity: 0.9; transform: translate(var(--tx), var(--ty)) scale(1) rotate(180deg); }
+  100% { opacity: 0; transform: translate(var(--tx), calc(var(--ty) + 120px)) scale(0.6) rotate(360deg); }
+}
+
 footer {
   text-align: center;
   color: var(--ink-muted);
@@ -781,7 +836,36 @@ footer {
 }
 </style>
 </head>
-<body data-theme="burgundy">
+<body data-theme="cherry-noir">
+
+<!-- DANGLING CHERRY CHARM (PENDULUM SWING AT TOP) -->
+<div class="dangling-cherry-rig" onclick="spawnCherryBurst(event)" title="Click me for a cherry pop!">
+  <div class="cherry-thread"></div>
+  <svg class="cherry-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Green Stems & Leaves -->
+    <path d="M32 4 C32 18, 18 24, 18 38" stroke="#38b000" stroke-width="3" stroke-linecap="round"/>
+    <path d="M32 4 C32 18, 46 24, 46 38" stroke="#38b000" stroke-width="3" stroke-linecap="round"/>
+    <path d="M32 4 Q42 1 48 8 Q40 12 32 4" fill="#38b000"/>
+    <!-- Left Cherry with Gloss -->
+    <circle cx="18" cy="42" r="14" fill="url(#cherryGrad1)"/>
+    <ellipse cx="14" cy="38" rx="4" ry="2.5" fill="#fff" opacity="0.6" transform="rotate(-30 14 38)"/>
+    <!-- Right Cherry with Gloss -->
+    <circle cx="46" cy="42" r="14" fill="url(#cherryGrad2)"/>
+    <ellipse cx="42" cy="38" rx="4" ry="2.5" fill="#fff" opacity="0.6" transform="rotate(-30 42 38)"/>
+    <defs>
+      <radialGradient id="cherryGrad1" cx="30%" cy="30%" r="70%">
+        <stop offset="0%" stop-color="#ff4d6d"/>
+        <stop offset="70%" stop-color="#ba181b"/>
+        <stop offset="100%" stop-color="#660708"/>
+      </radialGradient>
+      <radialGradient id="cherryGrad2" cx="30%" cy="30%" r="70%">
+        <stop offset="0%" stop-color="#ff758f"/>
+        <stop offset="70%" stop-color="#d90429"/>
+        <stop offset="100%" stop-color="#660708"/>
+      </radialGradient>
+    </defs>
+  </svg>
+</div>
 
 <!-- NAVBAR -->
 <header>
@@ -794,12 +878,11 @@ footer {
   </div>
 
   <div class="nav-actions">
-    <div class="pill-badge">
-      <span class="pulsing-dot"></span>
-      Available for Roles
+    <div class="btn-botanical-tag">
+      <span style="color:var(--cherry-blush);">●</span> Available for Roles
     </div>
-    <button class="theme-pill-btn" onclick="cycleTheme()">
-      <span id="theme-icon">🍷</span> <span id="theme-title">Burgundy Mode</span>
+    <button class="btn-paper-sticker" onclick="toggleTheme()" style="padding:6px 14px;">
+      <span id="theme-icon">🍒</span> <span id="theme-title">Cream Mode</span>
     </button>
   </div>
 </header>
@@ -816,7 +899,7 @@ footer {
           </div>
           <div>
             <div class="editorial-kicker">Gaddam Sasikala</div>
-            <div style="font-size:12px;color:var(--ink-muted);">AI Engineer • West Godavari, India</div>
+            <div style="font-size:12px;color:var(--ink-muted);">AI Systems Engineer • West Godavari, India</div>
           </div>
         </div>
 
@@ -826,16 +909,25 @@ footer {
         <p class="hero-description">
           B.Tech CS (2024–2028). National Finalist in the <b>OpenAI Academy × NxtWave GenAI Buildathon</b>. I architect production-grade agentic systems: LangGraph supervisor swarms, ChromaDB RAG, and n8n enterprise automations.
         </p>
+
+        <!-- ECLECTIC BUTTON MIX -->
         <div class="hero-buttons">
-          <a href="#projects" class="btn-magnetic btn-primary-mag">Explore My Work ✦</a>
-          <button class="btn-magnetic btn-outline-mag" onclick="downloadN8n()">Download n8n Flow 📥</button>
+          <button class="btn-cherry-jelly" onclick="spawnCherryBurst(event); location.href='#projects';">
+            Explore My Work 🍒
+          </button>
+          <button class="btn-paper-sticker" onclick="downloadN8n()">
+            Download n8n Flow 📥
+          </button>
+          <a href="#contact" class="btn-botanical-tag">
+            ✦ Let's Connect
+          </a>
         </div>
       </div>
 
       <!-- 3D INTERACTIVE CURSOR-TRACKING MASCOT (THREE.JS) -->
       <div class="mascot-3d-stage">
         <canvas id="three-mascot-canvas"></canvas>
-        <div class="mascot-hint">✦ 3D Mascot tracks your cursor</div>
+        <div class="mascot-hint">✦ Character tracks your cursor</div>
       </div>
     </div>
 
@@ -863,7 +955,7 @@ footer {
     <div class="bento-card card-awards">
       <div class="section-headline">
         <h3>Verified <span class="serif-word">Honors</span> &amp; Certifications</h3>
-        <span class="pill-badge">NATIONAL FINALIST</span>
+        <span class="btn-botanical-tag">NATIONAL FINALIST 🏆</span>
       </div>
 
       <div class="award-grid">
@@ -900,7 +992,7 @@ footer {
     <div class="bento-card card-n8n">
       <div class="section-headline">
         <h3>n8n <span class="serif-word">&amp;</span> Zapier Automation</h3>
-        <span class="pill-badge">BI-DIRECTIONAL WEBHOOKS</span>
+        <span class="btn-botanical-tag">BI-DIRECTIONAL WEBHOOKS</span>
       </div>
       <p style="color:var(--ink-muted);font-size:13px;line-height:1.6;">
         Demonstrating how LangGraph agents dispatch real-time events to self-hosted n8n workflows and Zapier REST webhooks for automated enterprise resolution.
@@ -937,7 +1029,7 @@ footer {
     <div class="bento-card card-agent-sim">
       <div class="section-headline">
         <h3>Interactive <span class="serif-word">Swarm</span> Simulator</h3>
-        <span class="pill-badge">LIVE SIMULATION</span>
+        <span class="btn-botanical-tag">LIVE SIMULATION</span>
       </div>
 
       <div class="agent-chat-canvas" id="chatCanvas">
@@ -953,7 +1045,9 @@ footer {
           <option value="rag">Financial Compliance: ChromaDB Document Audit</option>
           <option value="webhook">Autonomous Web Scrape -> n8n Slack Dispatch</option>
         </select>
-        <button class="btn-sim-trigger" onclick="runSim()">✦ Run Swarm</button>
+        <button class="btn-cherry-jelly" onclick="spawnCherryBurst(event); runSim();" style="padding:10px 18px;font-size:12px;">
+          ✦ Run Swarm
+        </button>
       </div>
     </div>
 
@@ -961,7 +1055,7 @@ footer {
     <div class="bento-card card-projects" id="projects">
       <div class="section-headline">
         <h3>Verified <span class="serif-word">Production</span> Repositories</h3>
-        <span class="pill-badge">GITHUB: LUMINAQUEST</span>
+        <span class="btn-botanical-tag">GITHUB: LUMINAQUEST</span>
       </div>
 
       <div class="project-cards-wrap">
@@ -1053,7 +1147,7 @@ footer {
     <div class="bento-card card-tech">
       <div class="section-headline">
         <h3>Core <span class="serif-word">Technical</span> Capabilities</h3>
-        <span class="pill-badge">FULL-STACK AI</span>
+        <span class="btn-botanical-tag">FULL-STACK AI</span>
       </div>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;">
@@ -1091,7 +1185,7 @@ footer {
     <div class="bento-card card-connect" id="contact">
       <div class="section-headline">
         <h3>Let's <span class="serif-word">Connect</span></h3>
-        <span class="pill-badge">OPEN TO WORK</span>
+        <span class="btn-botanical-tag">OPEN TO WORK</span>
       </div>
       <p style="color:var(--ink-muted);font-size:13px;">
         Open to paid internships, AI engineering roles, and high-impact project collaborations.
@@ -1100,7 +1194,7 @@ footer {
       <div class="contact-button-stack">
         <a href="mailto:sasikala.gaddam24@sasi.ac.in" class="contact-row-btn">
           <span>📧 Email Me</span>
-          <span style="color:var(--primary);font-size:12px;">sasikala.gaddam24@sasi.ac.in</span>
+          <span style="color:var(--cherry-blush);font-size:12px;">sasikala.gaddam24@sasi.ac.in</span>
         </a>
         <a href="https://linkedin.com/in/gaddam-sasikala-bb1b13326" target="_blank" class="contact-row-btn">
           <span>💼 LinkedIn Profile</span>
@@ -1120,7 +1214,7 @@ footer {
   </div>
 
   <footer>
-    Designed &amp; Engineered by <b>Gaddam Sasikala</b> • Built with Playfair &amp; Syne Typography, Three.js &amp; n8n
+    Designed &amp; Engineered by <b>Gaddam Sasikala</b> • Built with Playfair Typography, Three.js &amp; Cherry Aesthetics
   </footer>
 </main>
 
@@ -1130,8 +1224,34 @@ footer {
   <img id="modalImg" src="" alt="Certificate" />
 </div>
 
-<!-- JAVASCRIPT -->
+<!-- JAVASCRIPT: THREE.JS 3D MASCOT WITH BLINKING, HEAD ROTATION & CHERRY PARTICLES -->
 <script>
+// --- CHERRY BURST PARTICLE CANNON ---
+function spawnCherryBurst(e) {
+  const x = e.clientX || window.innerWidth / 2;
+  const y = e.clientY || window.innerHeight / 2;
+  const emojis = ['🍒', '🌸', '✨', '🍒', '💫', '🍒'];
+
+  for (let i = 0; i < 10; i++) {
+    const p = document.createElement('div');
+    p.className = 'cherry-particle';
+    p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+    p.style.left = x + 'px';
+    p.style.top = y + 'px';
+
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 60 + Math.random() * 90;
+    const tx = Math.cos(angle) * dist;
+    const ty = Math.sin(angle) * dist - 30; // initial pop upwards
+
+    p.style.setProperty('--tx', tx + 'px');
+    p.style.setProperty('--ty', ty + 'px');
+
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 1200);
+  }
+}
+
 // --- SPECULAR SPOTLIGHT ON CARDS ---
 document.querySelectorAll('.bento-card').forEach(card => {
   card.addEventListener('mousemove', e => {
@@ -1153,9 +1273,10 @@ document.querySelectorAll('.bento-card').forEach(card => {
   });
 });
 
-// --- THREE.JS CURSOR-TRACKING 3D MASCOT ---
-let mascotScene, mascotCamera, mascotRenderer, mascotHead, eyeLeft, eyeRight, haloRing, floatingEarrings = [];
+// --- THREE.JS CURSOR-TRACKING MASCOT (WITH BLINKING & CHERRY CHARM) ---
+let mascotScene, mascotCamera, mascotRenderer, mascotHead, eyeLeft, eyeRight, cherryCharmGroup;
 let targetLookX = 0, targetLookY = 0;
+let blinkProgress = 0, isBlinking = false;
 
 function init3DMascot() {
   const container = document.querySelector('.mascot-3d-stage');
@@ -1172,70 +1293,93 @@ function init3DMascot() {
   mascotRenderer.setSize(w, h);
   mascotRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  const ambLight = new THREE.AmbientLight(0xffffff, 0.85);
+  // Ambient & Warm Studio Lights
+  const ambLight = new THREE.AmbientLight(0xffffff, 0.9);
   mascotScene.add(ambLight);
 
-  const keyLight = new THREE.PointLight(0xe07a5f, 3.5, 40);
+  const keyLight = new THREE.PointLight(0xff4d6d, 3.8, 40);
   keyLight.position.set(4, 4, 4);
   mascotScene.add(keyLight);
 
-  const fillLight = new THREE.PointLight(0xa12c48, 3.0, 40);
+  const fillLight = new THREE.PointLight(0xd90429, 3.2, 40);
   fillLight.position.set(-4, -2, 3);
   mascotScene.add(fillLight);
 
+  // Group for the Mascot
   mascotHead = new THREE.Group();
   mascotScene.add(mascotHead);
 
+  // 1. Glossy Pearlescent Head Sphere (With soft blush cheeks)
   const headGeom = new THREE.SphereGeometry(1.15, 64, 64);
   const headMat = new THREE.MeshPhysicalMaterial({
-    color: 0x1f1624,
-    roughness: 0.12,
-    metalness: 0.25,
+    color: 0x1f121a,
+    roughness: 0.1,
+    metalness: 0.2,
     clearcoat: 1.0,
-    clearcoatRoughness: 0.1,
-    reflectivity: 0.8
+    clearcoatRoughness: 0.08,
+    reflectivity: 0.9
   });
   const headMesh = new THREE.Mesh(headGeom, headMat);
   mascotHead.add(headMesh);
 
-  const eyeGeom = new THREE.CylinderGeometry(0.12, 0.12, 0.35, 16);
-  const eyeMat = new THREE.MeshBasicMaterial({ color: 0xe07a5f });
+  // 2. Glowing Expressive Capsule Eyes
+  const eyeGeom = new THREE.CylinderGeometry(0.13, 0.13, 0.38, 16);
+  const eyeMat = new THREE.MeshBasicMaterial({ color: 0xff4d6d });
 
   eyeLeft = new THREE.Mesh(eyeGeom, eyeMat);
-  eyeLeft.position.set(-0.4, 0.15, 1.02);
+  eyeLeft.position.set(-0.38, 0.15, 1.02);
   eyeLeft.rotation.z = 0.08;
   mascotHead.add(eyeLeft);
 
   eyeRight = new THREE.Mesh(eyeGeom, eyeMat);
-  eyeRight.position.set(0.4, 0.15, 1.02);
+  eyeRight.position.set(0.38, 0.15, 1.02);
   eyeRight.rotation.z = -0.08;
   mascotHead.add(eyeRight);
 
+  // 3. Cute Cherry Stem Antenna on Head
+  cherryCharmGroup = new THREE.Group();
+  const stemCurve = new THREE.CylinderGeometry(0.025, 0.025, 0.6, 16);
+  const stemMat = new THREE.MeshStandardMaterial({ color: 0x38b000, roughness: 0.3 });
+  const stemMesh = new THREE.Mesh(stemCurve, stemMat);
+  stemMesh.position.set(0, 0.3, 0);
+  stemMesh.rotation.z = 0.25;
+  cherryCharmGroup.add(stemMesh);
+
+  const miniCherryGeom = new THREE.SphereGeometry(0.18, 32, 32);
+  const miniCherryMat = new THREE.MeshPhysicalMaterial({ color: 0xd90429, roughness: 0.1, clearcoat: 1.0 });
+  const miniCherry = new THREE.Mesh(miniCherryGeom, miniCherryMat);
+  miniCherry.position.set(0.12, 0.58, 0);
+  cherryCharmGroup.add(miniCherry);
+
+  cherryCharmGroup.position.set(0, 1.05, 0);
+  mascotHead.add(cherryCharmGroup);
+
+  // 4. Floating Halo Ring
   const haloGeom = new THREE.TorusGeometry(1.65, 0.025, 16, 100);
-  const haloMat = new THREE.MeshStandardMaterial({ color: 0xe07a5f, metalness: 0.85, roughness: 0.2 });
-  haloRing = new THREE.Mesh(haloGeom, haloMat);
+  const haloMat = new THREE.MeshStandardMaterial({ color: 0xff4d6d, metalness: 0.85, roughness: 0.2 });
+  const haloRing = new THREE.Mesh(haloGeom, haloMat);
   haloRing.rotation.x = Math.PI / 2.3;
   mascotScene.add(haloRing);
 
-  const satGeom = new THREE.SphereGeometry(0.18, 32, 32);
-  const satMat = new THREE.MeshStandardMaterial({ color: 0xa12c48, metalness: 0.7, roughness: 0.3 });
-  
-  const satLeft = new THREE.Mesh(satGeom, satMat);
-  satLeft.position.set(-1.6, -0.2, 0);
-  mascotScene.add(satLeft);
-  floatingEarrings.push(satLeft);
-
-  const satRight = new THREE.Mesh(satGeom, satMat);
-  satRight.position.set(1.6, -0.2, 0);
-  mascotScene.add(satRight);
-  floatingEarrings.push(satRight);
-
+  // Global cursor tracking
   window.addEventListener('mousemove', e => {
     const nx = (e.clientX / window.innerWidth - 0.5) * 2;
     const ny = (e.clientY / window.innerHeight - 0.5) * 2;
-    targetLookX = nx * 0.75;
-    targetLookY = -ny * 0.55;
+    targetLookX = nx * 0.8;
+    targetLookY = -ny * 0.6;
   });
+
+  // Mascot click reaction
+  canvas.addEventListener('click', e => {
+    spawnCherryBurst(e);
+    mascotHead.position.y += 0.2; // cute hop!
+  });
+
+  // Periodic blinking
+  setInterval(() => {
+    isBlinking = true;
+    blinkProgress = 0;
+  }, 3800);
 
   animateMascot();
 }
@@ -1243,20 +1387,30 @@ function init3DMascot() {
 function animateMascot() {
   requestAnimationFrame(animateMascot);
 
+  // Fluid cursor tracking with spring easing
   if (mascotHead) {
-    mascotHead.rotation.y += (targetLookX - mascotHead.rotation.y) * 0.06;
-    mascotHead.rotation.x += (targetLookY - mascotHead.rotation.x) * 0.06;
-    mascotHead.position.y = Math.sin(Date.now() * 0.002) * 0.06;
+    mascotHead.rotation.y += (targetLookX - mascotHead.rotation.y) * 0.07;
+    mascotHead.rotation.x += (targetLookY - mascotHead.rotation.x) * 0.07;
+    // Gentle floating breathing bob
+    mascotHead.position.y += (Math.sin(Date.now() * 0.002) * 0.08 - mascotHead.position.y) * 0.05;
   }
 
-  if (haloRing) {
-    haloRing.rotation.z += 0.004;
-    haloRing.position.y = Math.sin(Date.now() * 0.0025) * 0.08;
+  // Blinking animation
+  if (isBlinking && eyeLeft && eyeRight) {
+    blinkProgress += 0.15;
+    const scaleY = Math.abs(Math.cos(blinkProgress * Math.PI));
+    eyeLeft.scale.y = scaleY;
+    eyeRight.scale.y = scaleY;
+    if (blinkProgress >= 1) {
+      eyeLeft.scale.y = 1;
+      eyeRight.scale.y = 1;
+      isBlinking = false;
+    }
   }
 
-  if (floatingEarrings.length === 2) {
-    floatingEarrings[0].position.y = Math.sin(Date.now() * 0.003) * 0.1 - 0.2;
-    floatingEarrings[1].position.y = Math.sin(Date.now() * 0.003 + Math.PI) * 0.1 - 0.2;
+  // Stem gentle wiggle
+  if (cherryCharmGroup) {
+    cherryCharmGroup.rotation.z = Math.sin(Date.now() * 0.003) * 0.1;
   }
 
   mascotRenderer.render(mascotScene, mascotCamera);
@@ -1273,26 +1427,12 @@ window.addEventListener('resize', () => {
   mascotRenderer.setSize(w, h);
 });
 
-// --- THEME CYCLE ---
-const THEMES = [
-  { id: 'burgundy', name: 'Burgundy Mode', icon: '🍷' },
-  { id: 'obsidian', name: 'Obsidian Mode', icon: '💎' },
-  { id: 'pearl', name: 'Pearl Mode', icon: '✨' }
-];
-let themeIdx = 0;
-
-function cycleTheme() {
-  themeIdx = (themeIdx + 1) % THEMES.length;
-  const t = THEMES[themeIdx];
-  document.body.setAttribute('data-theme', t.id);
-  document.getElementById('theme-icon').innerText = t.icon;
-  document.getElementById('theme-title').innerText = t.name;
-
-  if (eyeLeft && eyeRight) {
-    const col = t.id === 'obsidian' ? 0x38bdf8 : (t.id === 'pearl' ? 0xc2593f : 0xe07a5f);
-    eyeLeft.material.color.setHex(col);
-    eyeRight.material.color.setHex(col);
-  }
+// --- THEME TOGGLE (CHERRY NOIR <-> COQUETTE CREAM) ---
+function toggleTheme() {
+  const current = document.body.getAttribute('data-theme');
+  const next = current === 'coquette-cream' ? 'cherry-noir' : 'coquette-cream';
+  document.body.setAttribute('data-theme', next);
+  document.getElementById('theme-title').innerText = next === 'coquette-cream' ? 'Noir Mode' : 'Cream Mode';
 }
 
 // --- CERT MODAL ---
@@ -1319,9 +1459,9 @@ function triggerNode(idx) {
 function runSim() {
   const dropdown = document.getElementById('scenarioDropdown');
   const chat = document.getElementById('chatCanvas');
-  const term = document.getElementById('terminalLog');
+  const nodes = [document.getElementById('np-1'), document.getElementById('np-2'), document.getElementById('np-3'), document.getElementById('np-4')];
 
-  chat.innerHTML += '<div class="chat-row"><div class="chat-badge-icon" style="background:#e07a5f;">U</div><div class="chat-message-bubble"><b>Objective Ingested:</b> ' + dropdown.options[dropdown.selectedIndex].text + '</div></div>';
+  chat.innerHTML += '<div class="chat-row"><div class="chat-badge-icon" style="background:#d90429;">U</div><div class="chat-message-bubble"><b>Objective Ingested:</b> ' + dropdown.options[dropdown.selectedIndex].text + '</div></div>';
   chat.scrollTop = chat.scrollHeight;
 
   triggerNode(0);
@@ -1333,13 +1473,13 @@ function runSim() {
 
   setTimeout(() => {
     triggerNode(2);
-    chat.innerHTML += '<div class="chat-row"><div class="chat-badge-icon" style="background:#d8b4fe;color:#000;">DB</div><div class="chat-message-bubble"><b>ChromaDB RAG:</b> Reranked 5 relevant chunks using cross-encoder. MRR score 0.96.</div></div>';
+    chat.innerHTML += '<div class="chat-row"><div class="chat-badge-icon" style="background:#ff758f;color:#000;">DB</div><div class="chat-message-bubble"><b>ChromaDB RAG:</b> Reranked 5 relevant chunks using cross-encoder. MRR score 0.96.</div></div>';
     chat.scrollTop = chat.scrollHeight;
   }, 1500);
 
   setTimeout(() => {
     triggerNode(3);
-    chat.innerHTML += '<div class="chat-row"><div class="chat-badge-icon" style="background:#38bdf8;color:#000;">ZP</div><div class="chat-message-bubble"><b>Zapier REST:</b> Verified payload dispatched to Slack channel #ai-agent-ops. Process complete!</div></div>';
+    chat.innerHTML += '<div class="chat-row"><div class="chat-badge-icon" style="background:#38b000;color:#000;">ZP</div><div class="chat-message-bubble"><b>Zapier REST:</b> Verified payload dispatched to Slack channel #ai-agent-ops. Process complete!</div></div>';
     chat.scrollTop = chat.scrollHeight;
   }, 2250);
 }
