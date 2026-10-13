@@ -34,6 +34,7 @@
   --font-display: 'Syne', sans-serif;
   --font-body: 'Plus Jakarta Sans', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+  --avatar-tilt: 0deg;
 }
 
 [data-theme="coquette-cream"] {
@@ -101,6 +102,57 @@ body {
   width: 36px;
   height: 36px;
   margin-top: -4px;
+}
+
+/* FLOATING CURSOR-TRACKING CHARACTER (VISH / AURA MASCOT) */
+.floating-companion {
+  position: fixed;
+  bottom: 24px;
+  right: 28px;
+  z-index: 900;
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  transform-origin: bottom center;
+  animation: companionHover 3.2s ease-in-out infinite;
+  filter: drop-shadow(0 10px 24px rgba(217, 4, 41, 0.35));
+  transition: transform 0.15s ease-out;
+}
+.floating-companion:hover {
+  transform: scale(1.08) translateY(-4px);
+}
+.floating-companion.companion-hop {
+  animation: companionHopAnim 0.4s cubic-bezier(0.17, 0.89, 0.32, 1.28);
+}
+@keyframes companionHover {
+  0%, 100% { transform: translateY(0px) rotate(calc(var(--avatar-tilt) * 0.7)); }
+  50% { transform: translateY(-9px) rotate(var(--avatar-tilt)); }
+}
+@keyframes companionHopAnim {
+  0% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.2) translateY(-18px); }
+  100% { transform: scale(1) translateY(0); }
+}
+.companion-bubble {
+  position: absolute;
+  top: -34px;
+  right: 0;
+  background: var(--card-bg);
+  color: var(--ink);
+  border: 1px solid var(--cherry-blush);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+  transition: opacity 0.3s ease;
+}
+.companion-body {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
 /* NAVBAR */
@@ -301,7 +353,7 @@ header {
 /* ECLECTIC BUTTON MIX */
 .hero-buttons {
   display: flex;
-  gap: 16px;
+  gap: 14px;
   flex-wrap: wrap;
   align-items: center;
 }
@@ -311,7 +363,7 @@ header {
   background: linear-gradient(135deg, #d90429 0%, #9b111e 100%);
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 13px 26px;
+  padding: 13px 24px;
   border-radius: 999px;
   font-size: 13px;
   font-weight: 700;
@@ -334,7 +386,7 @@ header {
   background: #fdfbf7;
   color: #1a0e14;
   border: 1px dashed #d1c7bd;
-  padding: 12px 24px;
+  padding: 12px 20px;
   border-radius: 6px;
   font-family: var(--font-mono);
   font-size: 12px;
@@ -373,7 +425,7 @@ header {
   background: rgba(253, 240, 213, 0.08);
   border: 1px solid rgba(253, 240, 213, 0.25);
   color: var(--champagne);
-  padding: 10px 20px;
+  padding: 10px 18px;
   border-radius: 999px;
   font-size: 12px;
   font-family: var(--font-serif);
@@ -382,6 +434,7 @@ header {
   align-items: center;
   gap: 6px;
   cursor: pointer;
+  text-decoration: none;
   transition: all 0.2s;
 }
 .btn-botanical-tag:hover {
@@ -891,6 +944,41 @@ footer {
   </svg>
 </div>
 
+<!-- FLOATING CURSOR-TRACKING COMPANION (VISH / AURA MASCOT) -->
+<div class="floating-companion" id="companionAvatar" onclick="companionClick(event)" title="Aura Mascot • Tracks your cursor!">
+  <div class="companion-bubble" id="companionBubble">Tracking cursor 🍒</div>
+  <svg class="companion-body" viewBox="0 0 100 100" fill="none">
+    <!-- Floating aura shadow -->
+    <ellipse cx="50" cy="92" rx="26" ry="5" fill="rgba(217,4,41,0.25)"/>
+    <!-- Head Capsule -->
+    <rect x="20" y="16" width="60" height="64" rx="30" fill="url(#botGrad)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+    <!-- Visor -->
+    <rect x="26" y="32" width="48" height="28" rx="14" fill="#0d080c" stroke="#d90429" stroke-width="1.5"/>
+    <!-- Tracking Eyes -->
+    <g id="companionEyes">
+      <circle cx="39" cy="46" r="7" fill="rgba(255,117,143,0.2)"/>
+      <circle id="pupilLeft" cx="39" cy="46" r="3.5" fill="#ff758f"/>
+      <circle id="glintLeft" cx="40" cy="44.5" r="1.2" fill="#fff"/>
+      <circle cx="61" cy="46" r="7" fill="rgba(255,117,143,0.2)"/>
+      <circle id="pupilRight" cx="61" cy="46" r="3.5" fill="#ff758f"/>
+      <circle id="glintRight" cx="62" cy="44.5" r="1.2" fill="#fff"/>
+    </g>
+    <!-- Blush Cheeks -->
+    <circle cx="28" cy="56" r="3.5" fill="#ff4d6d" opacity="0.7"/>
+    <circle cx="72" cy="56" r="3.5" fill="#ff4d6d" opacity="0.7"/>
+    <!-- Cherry Stem on Top -->
+    <path d="M50 16 Q54 6 62 8" stroke="#38b000" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <circle cx="63" cy="8" r="4" fill="#d90429"/>
+    <defs>
+      <linearGradient id="botGrad" x1="20" y1="16" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#fff8f0"/>
+        <stop offset="0.7" stop-color="#fdf0d5"/>
+        <stop offset="1" stop-color="#ffccd5"/>
+      </linearGradient>
+    </defs>
+  </svg>
+</div>
+
 <!-- NAVBAR -->
 <header>
   <div class="brand-wrap">
@@ -902,9 +990,9 @@ footer {
   </div>
 
   <div class="nav-actions">
-    <div class="btn-botanical-tag">
-      <span style="color:var(--cherry-blush);">●</span> Available for Roles
-    </div>
+    <a href="assets/Gaddam_Sasikala_AI_Engineer_Resume.pdf" download="Gaddam_Sasikala_AI_Engineer_Resume.pdf" class="btn-paper-sticker" style="padding:6px 14px;text-decoration:none;">
+      <span>📄</span> <span>Resume (PDF)</span>
+    </a>
     <button class="btn-paper-sticker" onclick="toggleTheme()" style="padding:6px 14px;">
       <span id="theme-icon">🍒</span> <span id="theme-title">Cream Mode</span>
     </button>
@@ -939,8 +1027,11 @@ footer {
           <button class="btn-cherry-jelly" onclick="spawnCherryBurst(event); location.href='#projects';">
             Explore My Work 🍒
           </button>
+          <a href="assets/Gaddam_Sasikala_AI_Engineer_Resume.pdf" download="Gaddam_Sasikala_AI_Engineer_Resume.pdf" class="btn-paper-sticker">
+            Download AI Resume 📄
+          </a>
           <button class="btn-paper-sticker" onclick="downloadN8n()">
-            Download n8n Flow 📥
+            n8n Flow 📥
           </button>
           <a href="#contact" class="btn-botanical-tag">
             ✦ Let's Connect
@@ -1238,10 +1329,10 @@ footer {
           <span>🐙 GitHub (@LuminaQuest)</span>
           <span>↗</span>
         </a>
-        <button class="contact-row-btn" onclick="window.print()" style="cursor:pointer;text-align:left;">
-          <span>🖨️ Export PDF Dossier</span>
+        <a href="assets/Gaddam_Sasikala_AI_Engineer_Resume.pdf" download="Gaddam_Sasikala_AI_Engineer_Resume.pdf" class="contact-row-btn">
+          <span>📄 Download AI Resume (PDF)</span>
           <span>↓</span>
-        </button>
+        </a>
       </div>
     </div>
 
@@ -1258,7 +1349,7 @@ footer {
   <img id="modalImg" src="" alt="Certificate" />
 </div>
 
-<!-- JAVASCRIPT: SPLINE SCENE SWITCHER & CHERRY PARTICLE CANNON -->
+<!-- JAVASCRIPT: SPLINE SCENE SWITCHER, CURSOR-TRACKING COMPANION & CHERRY PARTICLE CANNON -->
 <script>
 // --- SPLINE SCENE SWITCHER ---
 function switchSplineScene(url, index) {
@@ -1267,6 +1358,62 @@ function switchSplineScene(url, index) {
 
   document.getElementById('btn-scene-1').classList.toggle('active', index === 1);
   document.getElementById('btn-scene-2').classList.toggle('active', index === 2);
+}
+
+// --- CURSOR-TRACKING COMPANION (VISH / AURA MASCOT) ---
+const pupilL = document.getElementById('pupilLeft');
+const pupilR = document.getElementById('pupilRight');
+const glintL = document.getElementById('glintLeft');
+const glintR = document.getElementById('glintRight');
+const compAvatar = document.getElementById('companionAvatar');
+const compBubble = document.getElementById('companionBubble');
+
+window.addEventListener('mousemove', (e) => {
+  if (!compAvatar || !pupilL || !pupilR) return;
+  const rect = compAvatar.getBoundingClientRect();
+  const avatarCenterX = rect.left + rect.width / 2;
+  const avatarCenterY = rect.top + rect.height / 2;
+
+  const dx = e.clientX - avatarCenterX;
+  const dy = e.clientY - avatarCenterY;
+  const angle = Math.atan2(dy, dx);
+  const distance = Math.min(Math.hypot(dx, dy), 160);
+  const maxPupilOffset = 3.5;
+  const offsetRatio = distance / 160;
+
+  const moveX = Math.cos(angle) * maxPupilOffset * offsetRatio;
+  const moveY = Math.sin(angle) * maxPupilOffset * offsetRatio;
+
+  pupilL.setAttribute('cx', 39 + moveX);
+  pupilL.setAttribute('cy', 46 + moveY);
+  glintL.setAttribute('cx', 40 + moveX);
+  glintL.setAttribute('cy', 44.5 + moveY);
+
+  pupilR.setAttribute('cx', 61 + moveX);
+  pupilR.setAttribute('cy', 46 + moveY);
+  glintR.setAttribute('cx', 62 + moveX);
+  glintR.setAttribute('cy', 44.5 + moveY);
+
+  const tilt = Math.max(-14, Math.min(14, (dx / window.innerWidth) * 20));
+  compAvatar.style.setProperty('--avatar-tilt', tilt + 'deg');
+});
+
+const cuteQuotes = [
+  "Tracking your cursor 🍒",
+  "Agent swarm online ✨",
+  "ToT tree evaluating paths...",
+  "LangGraph node ready 🌸",
+  "Check out my 3D scenes!",
+  "Sub-140ms latency verified ⚡"
+];
+let quoteIdx = 0;
+function companionClick(e) {
+  spawnCherryBurst(e);
+  quoteIdx = (quoteIdx + 1) % cuteQuotes.length;
+  compBubble.innerText = cuteQuotes[quoteIdx];
+  compBubble.style.opacity = '1';
+  compAvatar.classList.add('companion-hop');
+  setTimeout(() => compAvatar.classList.remove('companion-hop'), 400);
 }
 
 // --- CHERRY BURST PARTICLE CANNON ---
@@ -1348,7 +1495,6 @@ function triggerNode(idx) {
 function runSim() {
   const dropdown = document.getElementById('scenarioDropdown');
   const chat = document.getElementById('chatCanvas');
-  const nodes = [document.getElementById('np-1'), document.getElementById('np-2'), document.getElementById('np-3'), document.getElementById('np-4')];
 
   chat.innerHTML += '<div class="chat-row"><div class="chat-badge-icon" style="background:#d90429;">U</div><div class="chat-message-bubble"><b>Objective Ingested:</b> ' + dropdown.options[dropdown.selectedIndex].text + '</div></div>';
   chat.scrollTop = chat.scrollHeight;
