@@ -1,0 +1,179 @@
+{
+  "name": "AURA // NEXUS Enterprise Multi-Agent Automation Bridge",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "aura-agent-event",
+        "responseMode": "responseNode"
+      },
+      "id": "node-webhook-trigger",
+      "name": "Aura Webhook Ingest",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || $input.first().json;\nreturn [{\n  json: {\n    traceId: body.trace_id || 'TRC-' + Date.now(),\n    agentId: body.agent_id || 'ORCH-01',\n    action: body.action || 'rag_query',\n    confidence: body.confidence || 0.98,\n    objective: body.objective || '',\n    payload: body.payload || {},\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "node-agent-router",
+      "name": "LangGraph State Parser",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.action }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "rag_query"
+            },
+            {
+              "value2": "sandbox_exec"
+            },
+            {
+              "value2": "enterprise_alert"
+            }
+          ]
+        }
+      },
+      "id": "node-switch-action",
+      "name": "Action Router",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/rag/search",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"query\": $json.objective,\n  \"top_k\": 5,\n  \"rerank\": true\n}"
+      },
+      "id": "node-chroma-query",
+      "name": "ChromaDB Vector Retrieval",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        920,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://hooks.zapier.com/hooks/catch/aura-enterprise-dispatch/",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"event\": \"AURA_HITL_APPROVED\",\n  \"trace_id\": $json.traceId,\n  \"agent\": $json.agentId,\n  \"summary\": $json.objective\n}"
+      },
+      "id": "node-zapier-bridge",
+      "name": "Zapier REST Dispatcher",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        920,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"status\": \"dispatched\",\n  \"trace_id\": $json.traceId,\n  \"agent\": $json.agentId,\n  \"execution_time_ms\": 42\n}"
+      },
+      "id": "node-response-return",
+      "name": "Return Execution Ack",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1160,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Aura Webhook Ingest": {
+      "main": [
+        [
+          {
+            "node": "LangGraph State Parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LangGraph State Parser": {
+      "main": [
+        [
+          {
+            "node": "Action Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Action Router": {
+      "main": [
+        [
+          {
+            "node": "ChromaDB Vector Retrieval",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Zapier REST Dispatcher",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Zapier REST Dispatcher",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ChromaDB Vector Retrieval": {
+      "main": [
+        [
+          {
+            "node": "Return Execution Ack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zapier REST Dispatcher": {
+      "main": [
+        [
+          {
+            "node": "Return Execution Ack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
