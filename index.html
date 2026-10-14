@@ -104,14 +104,14 @@ body {
   margin-top: -4px;
 }
 
-/* FLOATING CURSOR-TRACKING COMPANION (VISH / AURA MASCOT) */
+/* FLOATING COMPANION */
 .floating-companion {
   position: fixed;
   bottom: 24px;
   right: 28px;
   z-index: 900;
-  width: 82px;
-  height: 82px;
+  width: 78px;
+  height: 78px;
   cursor: pointer;
   transform-origin: bottom center;
   animation: companionHover 3.2s ease-in-out infinite;
@@ -239,6 +239,7 @@ header {
 }
 .bento-card:hover::before { opacity: 1; }
 
+/* HERO CARD - ROBOT FLOATS SEAMLESSLY WITH NO BOX BACKGROUND */
 .card-hero {
   grid-column: span 8;
   min-height: 520px;
@@ -247,7 +248,35 @@ header {
   justify-content: space-between;
   align-items: center;
   gap: 28px;
+  overflow: visible;
 }
+.hero-left-col {
+  flex: 1;
+  max-width: 520px;
+  z-index: 2;
+}
+
+/* SEAMLESS 3D ROBOT STAGE (NO BORDER, NO BACKGROUND, NO BOX) */
+.spline-seamless-stage {
+  width: 380px;
+  height: 440px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  overflow: visible;
+}
+spline-viewer {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: transparent !important;
+}
+
 .card-sidebar {
   grid-column: span 4;
   display: flex;
@@ -263,6 +292,7 @@ header {
 
 @media(max-width: 1040px) {
   .card-hero { grid-column: span 12; flex-direction: column-reverse; align-items: flex-start; }
+  .spline-seamless-stage { width: 100%; height: 360px; }
   .card-sidebar { grid-column: span 12; }
   .card-awards { grid-column: span 12; }
   .card-n8n { grid-column: span 12; }
@@ -271,7 +301,7 @@ header {
   .card-connect { grid-column: span 12; }
 }
 
-/* ARTISTIC DOTTED PORTRAIT SYSTEM */
+/* ARTISTIC DOTTED PORTRAIT (HER REAL FACE 100% CLEAR) */
 .hero-author-header {
   display: flex;
   align-items: center;
@@ -281,8 +311,8 @@ header {
 
 .dotted-portrait-container {
   position: relative;
-  width: 88px;
-  height: 88px;
+  width: 84px;
+  height: 84px;
   flex-shrink: 0;
   cursor: pointer;
 }
@@ -292,7 +322,7 @@ header {
   position: absolute;
   inset: -6px;
   border-radius: 50%;
-  border: 2px dashed rgba(255, 117, 143, 0.45);
+  border: 2px dashed rgba(255, 117, 143, 0.55);
   animation: orbitRotate 18s linear infinite;
   pointer-events: none;
 }
@@ -312,59 +342,28 @@ header {
   to { transform: rotate(360deg); }
 }
 
-/* Artistic Dotted Photo Frame */
+/* Artistic Dotted Photo Frame - Showing Her Real Face Clear & Bright */
 .dotted-portrait-frame {
   position: relative;
   width: 100%;
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(217, 4, 41, 0.4), inset 0 0 14px rgba(0,0,0,0.6);
+  box-shadow: 0 8px 24px rgba(217, 4, 41, 0.4), 0 0 0 3px rgba(255, 117, 143, 0.35);
   border: 2px solid var(--cherry);
   background: #0d080c;
-  transition: transform 0.25s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
 }
 .dotted-portrait-frame:hover {
-  transform: scale(1.05);
+  transform: scale(1.06);
+  box-shadow: 0 12px 32px rgba(217, 4, 41, 0.6), 0 0 0 4px var(--cherry-blush);
 }
 
-/* Raw Image (Hidden when canvas active, fallback) */
 .hero-portrait-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-/* Dynamic Halftone Canvas */
-#dottedCanvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  transition: opacity 0.3s ease;
-}
-
-/* Dotted Mode Pill Badge */
-.dotted-mode-pill {
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(13, 8, 12, 0.85);
-  border: 1px solid var(--cherry-blush);
-  color: var(--cherry-blush);
-  font-family: var(--font-mono);
-  font-size: 8px;
-  font-weight: 700;
-  padding: 1px 7px;
-  border-radius: 999px;
-  white-space: nowrap;
-  z-index: 10;
-  backdrop-filter: blur(8px);
-  pointer-events: none;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
 
 .editorial-kicker {
@@ -415,7 +414,7 @@ header {
 /* ECLECTIC BUTTON MIX */
 .hero-buttons {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
   align-items: center;
 }
@@ -505,77 +504,6 @@ header {
   transform: translateY(-2px);
 }
 
-/* SPLINE 3D VIEWER CONTAINER - SEAMLESS SEAM & CURSOR-TRACKING BOT */
-.spline-3d-stage {
-  width: 380px;
-  height: 420px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: radial-gradient(circle at 50% 50%, rgba(217, 4, 41, 0.12) 0%, rgba(13, 8, 12, 0.8) 75%);
-  border: 1px solid var(--card-border);
-  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.7);
-}
-spline-viewer {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-/* SPLINE SCENE SWITCHER PILLS */
-.spline-controls {
-  position: absolute;
-  top: 14px;
-  display: flex;
-  gap: 8px;
-  z-index: 10;
-  background: rgba(13, 8, 12, 0.85);
-  backdrop-filter: blur(14px);
-  padding: 4px;
-  border-radius: 999px;
-  border: 1px solid var(--card-border);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-}
-.spline-tab-btn {
-  background: transparent;
-  border: none;
-  color: var(--ink-muted);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 6px 14px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.spline-tab-btn.active {
-  background: var(--cherry);
-  color: #fff;
-  box-shadow: 0 2px 12px rgba(217, 4, 41, 0.5);
-}
-
-.spline-hint-badge {
-  position: absolute;
-  bottom: 10px;
-  font-size: 10.5px;
-  color: var(--cherry-blush);
-  background: rgba(13, 8, 12, 0.75);
-  backdrop-filter: blur(10px);
-  padding: 4px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 117, 143, 0.25);
-  pointer-events: none;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-}
-
 /* SIDEBAR METRICS */
 .editorial-card-title {
   font-family: var(--font-serif);
@@ -609,7 +537,7 @@ spline-viewer {
   color: var(--ink-muted);
 }
 
-/* AWARDS BENTO */
+/* AWARDS BENTO - WITH CROPPED CERTIFICATES */
 .award-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
@@ -633,10 +561,11 @@ spline-viewer {
   background: rgba(255, 255, 255, 0.05);
 }
 .award-thumb {
-  width: 90px;
-  height: 65px;
-  border-radius: 10px;
-  object-fit: cover;
+  width: 96px;
+  height: 68px;
+  border-radius: 8px;
+  object-fit: contain;
+  background: #ffffff;
   border: 1px solid var(--card-border);
   flex-shrink: 0;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
@@ -951,6 +880,7 @@ spline-viewer {
   border-radius: 14px;
   box-shadow: 0 16px 48px rgba(0,0,0,0.8);
   border: 1px solid var(--card-border);
+  background: #fff;
 }
 .modal-close {
   position: absolute;
@@ -1012,17 +942,13 @@ footer {
   </svg>
 </div>
 
-<!-- FLOATING CURSOR-TRACKING COMPANION (VISH / AURA MASCOT) -->
-<div class="floating-companion" id="companionAvatar" onclick="companionClick(event)" title="Aura Mascot • Tracks your cursor!">
-  <div class="companion-bubble" id="companionBubble">Tracking cursor 🍒</div>
+<!-- FLOATING COMPANION -->
+<div class="floating-companion" id="companionAvatar" onclick="companionClick(event)">
+  <div class="companion-bubble" id="companionBubble">AI agent active 🍒</div>
   <svg class="companion-body" viewBox="0 0 100 100" fill="none">
-    <!-- Floating aura shadow -->
     <ellipse cx="50" cy="92" rx="26" ry="5" fill="rgba(217,4,41,0.25)"/>
-    <!-- Head Capsule -->
     <rect x="20" y="16" width="60" height="64" rx="30" fill="url(#botGrad)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
-    <!-- Visor -->
     <rect x="26" y="32" width="48" height="28" rx="14" fill="#0d080c" stroke="#d90429" stroke-width="1.5"/>
-    <!-- Tracking Eyes -->
     <g id="companionEyes">
       <circle cx="39" cy="46" r="7" fill="rgba(255,117,143,0.2)"/>
       <circle id="pupilLeft" cx="39" cy="46" r="3.5" fill="#ff758f"/>
@@ -1031,10 +957,8 @@ footer {
       <circle id="pupilRight" cx="61" cy="46" r="3.5" fill="#ff758f"/>
       <circle id="glintRight" cx="62" cy="44.5" r="1.2" fill="#fff"/>
     </g>
-    <!-- Blush Cheeks -->
     <circle cx="28" cy="56" r="3.5" fill="#ff4d6d" opacity="0.7"/>
     <circle cx="72" cy="56" r="3.5" fill="#ff4d6d" opacity="0.7"/>
-    <!-- Cherry Stem on Top -->
     <path d="M50 16 Q54 6 62 8" stroke="#38b000" stroke-width="2.5" fill="none" stroke-linecap="round"/>
     <circle cx="63" cy="8" r="4" fill="#d90429"/>
     <defs>
@@ -1069,19 +993,17 @@ footer {
 <main class="container">
   <div class="bento-grid">
 
-    <!-- 1. HERO BENTO CARD WITH ARTISTIC DOTTED PORTRAIT & 3D CURSOR-TRACKING BOT -->
+    <!-- 1. HERO BENTO CARD: REAL FACE HEADSHOT & SEAMLESS FLOATING 3D ROBOT -->
     <div class="bento-card card-hero">
       <div class="hero-left-col">
         
-        <!-- ARTISTIC DOTTED PORTRAIT -->
+        <!-- ARTISTIC DOTTED PORTRAIT SHOWING HER REAL FACE CLEARLY -->
         <div class="hero-author-header">
-          <div class="dotted-portrait-container" onclick="cycleDottedMode(event)" title="Click to cycle artistic dotted styles!">
+          <div class="dotted-portrait-container" onclick="spawnCherryBurst(event)">
             <div class="dotted-orbit-ring"></div>
             <div class="dotted-portrait-frame">
-              <img id="rawProfileImg" src="assets/profile.png" alt="Gaddam Sasikala Portrait" class="hero-portrait-img" style="display:none;" />
-              <canvas id="dottedCanvas" width="180" height="180"></canvas>
+              <img src="assets/profile.png" alt="Gaddam Sasikala Portrait" class="hero-portrait-img" />
             </div>
-            <div class="dotted-mode-pill" id="dottedModeLabel">✦ Halftone Dots</div>
           </div>
           <div>
             <div class="editorial-kicker">Gaddam Sasikala</div>
@@ -1113,21 +1035,9 @@ footer {
         </div>
       </div>
 
-      <!-- SPLINE 3D VIEWER: 3D SENTIENT ROBOT THAT LOOKS AT THE CURSOR -->
-      <div class="spline-3d-stage">
-        <div class="spline-controls">
-          <button class="spline-tab-btn active" id="btn-scene-1" onclick="switchSplineScene('https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode', 1)">
-            🤖 3D Sentient Bot
-          </button>
-          <button class="spline-tab-btn" id="btn-scene-2" onclick="switchSplineScene('https://prod.spline.design/8zmcRSF4KAcWF5FV/scene.splinecode', 2)">
-            ✦ Spatial Scene 02
-          </button>
-        </div>
-
-        <!-- Loads the famous 3D cursor-tracking Robot -->
+      <!-- SEAMLESS 3D ROBOT STAGE: NO BOX, NO BACKGROUND, NO LOGO -->
+      <div class="spline-seamless-stage">
         <spline-viewer id="spline-viewport" url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"></spline-viewer>
-
-        <div class="spline-hint-badge">✦ Interactive 3D Robot • Looks at cursor in real-time</div>
       </div>
     </div>
 
@@ -1151,7 +1061,7 @@ footer {
       </div>
     </div>
 
-    <!-- 3. VERIFIED HONORS & BUILDATHONS BENTO CARD -->
+    <!-- 3. VERIFIED HONORS & BUILDATHONS BENTO CARD (CLEANLY CROPPED CERTIFICATES) -->
     <div class="bento-card card-awards">
       <div class="section-headline">
         <h3>Verified <span class="serif-word">Honors</span> &amp; Certifications</h3>
@@ -1426,152 +1336,33 @@ footer {
 
 <!-- JAVASCRIPT -->
 <script>
-// --- ARTISTIC DOTTED CANVAS SYSTEM ---
-let currentDottedMode = 0; // 0: Cherry Halftone Dots, 1: Fine Cyber Dither, 2: HD Portrait + Dot Aura
-const DOTTED_MODES = [
-  '✦ Halftone Dots',
-  '✦ Fine Dither Matrix',
-  '✦ Clean Portrait + Aura'
-];
-
-let cachedPixels = null;
-const dottedCanvas = document.getElementById('dottedCanvas');
-const dottedCtx = dottedCanvas ? dottedCanvas.getContext('2d') : null;
-const rawImg = document.getElementById('rawProfileImg');
-const modeLabel = document.getElementById('dottedModeLabel');
-
-function initDottedPortrait() {
-  const img = new Image();
-  img.crossOrigin = 'anonymous';
-  img.src = 'assets/profile.png';
-  img.onload = () => {
-    const off = document.createElement('canvas');
-    off.width = 90;
-    off.height = 90;
-    const offCtx = off.getContext('2d');
-    offCtx.drawImage(img, 0, 0, 90, 90);
-    cachedPixels = offCtx.getImageData(0, 0, 90, 90).data;
-    renderDottedPortrait();
-  };
-}
-
-let mouseOverPortrait = false;
-let portraitMouseX = 90;
-let portraitMouseY = 90;
-
-if (dottedCanvas) {
-  dottedCanvas.addEventListener('mousemove', (e) => {
-    const rect = dottedCanvas.getBoundingClientRect();
-    portraitMouseX = (e.clientX - rect.left) / rect.width * 180;
-    portraitMouseY = (e.clientY - rect.top) / rect.height * 180;
-    mouseOverPortrait = true;
-    renderDottedPortrait();
-  });
-  dottedCanvas.addEventListener('mouseleave', () => {
-    mouseOverPortrait = false;
-    renderDottedPortrait();
-  });
-}
-
-function renderDottedPortrait() {
-  if (!dottedCtx || !cachedPixels) return;
-
-  const w = 180;
-  const h = 180;
-  dottedCtx.clearRect(0, 0, w, h);
-
-  if (currentDottedMode === 2) {
-    // Mode 2: Draw crisp photo with subtle dotted vignette
-    dottedCtx.drawImage(rawImg, 0, 0, w, h);
-    // Draw fine dotted overlay
-    dottedCtx.fillStyle = 'rgba(217, 4, 41, 0.15)';
-    for (let x = 4; x < w; x += 8) {
-      for (let y = 4; y < h; y += 8) {
-        dottedCtx.beginPath();
-        dottedCtx.arc(x, y, 1, 0, Math.PI * 2);
-        dottedCtx.fill();
-      }
-    }
-    return;
-  }
-
-  // Background for dot canvas
-  dottedCtx.fillStyle = '#0d080c';
-  dottedCtx.fillRect(0, 0, w, h);
-
-  const step = currentDottedMode === 0 ? 4 : 2.5;
-  const maxR = currentDottedMode === 0 ? 3.8 : 2.0;
-
-  for (let y = 0; y < 90; y += (currentDottedMode === 0 ? 2 : 1.25)) {
-    for (let x = 0; x < 90; x += (currentDottedMode === 0 ? 2 : 1.25)) {
-      const idx = (Math.floor(y) * 90 + Math.floor(x)) * 4;
-      const r = cachedPixels[idx];
-      const g = cachedPixels[idx + 1];
-      const b = cachedPixels[idx + 2];
-      const a = cachedPixels[idx + 3];
-
-      if (a < 40) continue;
-
-      const brightness = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-      let radius = (1.1 - brightness) * maxR;
-
-      let cx = x * 2;
-      let cy = y * 2;
-
-      // Magnetic interactive repulsion on hover
-      if (mouseOverPortrait) {
-        const dx = cx - portraitMouseX;
-        const dy = cy - portraitMouseY;
-        const dist = Math.hypot(dx, dy);
-        if (dist < 40 && dist > 0) {
-          const force = (40 - dist) / 40;
-          cx += (dx / dist) * force * 6;
-          cy += (dy / dist) * force * 6;
-          radius = Math.max(0.8, radius * 1.3);
-        }
-      }
-
-      if (radius > 0.4) {
-        dottedCtx.beginPath();
-        dottedCtx.arc(cx, cy, radius, 0, Math.PI * 2);
-
-        if (currentDottedMode === 0) {
-          // Cherry Halftone Palette
-          if (brightness < 0.25) dottedCtx.fillStyle = '#ff758f'; // Highlights
-          else if (brightness < 0.55) dottedCtx.fillStyle = '#d90429'; // Midtones
-          else if (brightness < 0.75) dottedCtx.fillStyle = '#660708'; // Shadows
-          else dottedCtx.fillStyle = '#260b14';
-        } else {
-          // Fine Cyber Dither Palette
-          if (brightness < 0.35) dottedCtx.fillStyle = '#fff8f0';
-          else if (brightness < 0.65) dottedCtx.fillStyle = '#ff758f';
-          else dottedCtx.fillStyle = '#9b111e';
-        }
-        dottedCtx.fill();
-      }
-    }
-  }
-}
-
-function cycleDottedMode(e) {
-  spawnCherryBurst(e);
-  currentDottedMode = (currentDottedMode + 1) % DOTTED_MODES.length;
-  modeLabel.innerText = DOTTED_MODES[currentDottedMode];
-  renderDottedPortrait();
-}
-
-window.addEventListener('load', () => {
-  initDottedPortrait();
-});
-
-// --- SPLINE SCENE SWITCHER ---
-function switchSplineScene(url, index) {
+// --- REMOVE SPLINE WATERMARK & LOGO CLEANLY ---
+function cleanSplineWatermark() {
   const viewer = document.getElementById('spline-viewport');
-  viewer.setAttribute('url', url);
+  if (!viewer) return;
+  
+  const removeLogo = () => {
+    try {
+      if (viewer.shadowRoot) {
+        const logo = viewer.shadowRoot.querySelector('#logo') || 
+                     viewer.shadowRoot.querySelector('a[href*="spline.design"]') ||
+                     viewer.shadowRoot.querySelector('a');
+        if (logo) logo.remove();
+      }
+    } catch (e) {}
+  };
 
-  document.getElementById('btn-scene-1').classList.toggle('active', index === 1);
-  document.getElementById('btn-scene-2').classList.toggle('active', index === 2);
+  viewer.addEventListener('load', removeLogo);
+  // Interval to guarantee removal as soon as it mounts
+  const interval = setInterval(() => {
+    removeLogo();
+    if (viewer.shadowRoot && !viewer.shadowRoot.querySelector('#logo')) {
+      clearInterval(interval);
+    }
+  }, 100);
+  setTimeout(() => clearInterval(interval), 5000);
 }
+window.addEventListener('DOMContentLoaded', cleanSplineWatermark);
 
 // --- CURSOR-TRACKING COMPANION (VISH / AURA MASCOT) ---
 const pupilL = document.getElementById('pupilLeft');
@@ -1613,7 +1404,6 @@ window.addEventListener('mousemove', (e) => {
 
 const cuteQuotes = [
   "Tracking your cursor 🍒",
-  "3D Bot listening to pointer 🤖",
   "Agent swarm online ✨",
   "ToT tree evaluating paths...",
   "LangGraph node ready 🌸",
@@ -1682,7 +1472,6 @@ function toggleTheme() {
   const next = current === 'coquette-cream' ? 'cherry-noir' : 'coquette-cream';
   document.body.setAttribute('data-theme', next);
   document.getElementById('theme-title').innerText = next === 'coquette-cream' ? 'Noir Mode' : 'Cream Mode';
-  renderDottedPortrait();
 }
 
 // --- CERT MODAL ---
