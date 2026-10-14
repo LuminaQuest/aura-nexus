@@ -6,14 +6,12 @@
 <title>Sasikala Gaddam — AI Systems &amp; Agentic Architecture</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- PINTEREST EDITORIAL MIX: Playfair Display + Syne + Plus Jakarta Sans + JetBrains Mono -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400;1,600;1,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <!-- Official Spline 3D Viewer Web Component -->
 <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.72/build/spline-viewer.js"></script>
 
 <style>
 :root {
-  /* WHIMSICAL CHERRY NOIR & VINTAGE CREAM PALETTE */
   --bg: #0d080c;
   --bg-gradient: radial-gradient(circle at 12% 15%, rgba(217, 4, 41, 0.22) 0%, transparent 45%),
                  radial-gradient(circle at 88% 75%, rgba(138, 38, 70, 0.22) 0%, transparent 45%),
@@ -239,32 +237,32 @@ header {
 }
 .bento-card:hover::before { opacity: 1; }
 
-/* HERO CARD - ROBOT FLOATS SEAMLESSLY WITH NO BOX BACKGROUND */
+/* HERO CARD SPANS FULL 12 COLUMNS (PRODUCTION BENCHMARKS REMOVED) */
 .card-hero {
-  grid-column: span 8;
-  min-height: 520px;
+  grid-column: span 12;
+  min-height: 480px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 28px;
+  gap: 36px;
   overflow: visible;
 }
 .hero-left-col {
-  flex: 1;
-  max-width: 520px;
+  flex: 1.2;
+  max-width: 660px;
   z-index: 2;
 }
 
 /* SEAMLESS 3D ROBOT STAGE (NO BORDER, NO BACKGROUND, NO BOX) */
 .spline-seamless-stage {
-  width: 380px;
-  height: 440px;
+  flex: 1;
+  max-width: 480px;
+  height: 460px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
   background: transparent;
   border: none;
   box-shadow: none;
@@ -277,12 +275,6 @@ spline-viewer {
   background: transparent !important;
 }
 
-.card-sidebar {
-  grid-column: span 4;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
 .card-awards { grid-column: span 12; }
 .card-n8n { grid-column: span 6; }
 .card-agent-sim { grid-column: span 6; }
@@ -291,10 +283,8 @@ spline-viewer {
 .card-connect { grid-column: span 4; }
 
 @media(max-width: 1040px) {
-  .card-hero { grid-column: span 12; flex-direction: column-reverse; align-items: flex-start; }
+  .card-hero { flex-direction: column-reverse; align-items: flex-start; }
   .spline-seamless-stage { width: 100%; height: 360px; }
-  .card-sidebar { grid-column: span 12; }
-  .card-awards { grid-column: span 12; }
   .card-n8n { grid-column: span 12; }
   .card-agent-sim { grid-column: span 12; }
   .card-tech { grid-column: span 12; }
@@ -377,8 +367,9 @@ spline-viewer {
   gap: 8px;
 }
 .editorial-kicker::before {
-  content: "🍒";
-  font-size: 13px;
+  content: "•";
+  font-size: 14px;
+  color: var(--cherry);
 }
 
 .hero-heading {
@@ -408,10 +399,10 @@ spline-viewer {
   font-size: 14.5px;
   line-height: 1.75;
   margin-bottom: 28px;
-  max-width: 490px;
+  max-width: 580px;
 }
 
-/* ECLECTIC BUTTON MIX */
+/* BUTTONS (ZERO EMOJI) */
 .hero-buttons {
   display: flex;
   gap: 14px;
@@ -504,40 +495,7 @@ spline-viewer {
   transform: translateY(-2px);
 }
 
-/* SIDEBAR METRICS */
-.editorial-card-title {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  font-style: italic;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-.metric-tile {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--card-border);
-  border-radius: 16px;
-  padding: 18px 20px;
-  margin-top: 14px;
-  transition: all 0.25s ease;
-}
-.metric-tile:hover {
-  border-color: var(--cherry);
-  transform: translateX(4px);
-}
-.metric-digit {
-  font-family: var(--font-serif);
-  font-size: 34px;
-  font-weight: 800;
-  color: var(--cherry-blush);
-  line-height: 1;
-  margin-bottom: 4px;
-}
-.metric-label {
-  font-size: 12px;
-  color: var(--ink-muted);
-}
-
-/* AWARDS BENTO - WITH CROPPED CERTIFICATES */
+/* AWARDS BENTO - CROPPED CERTIFICATES & PRECISE HONOR WORDING */
 .award-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
@@ -572,10 +530,11 @@ spline-viewer {
 }
 .award-details h4 {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: #fff;
   margin-bottom: 4px;
+  line-height: 1.4;
 }
 [data-theme="coquette-cream"] .award-details h4 { color: #1f1418; }
 .award-details p {
@@ -660,7 +619,7 @@ spline-viewer {
   line-height: 1.6;
 }
 
-/* AGENT PLAYGROUND */
+/* AGENT PLAYGROUND - STRICTLY LABELED DEMO (SIMULATED) */
 .agent-chat-canvas {
   background: rgba(0, 0, 0, 0.25);
   border: 1px solid var(--card-border);
@@ -732,7 +691,7 @@ spline-viewer {
   filter: brightness(1.15);
 }
 
-/* REPOSITORIES SHOWCASE */
+/* PROJECTS (RENAMED FROM VERIFIED PRODUCTION REPOSITORIES) */
 .project-cards-wrap {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -832,8 +791,9 @@ spline-viewer {
   gap: 10px;
 }
 .skill-bullet::before {
-  content: "🍒";
-  font-size: 11px;
+  content: "•";
+  font-size: 14px;
+  color: var(--cherry-blush);
 }
 
 .contact-button-stack {
@@ -917,7 +877,7 @@ footer {
 <body data-theme="cherry-noir">
 
 <!-- DANGLING CHERRY CHARM (PENDULUM SWING AT TOP) -->
-<div class="dangling-cherry-rig" onclick="spawnCherryBurst(event)" title="Click me for a cherry pop!">
+<div class="dangling-cherry-rig" onclick="spawnCherryBurst(event)" title="Click for interaction">
   <div class="cherry-thread"></div>
   <svg class="cherry-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M32 4 C32 18, 18 24, 18 38" stroke="#38b000" stroke-width="3" stroke-linecap="round"/>
@@ -944,7 +904,7 @@ footer {
 
 <!-- FLOATING COMPANION -->
 <div class="floating-companion" id="companionAvatar" onclick="companionClick(event)">
-  <div class="companion-bubble" id="companionBubble">AI agent active 🍒</div>
+  <div class="companion-bubble" id="companionBubble">Interactive agent</div>
   <svg class="companion-body" viewBox="0 0 100 100" fill="none">
     <ellipse cx="50" cy="92" rx="26" ry="5" fill="rgba(217,4,41,0.25)"/>
     <rect x="20" y="16" width="60" height="64" rx="30" fill="url(#botGrad)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
@@ -982,10 +942,10 @@ footer {
 
   <div class="nav-actions">
     <a href="assets/Gaddam_Sasikala_AI_Engineer_Resume.pdf" download="Gaddam_Sasikala_AI_Engineer_Resume.pdf" class="btn-paper-sticker" style="padding:6px 14px;text-decoration:none;">
-      <span>📄</span> <span>Resume (PDF)</span>
+      Resume (PDF)
     </a>
     <button class="btn-paper-sticker" onclick="toggleTheme()" style="padding:6px 14px;">
-      <span id="theme-icon">🍒</span> <span id="theme-title">Cream Mode</span>
+      <span id="theme-title">Cream Mode</span>
     </button>
   </div>
 </header>
@@ -1015,57 +975,37 @@ footer {
           Engineering <span class="serif-italic">Intelligent</span> Swarms <span class="amp">&amp;</span> <span class="serif-italic">Spatial</span> AI
         </h1>
         <p class="hero-description">
-          B.Tech CS (2024–2028). National Finalist in the <b>OpenAI Academy × NxtWave GenAI Buildathon</b>. I architect production-grade agentic systems: LangGraph supervisor swarms, ChromaDB RAG, and n8n enterprise automations.
+          B.Tech CS (2024–2028). State-level finalist, selected for the National Finale, OpenAI Academy x NxtWave GenAI Buildathon. I architect agentic systems: LangGraph supervisor swarms, ChromaDB RAG, and n8n enterprise automations.
         </p>
 
-        <!-- ECLECTIC BUTTON MIX -->
+        <!-- BUTTONS WITHOUT EMOJI -->
         <div class="hero-buttons">
           <button class="btn-cherry-jelly" onclick="spawnCherryBurst(event); location.href='#projects';">
-            Explore My Work 🍒
+            Explore My Work
           </button>
           <a href="assets/Gaddam_Sasikala_AI_Engineer_Resume.pdf" download="Gaddam_Sasikala_AI_Engineer_Resume.pdf" class="btn-paper-sticker">
-            Download AI Resume 📄
+            Download AI Resume
           </a>
           <button class="btn-paper-sticker" onclick="downloadN8n()">
-            n8n Flow 📥
+            n8n Flow
           </button>
           <a href="#contact" class="btn-botanical-tag">
-            ✦ Let's Connect
+            Let's Connect
           </a>
         </div>
       </div>
 
-      <!-- SEAMLESS 3D ROBOT STAGE: NO BOX, NO BACKGROUND, NO LOGO -->
+      <!-- SEAMLESS 3D ROBOT STAGE: NO BOX, NO BACKGROUND, NO WATERMARK -->
       <div class="spline-seamless-stage">
         <spline-viewer id="spline-viewport" url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"></spline-viewer>
       </div>
     </div>
 
-    <!-- 2. SIDEBAR EDITORIAL METRICS -->
-    <div class="bento-card card-sidebar">
-      <div>
-        <div class="editorial-kicker">Telemetry</div>
-        <h3 class="editorial-card-title">Production Benchmarks</h3>
-      </div>
-      <div class="metric-tile">
-        <div class="metric-digit">99.4%</div>
-        <div class="metric-label">Guardrail Safety &amp; Anti-Hallucination Pass Rate</div>
-      </div>
-      <div class="metric-tile">
-        <div class="metric-digit">&lt;140ms</div>
-        <div class="metric-label">P95 Cluster Latency with Multi-Model Router</div>
-      </div>
-      <div class="metric-tile">
-        <div class="metric-digit">68%</div>
-        <div class="metric-label">Token Cost Savings via Gemini Flash/Pro Router</div>
-      </div>
-    </div>
-
-    <!-- 3. VERIFIED HONORS & BUILDATHONS BENTO CARD (CLEANLY CROPPED CERTIFICATES) -->
+    <!-- 2. VERIFIED HONORS & BUILDATHONS BENTO CARD -->
     <div class="bento-card card-awards">
       <div class="section-headline">
         <h3>Verified <span class="serif-word">Honors</span> &amp; Certifications</h3>
-        <span class="btn-botanical-tag">NATIONAL FINALIST 🏆</span>
+        <span class="btn-botanical-tag">National Finalist</span>
       </div>
 
       <div class="award-grid">
@@ -1073,8 +1013,8 @@ footer {
         <div class="award-item" onclick="openCert('assets/cert_openai.png')">
           <img src="assets/cert_openai.png" alt="OpenAI Academy Certificate" class="award-thumb" />
           <div class="award-details">
-            <h4>OpenAI Academy × NxtWave Buildathon</h4>
-            <p><b>National Finalist</b> (State Level Winner) — Selected for National Finale with <i>Digital Krishi Officer</i>. India's biggest GenAI buildathon.</p>
+            <h4>State-level finalist, selected for the National Finale, OpenAI Academy x NxtWave GenAI Buildathon.</h4>
+            <p>Selected for National Finale with Digital Krishi Officer. India's biggest GenAI buildathon.</p>
           </div>
         </div>
 
@@ -1098,14 +1038,14 @@ footer {
       </div>
     </div>
 
-    <!-- 4. N8N & AUTOMATION FABRIC BENTO -->
+    <!-- 3. N8N & AUTOMATION FABRIC BENTO -->
     <div class="bento-card card-n8n">
       <div class="section-headline">
         <h3>n8n <span class="serif-word">&amp;</span> Zapier Automation</h3>
-        <span class="btn-botanical-tag">BI-DIRECTIONAL WEBHOOKS</span>
+        <span class="btn-botanical-tag">Bi-directional Webhooks</span>
       </div>
       <p style="color:var(--ink-muted);font-size:13px;line-height:1.6;">
-        Demonstrating how LangGraph agents dispatch real-time events to self-hosted n8n workflows and Zapier REST webhooks for automated enterprise resolution.
+        Demonstrating how LangGraph agents dispatch events to self-hosted n8n workflows and Zapier REST webhooks for automated enterprise resolution.
       </p>
 
       <div class="interactive-node-flow">
@@ -1131,21 +1071,21 @@ footer {
       </div>
 
       <div class="ambient-terminal" id="terminalLog">
-        [IDLE] Click any node above or run a swarm task to dispatch live webhook trace #TRC-8921.
+        [Demo (simulated)] Click any node above or run a swarm task to dispatch simulated webhook event.
       </div>
     </div>
 
-    <!-- 5. LIVE MULTI-AGENT PLAYGROUND BENTO -->
+    <!-- 4. LIVE MULTI-AGENT PLAYGROUND BENTO - DEMO (SIMULATED) -->
     <div class="bento-card card-agent-sim">
       <div class="section-headline">
         <h3>Interactive <span class="serif-word">Swarm</span> Simulator</h3>
-        <span class="btn-botanical-tag">LIVE SIMULATION</span>
+        <span class="btn-botanical-tag">Demo (simulated)</span>
       </div>
 
       <div class="agent-chat-canvas" id="chatCanvas">
         <div class="chat-row">
           <div class="chat-badge-icon">S</div>
-          <div class="chat-message-bubble"><b>Aura Supervisor:</b> Standing by. Select an enterprise scenario below to run the multi-agent decision cycle.</div>
+          <div class="chat-message-bubble"><b>[Demo (simulated)] Aura Supervisor:</b> Standing by. Select an enterprise scenario below to run the simulated multi-agent cycle.</div>
         </div>
       </div>
 
@@ -1156,16 +1096,15 @@ footer {
           <option value="webhook">Autonomous Web Scrape -> n8n Slack Dispatch</option>
         </select>
         <button class="btn-cherry-jelly" onclick="spawnCherryBurst(event); runSim();" style="padding:10px 18px;font-size:12px;">
-          ✦ Run Swarm
+          Run Swarm
         </button>
       </div>
     </div>
 
-    <!-- 6. VERIFIED REPOSITORIES -->
+    <!-- 5. PROJECTS (RENAMED FROM VERIFIED PRODUCTION REPOSITORIES) -->
     <div class="bento-card card-projects" id="projects">
       <div class="section-headline">
-        <h3>Verified <span class="serif-word">Production</span> Repositories</h3>
-        <span class="btn-botanical-tag">GITHUB: LUMINAQUEST</span>
+        <h3>Projects</h3>
       </div>
 
       <div class="project-cards-wrap">
@@ -1173,7 +1112,7 @@ footer {
         <div class="editorial-project-card">
           <div class="project-card-header">
             <h4>Digital Krishi <span class="serif-italic">Officer</span></h4>
-            <div class="editorial-kicker" style="margin:4px 0 0;font-size:10px;color:#22c55e;">OpenAI Academy National Finalist</div>
+            <div class="editorial-kicker" style="margin:4px 0 0;font-size:10px;color:#22c55e;">State-level finalist, selected for the National Finale, OpenAI Academy x NxtWave GenAI Buildathon.</div>
           </div>
           <p class="project-card-desc">
             AI-powered multilingual agricultural assistant empowering Indian farmers with real-time crop disease guidance, localized weather analytics, and government schemes in regional vernacular and local slang.
@@ -1185,7 +1124,7 @@ footer {
             <span class="tag-badge">FastAPI</span>
           </div>
           <div class="project-link-row">
-            <a href="https://github.com/LuminaQuest" target="_blank" class="link-action fill">View Project ↗</a>
+            <a href="https://github.com/LuminaQuest/Digital-Krishi-Officer" target="_blank" rel="noopener noreferrer" class="link-action fill">GitHub Repo &rarr;</a>
           </div>
         </div>
 
@@ -1206,8 +1145,8 @@ footer {
             <span class="tag-badge">Evals Suite</span>
           </div>
           <div class="project-link-row">
-            <a href="https://github.com/LuminaQuest/multi-agent-rag-assistant" target="_blank" class="link-action fill">GitHub Repo ↗</a>
-            <a href="https://multi-agent-rag-assistant-pgjr.onrender.com" target="_blank" class="link-action hollow">Live App (Render) ↗</a>
+            <a href="https://github.com/LuminaQuest/multi-agent-rag-assistant" target="_blank" rel="noopener noreferrer" class="link-action fill">GitHub Repo &rarr;</a>
+            <a href="https://multi-agent-rag-assistant-pgjr.onrender.com" target="_blank" rel="noopener noreferrer" class="link-action hollow">Live App (Render) &rarr;</a>
           </div>
         </div>
 
@@ -1227,8 +1166,8 @@ footer {
             <span class="tag-badge">FastAPI</span>
           </div>
           <div class="project-link-row">
-            <a href="https://github.com/LuminaQuest/aura-nexus" target="_blank" class="link-action fill">GitHub Repo ↗</a>
-            <a href="https://luminaquest.github.io/aura-nexus/" target="_blank" class="link-action hollow">Live App ↗</a>
+            <a href="https://github.com/LuminaQuest/aura-nexus" target="_blank" rel="noopener noreferrer" class="link-action fill">GitHub Repo &rarr;</a>
+            <a href="https://luminaquest.github.io/aura-nexus/" target="_blank" rel="noopener noreferrer" class="link-action hollow">Live App &rarr;</a>
           </div>
         </div>
 
@@ -1239,7 +1178,7 @@ footer {
             <div class="editorial-kicker" style="margin:4px 0 0;font-size:10px;">Indic NLP • Fraud Prevention</div>
           </div>
           <p class="project-card-desc">
-            Cybersecurity NLP engine detecting deceptive financial phishing and smishing attacks across Indic regional languages (Telugu, Hindi, Tamil) with sub-50ms latency.
+            Cybersecurity NLP engine detecting deceptive financial phishing and smishing attacks across Indic regional languages (Telugu, Hindi, Tamil).
           </p>
           <div class="tag-collection">
             <span class="tag-badge">Indic NLP</span>
@@ -1247,17 +1186,17 @@ footer {
             <span class="tag-badge">FastAPI</span>
           </div>
           <div class="project-link-row">
-            <a href="https://github.com/LuminaQuest" target="_blank" class="link-action hollow">View on GitHub ↗</a>
+            <a href="https://github.com/LuminaQuest/phishing-sms-regional-app" target="_blank" rel="noopener noreferrer" class="link-action fill">GitHub Repo &rarr;</a>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 7. TECHNICAL STACK -->
+    <!-- 6. TECHNICAL STACK -->
     <div class="bento-card card-tech">
       <div class="section-headline">
         <h3>Core <span class="serif-word">Technical</span> Capabilities</h3>
-        <span class="btn-botanical-tag">FULL-STACK AI</span>
+        <span class="btn-botanical-tag">Full-Stack AI</span>
       </div>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;">
@@ -1291,11 +1230,11 @@ footer {
       </div>
     </div>
 
-    <!-- 8. CONTACT BENTO -->
+    <!-- 7. CONTACT BENTO -->
     <div class="bento-card card-connect" id="contact">
       <div class="section-headline">
         <h3>Let's <span class="serif-word">Connect</span></h3>
-        <span class="btn-botanical-tag">OPEN TO WORK</span>
+        <span class="btn-botanical-tag">Open to Work</span>
       </div>
       <p style="color:var(--ink-muted);font-size:13px;">
         Open to paid internships, AI engineering roles, and high-impact project collaborations.
@@ -1303,20 +1242,20 @@ footer {
 
       <div class="contact-button-stack">
         <a href="mailto:sasikala.gaddam24@sasi.ac.in" class="contact-row-btn">
-          <span>📧 Email Me</span>
+          <span>Email Me</span>
           <span style="color:var(--cherry-blush);font-size:12px;">sasikala.gaddam24@sasi.ac.in</span>
         </a>
-        <a href="https://linkedin.com/in/gaddam-sasikala-bb1b13326" target="_blank" class="contact-row-btn">
-          <span>💼 LinkedIn Profile</span>
-          <span>↗</span>
+        <a href="https://linkedin.com/in/gaddam-sasikala-bb1b13326" target="_blank" rel="noopener noreferrer" class="contact-row-btn">
+          <span>LinkedIn Profile</span>
+          <span>&rarr;</span>
         </a>
-        <a href="https://github.com/LuminaQuest" target="_blank" class="contact-row-btn">
-          <span>🐙 GitHub (@LuminaQuest)</span>
-          <span>↗</span>
+        <a href="https://github.com/LuminaQuest" target="_blank" rel="noopener noreferrer" class="contact-row-btn">
+          <span>GitHub (@LuminaQuest)</span>
+          <span>&rarr;</span>
         </a>
         <a href="assets/Gaddam_Sasikala_AI_Engineer_Resume.pdf" download="Gaddam_Sasikala_AI_Engineer_Resume.pdf" class="contact-row-btn">
-          <span>📄 Download AI Resume (PDF)</span>
-          <span>↓</span>
+          <span>Download AI Resume (PDF)</span>
+          <span>&darr;</span>
         </a>
       </div>
     </div>
@@ -1353,13 +1292,12 @@ function cleanSplineWatermark() {
   };
 
   viewer.addEventListener('load', removeLogo);
-  // Interval to guarantee removal as soon as it mounts
   const interval = setInterval(() => {
     removeLogo();
     if (viewer.shadowRoot && !viewer.shadowRoot.querySelector('#logo')) {
       clearInterval(interval);
     }
-  }, 100);
+  }, 50);
   setTimeout(() => clearInterval(interval), 5000);
 }
 window.addEventListener('DOMContentLoaded', cleanSplineWatermark);
@@ -1402,33 +1340,33 @@ window.addEventListener('mousemove', (e) => {
   compAvatar.style.setProperty('--avatar-tilt', tilt + 'deg');
 });
 
-const cuteQuotes = [
-  "Tracking your cursor 🍒",
-  "Agent swarm online ✨",
-  "ToT tree evaluating paths...",
-  "LangGraph node ready 🌸",
-  "Sub-140ms latency verified ⚡"
+const statusLines = [
+  "Tracking cursor",
+  "Agent swarm online",
+  "ToT tree evaluating paths",
+  "LangGraph state machine active"
 ];
 let quoteIdx = 0;
 function companionClick(e) {
   spawnCherryBurst(e);
-  quoteIdx = (quoteIdx + 1) % cuteQuotes.length;
-  compBubble.innerText = cuteQuotes[quoteIdx];
+  quoteIdx = (quoteIdx + 1) % statusLines.length;
+  compBubble.innerText = statusLines[quoteIdx];
   compBubble.style.opacity = '1';
   compAvatar.classList.add('companion-hop');
   setTimeout(() => compAvatar.classList.remove('companion-hop'), 400);
 }
 
-// --- CHERRY BURST PARTICLE CANNON ---
+// --- PARTICLE CANNON ---
 function spawnCherryBurst(e) {
   const x = e.clientX || window.innerWidth / 2;
   const y = e.clientY || window.innerHeight / 2;
-  const emojis = ['🍒', '🌸', '✨', '🍒', '💫', '🍒'];
+  const emojis = ['•', '✦', '•', '✦'];
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 8; i++) {
     const p = document.createElement('div');
     p.className = 'cherry-particle';
     p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+    p.style.color = '#ff758f';
     p.style.left = x + 'px';
     p.style.top = y + 'px';
 
@@ -1484,40 +1422,40 @@ function closeCert() {
   document.getElementById('certModal').style.display = 'none';
 }
 
-// --- INTERACTIVE NODE TRIGGER ---
+// --- INTERACTIVE NODE TRIGGER (NO FAKE TRACE IDS) ---
 const NODE_NAMES = ['Aura Webhook Ingest', 'LangGraph State Machine', 'ChromaDB Hybrid Search', 'Zapier REST Dispatch'];
 function triggerNode(idx) {
   const nodes = [document.getElementById('np-1'), document.getElementById('np-2'), document.getElementById('np-3'), document.getElementById('np-4')];
   nodes.forEach(n => n.classList.remove('active'));
   nodes[idx].classList.add('active');
   const term = document.getElementById('terminalLog');
-  term.innerText = '[ACTIVE] ' + NODE_NAMES[idx] + ' triggered. Status 200 OK. Trace ID: TRC-' + Math.floor(Math.random()*8999+1000);
+  term.innerText = '[Demo (simulated)] ' + NODE_NAMES[idx] + ' triggered. Status 200 OK.';
 }
 
-// --- SIMULATION SCRIPT ---
+// --- SIMULATION SCRIPT (EVERY LINE LABELED DEMO (SIMULATED), NO FAKE TRACE IDS) ---
 function runSim() {
   const dropdown = document.getElementById('scenarioDropdown');
   const chat = document.getElementById('chatCanvas');
 
-  chat.innerHTML += '<div class="chat-row"><div class="chat-badge-icon" style="background:#d90429;">U</div><div class="chat-message-bubble"><b>Objective Ingested:</b> ' + dropdown.options[dropdown.selectedIndex].text + '</div></div>';
+  chat.innerHTML += '<div class="chat-row"><div class="chat-badge-icon" style="background:#d90429;">U</div><div class="chat-message-bubble"><b>[Demo (simulated)] Objective Ingested:</b> ' + dropdown.options[dropdown.selectedIndex].text + '</div></div>';
   chat.scrollTop = chat.scrollHeight;
 
   triggerNode(0);
   setTimeout(() => {
     triggerNode(1);
-    chat.innerHTML += '<div class="chat-row"><div class="chat-badge-icon">LG</div><div class="chat-message-bubble"><b>LangGraph Supervisor:</b> Evaluated 3 candidate paths -> Speculative Tree-of-Thought verified (Conf: 0.984).</div></div>';
+    chat.innerHTML += '<div class="chat-row"><div class="chat-badge-icon">LG</div><div class="chat-message-bubble"><b>[Demo (simulated)] LangGraph Supervisor:</b> Evaluated candidate paths via Speculative Tree-of-Thought state machine.</div></div>';
     chat.scrollTop = chat.scrollHeight;
   }, 750);
 
   setTimeout(() => {
     triggerNode(2);
-    chat.innerHTML += '<div class="chat-row"><div class="chat-badge-icon" style="background:#ff758f;color:#000;">DB</div><div class="chat-message-bubble"><b>ChromaDB RAG:</b> Reranked 5 relevant chunks using cross-encoder. MRR score 0.96.</div></div>';
+    chat.innerHTML += '<div class="chat-row"><div class="chat-badge-icon" style="background:#ff758f;color:#000;">DB</div><div class="chat-message-bubble"><b>[Demo (simulated)] ChromaDB RAG:</b> Reranked candidate document chunks using cross-encoder retrieval.</div></div>';
     chat.scrollTop = chat.scrollHeight;
   }, 1500);
 
   setTimeout(() => {
     triggerNode(3);
-    chat.innerHTML += '<div class="chat-row"><div class="chat-badge-icon" style="background:#38b000;color:#000;">ZP</div><div class="chat-message-bubble"><b>Zapier REST:</b> Verified payload dispatched to Slack channel #ai-agent-ops. Process complete!</div></div>';
+    chat.innerHTML += '<div class="chat-row"><div class="chat-badge-icon" style="background:#38b000;color:#000;">ZP</div><div class="chat-message-bubble"><b>[Demo (simulated)] Zapier REST:</b> Simulated payload dispatched to Slack channel #ai-agent-ops. Process complete.</div></div>';
     chat.scrollTop = chat.scrollHeight;
   }, 2250);
 }
