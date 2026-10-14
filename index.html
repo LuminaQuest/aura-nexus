@@ -7,6 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400;1,600;1,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- GSAP Core & Draggable for Goo Headline & Contact Rotary Dial -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+
 <!-- Official Spline 3D Viewer Web Component -->
 <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.72/build/spline-viewer.js"></script>
 
@@ -291,7 +296,7 @@ spline-viewer {
   .card-connect { grid-column: span 12; }
 }
 
-/* ARTISTIC DOTTED PORTRAIT (HER REAL FACE 100% CLEAR) */
+/* ARTISTIC DOTTED PORTRAIT */
 .hero-author-header {
   display: flex;
   align-items: center;
@@ -307,7 +312,6 @@ spline-viewer {
   cursor: pointer;
 }
 
-/* Rotating Dotted Constellation Aura */
 .dotted-orbit-ring {
   position: absolute;
   inset: -6px;
@@ -332,7 +336,6 @@ spline-viewer {
   to { transform: rotate(360deg); }
 }
 
-/* Artistic Dotted Photo Frame - Showing Her Real Face Clear & Bright */
 .dotted-portrait-frame {
   position: relative;
   width: 100%;
@@ -372,13 +375,26 @@ spline-viewer {
   color: var(--cherry);
 }
 
+/* 1) GOO HEADLINE STYLING */
 .hero-heading {
   font-family: var(--font-display);
   font-size: clamp(34px, 4.2vw, 54px);
   font-weight: 800;
   letter-spacing: -0.025em;
-  line-height: 1.12;
+  line-height: 1.15;
   margin-bottom: 18px;
+  cursor: pointer;
+  outline: none;
+}
+.hero-heading:focus-visible {
+  outline: 2px dashed var(--cherry-blush);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+.goo-line {
+  display: inline-block;
+  will-change: filter;
+  vertical-align: top;
 }
 .hero-heading .serif-italic {
   font-family: var(--font-serif);
@@ -387,7 +403,6 @@ spline-viewer {
   color: var(--cherry-blush);
   transition: all 0.3s ease;
   display: inline-block;
-  cursor: pointer;
 }
 .hero-heading .serif-italic:hover {
   transform: skewX(-8deg) scale(1.06);
@@ -495,7 +510,7 @@ spline-viewer {
   transform: translateY(-2px);
 }
 
-/* AWARDS BENTO - CROPPED CERTIFICATES & PRECISE HONOR WORDING */
+/* 2) AWARDS BENTO - REVEAL WITH TWO SVG CLIP-PATHS */
 .award-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
@@ -510,8 +525,14 @@ spline-viewer {
   display: flex;
   gap: 18px;
   align-items: center;
-  transition: all 0.3s ease;
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
   cursor: pointer;
+  outline: none;
+  will-change: clip-path;
+}
+.award-item:focus-visible {
+  outline: 2px dashed var(--cherry-blush);
+  outline-offset: 4px;
 }
 .award-item:hover {
   border-color: var(--cherry);
@@ -527,6 +548,7 @@ spline-viewer {
   border: 1px solid var(--card-border);
   flex-shrink: 0;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  will-change: clip-path;
 }
 .award-details h4 {
   font-family: var(--font-display);
@@ -691,7 +713,7 @@ spline-viewer {
   filter: brightness(1.15);
 }
 
-/* PROJECTS (RENAMED FROM VERIFIED PRODUCTION REPOSITORIES) */
+/* PROJECTS */
 .project-cards-wrap {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -770,7 +792,7 @@ spline-viewer {
 }
 .link-action.hollow:hover { border-color: var(--cherry); }
 
-/* CAPABILITIES & CONTACT */
+/* CAPABILITIES */
 .skills-column h5 {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -796,18 +818,141 @@ spline-viewer {
   color: var(--cherry-blush);
 }
 
+/* 3) CONTACT DIAL: TWO-LAYER SYSTEM */
+.rotary-dial-container {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin: 14px auto 28px auto;
+  user-select: none;
+  touch-action: none;
+}
+.rotary-dial-container:focus-visible {
+  outline: 2px dashed var(--cherry-blush);
+  outline-offset: 6px;
+  border-radius: 50%;
+}
+
+/* Layer 1: Static Digit Buttons Below */
+.dial-static-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #1f131a 0%, #0d080c 80%);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 4px 16px rgba(0, 0, 0, 0.8), 0 8px 24px rgba(217, 4, 41, 0.25);
+  pointer-events: auto;
+}
+
+/* Rotary Stop Bracket (Physical Detail) */
+.dial-finger-stop {
+  position: absolute;
+  bottom: 34px;
+  left: 48px;
+  width: 14px;
+  height: 24px;
+  background: linear-gradient(135deg, #d90429, #660708);
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  pointer-events: none;
+}
+
+.dial-digit-btn {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+  z-index: 1;
+}
+.dial-digit-btn:focus-visible {
+  border-color: var(--cherry-blush);
+  box-shadow: 0 0 14px var(--cherry);
+  background: rgba(217, 4, 41, 0.25);
+}
+.dial-digit-btn:hover {
+  background: rgba(217, 4, 41, 0.2);
+  border-color: var(--cherry);
+  color: #fff;
+  transform: translate(-50%, -50%) scale(1.12);
+}
+.dial-digit-btn:active {
+  transform: translate(-50%, -50%) scale(0.95);
+}
+
+.dial-center-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+.dial-center-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--cherry-blush);
+}
+.dial-center-hint {
+  font-size: 8px;
+  color: var(--ink-muted);
+}
+
+/* Layer 2: Rotating Overlay (SVG evenodd stencil with holes) */
+.dial-rotating-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Overlay container pointer-events: none */
+  z-index: 10;
+}
+.rotary-wheel-svg {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+.rotary-wheel-stencil {
+  pointer-events: auto; /* Stencil path pointer-events: auto */
+  cursor: grab;
+  fill: rgba(24, 16, 22, 0.55);
+  stroke: rgba(255, 117, 143, 0.3);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+  will-change: transform;
+}
+.rotary-wheel-stencil:active {
+  cursor: grabbing;
+}
+
+/* PLAIN LIST OF SAME 4 LINKS BELOW DIAL */
 .contact-button-stack {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 18px;
+  gap: 10px;
 }
 .contact-row-btn {
   text-decoration: none;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--card-border);
   color: var(--ink);
-  padding: 14px 20px;
+  padding: 12px 18px;
   border-radius: 14px;
   font-size: 13px;
   font-weight: 600;
@@ -815,6 +960,11 @@ spline-viewer {
   align-items: center;
   justify-content: space-between;
   transition: all 0.2s;
+  outline: none;
+}
+.contact-row-btn:focus-visible {
+  border-color: var(--cherry-blush);
+  outline: 2px dashed var(--cherry);
 }
 .contact-row-btn:hover {
   border-color: var(--cherry);
@@ -851,7 +1001,7 @@ spline-viewer {
   cursor: pointer;
 }
 
-/* CHERRY POP BURST PARTICLES */
+/* PARTICLES */
 .cherry-particle {
   position: fixed;
   pointer-events: none;
@@ -875,6 +1025,24 @@ footer {
 </style>
 </head>
 <body data-theme="cherry-noir">
+
+<!-- HIDDEN SVG FILTERS FOR GOO HEADLINE (feGaussianBlur + feColorMatrix) -->
+<svg width="0" height="0" style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+  <defs>
+    <filter id="goo-filter-1" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur id="goo-blur-1" in="SourceGraphic" stdDeviation="30" result="blur"/>
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="goo"/>
+    </filter>
+    <filter id="goo-filter-2" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur id="goo-blur-2" in="SourceGraphic" stdDeviation="30" result="blur"/>
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="goo"/>
+    </filter>
+    <filter id="goo-filter-3" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur id="goo-blur-3" in="SourceGraphic" stdDeviation="30" result="blur"/>
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="goo"/>
+    </filter>
+  </defs>
+</svg>
 
 <!-- DANGLING CHERRY CHARM (PENDULUM SWING AT TOP) -->
 <div class="dangling-cherry-rig" onclick="spawnCherryBurst(event)" title="Click for interaction">
@@ -953,11 +1121,11 @@ footer {
 <main class="container">
   <div class="bento-grid">
 
-    <!-- 1. HERO BENTO CARD: REAL FACE HEADSHOT & SEAMLESS FLOATING 3D ROBOT -->
+    <!-- 1. HERO BENTO CARD: GOO HEADLINE & SEAMLESS 3D ROBOT -->
     <div class="bento-card card-hero">
       <div class="hero-left-col">
         
-        <!-- ARTISTIC DOTTED PORTRAIT SHOWING HER REAL FACE CLEARLY -->
+        <!-- ARTISTIC DOTTED PORTRAIT -->
         <div class="hero-author-header">
           <div class="dotted-portrait-container" onclick="spawnCherryBurst(event)">
             <div class="dotted-orbit-ring"></div>
@@ -971,9 +1139,13 @@ footer {
           </div>
         </div>
 
-        <h1 class="hero-heading">
-          Engineering <span class="serif-italic">Intelligent</span> Swarms <span class="amp">&amp;</span> <span class="serif-italic">Spatial</span> AI
+        <!-- 1) GOO HEADLINE (Lines revealed with feGaussianBlur + feColorMatrix, animated stdDeviation 30->0 via GSAP) -->
+        <h1 class="hero-heading" id="heroHeading" tabindex="0" role="region" aria-label="Hero Headline: Engineering Intelligent Swarms &amp; Spatial AI. Press Enter or Space to replay Goo reveal.">
+          <span class="goo-line" id="goo-line-1">Engineering</span>
+          <span class="goo-line" id="goo-line-2"><span class="serif-italic">Intelligent</span> Swarms</span>
+          <span class="goo-line" id="goo-line-3"><span class="amp">&amp;</span> <span class="serif-italic">Spatial</span> AI</span>
         </h1>
+
         <p class="hero-description">
           B.Tech CS (2024–2028). State-level finalist, selected for the National Finale, OpenAI Academy x NxtWave GenAI Buildathon. I architect agentic systems: LangGraph supervisor swarms, ChromaDB RAG, and n8n enterprise automations.
         </p>
@@ -1001,7 +1173,7 @@ footer {
       </div>
     </div>
 
-    <!-- 2. VERIFIED HONORS & BUILDATHONS BENTO CARD -->
+    <!-- 2) VERIFIED HONORS & BUILDATHONS (CERTIFICATE REVEAL: 2 SVG CLIP-PATHS, 12-POINT WAVY EDGE, SIN(PROGRESS*PI)) -->
     <div class="bento-card card-awards">
       <div class="section-headline">
         <h3>Verified <span class="serif-word">Honors</span> &amp; Certifications</h3>
@@ -1010,8 +1182,8 @@ footer {
 
       <div class="award-grid">
         <!-- AWARD 1: OPENAI BUILDATHON -->
-        <div class="award-item" onclick="openCert('assets/cert_openai.png')">
-          <img src="assets/cert_openai.png" alt="OpenAI Academy Certificate" class="award-thumb" />
+        <div class="award-item" id="cert-card-0" onclick="openCert('assets/cert_openai.png')" tabindex="0" role="button" aria-label="OpenAI Academy Certificate. Press Enter to view.">
+          <img src="assets/cert_openai.png" alt="OpenAI Academy Certificate" class="award-thumb" id="cert-thumb-0" />
           <div class="award-details">
             <h4>State-level finalist, selected for the National Finale, OpenAI Academy x NxtWave GenAI Buildathon.</h4>
             <p>Selected for National Finale with Digital Krishi Officer. India's biggest GenAI buildathon.</p>
@@ -1019,8 +1191,8 @@ footer {
         </div>
 
         <!-- AWARD 2: RESPONSIVE WEBSITE CERT -->
-        <div class="award-item" onclick="openCert('assets/cert_responsive.png')">
-          <img src="assets/cert_responsive.png" alt="Responsive Website Certificate" class="award-thumb" />
+        <div class="award-item" id="cert-card-1" onclick="openCert('assets/cert_responsive.png')" tabindex="0" role="button" aria-label="Responsive Website Certificate. Press Enter to view.">
+          <img src="assets/cert_responsive.png" alt="Responsive Website Certificate" class="award-thumb" id="cert-thumb-1" />
           <div class="award-details">
             <h4>Build Your Own Responsive Website</h4>
             <p>NxtWave CCBP 4.0 Academy • Verified ID: <code>MWILVCMRQ</code>. Bootstrap &amp; Flexbox Architecture.</p>
@@ -1028,8 +1200,8 @@ footer {
         </div>
 
         <!-- AWARD 3: STATIC WEBSITE CERT -->
-        <div class="award-item" onclick="openCert('assets/cert_static.png')">
-          <img src="assets/cert_static.png" alt="Static Website Certificate" class="award-thumb" />
+        <div class="award-item" id="cert-card-2" onclick="openCert('assets/cert_static.png')" tabindex="0" role="button" aria-label="Static Website Certificate. Press Enter to view.">
+          <img src="assets/cert_static.png" alt="Static Website Certificate" class="award-thumb" id="cert-thumb-2" />
           <div class="award-details">
             <h4>Build Your Own Static Website</h4>
             <p>NxtWave CCBP 4.0 Academy • Verified ID: <code>YNZEGFBUKM</code>. HTML5, CSS3 &amp; Web Standards.</p>
@@ -1230,34 +1402,77 @@ footer {
       </div>
     </div>
 
-    <!-- 7. CONTACT BENTO -->
+    <!-- 7. CONTACT BENTO (3) CONTACT DIAL + PLAIN LIST OF SAME FOUR LINKS BELOW) -->
     <div class="bento-card card-connect" id="contact">
       <div class="section-headline">
         <h3>Let's <span class="serif-word">Connect</span></h3>
         <span class="btn-botanical-tag">Open to Work</span>
       </div>
-      <p style="color:var(--ink-muted);font-size:13px;">
-        Open to paid internships, AI engineering roles, and high-impact project collaborations.
+      <p style="color:var(--ink-muted);font-size:13px;margin-bottom:12px;">
+        Rotary dial or plain list to initiate contact. Dial rotation bounded 0-60 degrees.
       </p>
 
+      <!-- 3) CONTACT DIAL: TWO-LAYER SYSTEM (Static Digits Below, Rotating Stencil with Holes Above) -->
+      <div class="rotary-dial-container" id="rotaryDialContainer" tabindex="0" role="region" aria-label="Rotary Contact Dial. Press 1 for Email, 2 for LinkedIn, 3 for GitHub, 4 for Resume PDF.">
+        
+        <!-- Layer 1: Static Digit Buttons Below -->
+        <div class="dial-static-layer">
+          <div class="dial-finger-stop"></div>
+          
+          <button class="dial-digit-btn" id="digit-btn-1" style="left:192.3px; top:173.6px;" onclick="dialAction(1)" aria-label="1: Email sasikala.gaddam24@sasi.ac.in">
+            1
+          </button>
+          <button class="dial-digit-btn" id="digit-btn-2" style="left:156.0px; top:201.4px;" onclick="dialAction(2)" aria-label="2: LinkedIn Profile">
+            2
+          </button>
+          <button class="dial-digit-btn" id="digit-btn-3" style="left:110.3px; top:203.4px;" onclick="dialAction(3)" aria-label="3: GitHub Profile LuminaQuest">
+            3
+          </button>
+          <button class="dial-digit-btn" id="digit-btn-4" style="left:71.8px; top:178.9px;" onclick="dialAction(4)" aria-label="4: Download AI Resume PDF">
+            4
+          </button>
+
+          <div class="dial-center-label">
+            <div class="dial-center-title">AURA DIAL</div>
+            <div class="dial-center-hint">Rotate 0-60°</div>
+          </div>
+        </div>
+
+        <!-- Layer 2: Rotating Overlay (SVG evenodd stencil with holes) -->
+        <!-- Overlay pointer-events: none; stencil path pointer-events: auto so clicks through holes hit digit underneath -->
+        <div class="dial-rotating-overlay" id="dialOverlay">
+          <svg class="rotary-wheel-svg" viewBox="0 0 260 260">
+            <g id="rotaryWheelGroup" style="transform-origin: 130px 130px;">
+              <path class="rotary-wheel-stencil" fill-rule="evenodd" d="M 15,130 a 115,115 0 1,0 230,0 a 115,115 0 1,0 -230,0 M 171.25555536596337,173.5918091626795 a 21,21 0 1,0 42,0 a 21,21 0 1,0 -42,0 M 134.99353089275084,201.41663917972903 a 21,21 0 1,0 42,0 a 21,21 0 1,0 -42,0 M 89.32975257220842,203.41036279796919 a 21,21 0 1,0 42,0 a 21,21 0 1,0 -42,0 M 50.78062232295768,178.851858336177 a 21,21 0 1,0 42,0 a 21,21 0 1,0 -42,0" />
+              <!-- Center Hub Ring -->
+              <circle cx="130" cy="130" r="30" fill="#0d080c" stroke="var(--cherry)" stroke-width="2" pointer-events="auto" />
+              <circle cx="130" cy="130" r="8" fill="var(--cherry-blush)" pointer-events="none" />
+            </g>
+          </svg>
+        </div>
+
+      </div>
+
+      <!-- ALWAYS RENDER A PLAIN LIST OF THE SAME FOUR LINKS BELOW THE DIAL -->
       <div class="contact-button-stack">
-        <a href="mailto:sasikala.gaddam24@sasi.ac.in" class="contact-row-btn">
+        <a href="mailto:sasikala.gaddam24@sasi.ac.in" class="contact-row-btn" id="link-plain-1">
           <span>Email Me</span>
           <span style="color:var(--cherry-blush);font-size:12px;">sasikala.gaddam24@sasi.ac.in</span>
         </a>
-        <a href="https://linkedin.com/in/gaddam-sasikala-bb1b13326" target="_blank" rel="noopener noreferrer" class="contact-row-btn">
+        <a href="https://linkedin.com/in/gaddam-sasikala-bb1b13326" target="_blank" rel="noopener noreferrer" class="contact-row-btn" id="link-plain-2">
           <span>LinkedIn Profile</span>
           <span>&rarr;</span>
         </a>
-        <a href="https://github.com/LuminaQuest" target="_blank" rel="noopener noreferrer" class="contact-row-btn">
+        <a href="https://github.com/LuminaQuest" target="_blank" rel="noopener noreferrer" class="contact-row-btn" id="link-plain-3">
           <span>GitHub (@LuminaQuest)</span>
           <span>&rarr;</span>
         </a>
-        <a href="assets/Gaddam_Sasikala_AI_Engineer_Resume.pdf" download="Gaddam_Sasikala_AI_Engineer_Resume.pdf" class="contact-row-btn">
+        <a href="assets/Gaddam_Sasikala_AI_Engineer_Resume.pdf" download="Gaddam_Sasikala_AI_Engineer_Resume.pdf" class="contact-row-btn" id="link-plain-4">
           <span>Download AI Resume (PDF)</span>
           <span>&darr;</span>
         </a>
       </div>
+
     </div>
 
   </div>
@@ -1273,8 +1488,256 @@ footer {
   <img id="modalImg" src="" alt="Certificate" />
 </div>
 
-<!-- JAVASCRIPT -->
+<!-- JAVASCRIPT: GOO HEADLINE, CERTIFICATE REVEAL & CONTACT DIAL -->
 <script>
+// --- GLOBAL PREFERS-REDUCED-MOTION CHECK ---
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ============================================================================
+// 1) GOO HEADLINE: REVEAL WITH SVG FILTER (feGaussianBlur + feColorMatrix)
+// Animate stdDeviation from ~30 to 0 over ~1s with GSAP. Apply filter per line.
+// Remove filter after animation completes (performance).
+// Includes keyboard path, touch path, and prefers-reduced-motion fallback.
+// ============================================================================
+function initGooHeadline() {
+  const lines = [
+    { el: document.getElementById('goo-line-1'), blur: document.getElementById('goo-blur-1'), filter: 'url(#goo-filter-1)' },
+    { el: document.getElementById('goo-line-2'), blur: document.getElementById('goo-blur-2'), filter: 'url(#goo-filter-2)' },
+    { el: document.getElementById('goo-line-3'), blur: document.getElementById('goo-blur-3'), filter: 'url(#goo-filter-3)' }
+  ];
+
+  if (prefersReducedMotion) {
+    // Instant fallback without animation
+    lines.forEach(({ el }) => {
+      if (el) el.style.filter = 'none';
+    });
+    return;
+  }
+
+  lines.forEach(({ el, blur, filter }, idx) => {
+    if (!el || !blur) return;
+    el.style.filter = filter;
+    blur.setAttribute('stdDeviation', '30');
+
+    const proxy = { dev: 30 };
+    gsap.to(proxy, {
+      dev: 0,
+      duration: 1.0,
+      delay: idx * 0.18,
+      ease: 'power2.out',
+      onUpdate: () => {
+        blur.setAttribute('stdDeviation', proxy.dev.toFixed(2));
+      },
+      onComplete: () => {
+        // Performance requirement: remove filter after animation completes
+        el.style.filter = 'none';
+      }
+    });
+  });
+}
+
+// Keyboard & Touch triggers on headline
+const heading = document.getElementById('heroHeading');
+if (heading) {
+  heading.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      initGooHeadline();
+    }
+  });
+  heading.addEventListener('touchstart', () => {
+    initGooHeadline();
+  }, { passive: true });
+}
+
+// ============================================================================
+// 2) CERTIFICATE REVEAL: TWO SVG CLIP-PATHS (CONTAINER + INNER IMAGE),
+// 12-POINT WAVY EDGE, RANDOM PER-CARD OFFSETS, AMPLITUDE EASED WITH SIN(PROGRESS*PI),
+// INNER IMAGE DELAYED 0.1s. TRIGGER ONCE WHEN SCROLLED INTO VIEW.
+// Includes keyboard path, touch path, and prefers-reduced-motion fallback.
+// ============================================================================
+function initCertificateReveals() {
+  const cards = [
+    { card: document.getElementById('cert-card-0'), img: document.getElementById('cert-thumb-0'), offset: 0.84 },
+    { card: document.getElementById('cert-card-1'), img: document.getElementById('cert-thumb-1'), offset: 2.37 },
+    { card: document.getElementById('cert-card-2'), img: document.getElementById('cert-thumb-2'), offset: 4.19 }
+  ];
+
+  cards.forEach(({ card, img, offset }) => {
+    if (!card) return;
+
+    if (prefersReducedMotion) {
+      card.style.clipPath = 'none';
+      if (img) img.style.clipPath = 'none';
+      return;
+    }
+
+    const calcWavyPolygon = (progress, cardOffset, maxAmp) => {
+      if (progress >= 1) return 'none';
+      const points = [];
+      const cx = 0.5, cy = 0.5;
+      const baseR = progress * 0.82;
+      // Amplitude eased with sin(progress * PI)
+      const amp = maxAmp * Math.sin(progress * Math.PI);
+
+      // 12-point wavy edge
+      for (let i = 0; i < 12; i++) {
+        const theta = (i / 12) * 2 * Math.PI;
+        const wave = Math.sin(i * 2 + cardOffset);
+        const r = Math.max(0, baseR + amp * wave);
+        const x = cx + r * Math.cos(theta);
+        const y = cy + r * Math.sin(theta);
+        points.push(`${(x * 100).toFixed(2)}% ${(y * 100).toFixed(2)}%`);
+      }
+      return `polygon(${points.join(', ')})`;
+    };
+
+    let revealed = false;
+    const triggerCardReveal = () => {
+      if (revealed) return;
+      revealed = true;
+
+      // 1) Container clip-path reveal
+      const progCard = { val: 0 };
+      gsap.to(progCard, {
+        val: 1,
+        duration: 0.95,
+        ease: 'power2.out',
+        onUpdate: () => {
+          const poly = calcWavyPolygon(progCard.val, offset, 0.12);
+          card.style.clipPath = poly;
+        },
+        onComplete: () => {
+          card.style.clipPath = 'none';
+        }
+      });
+
+      // 2) Inner image clip-path reveal (delayed 0.1s)
+      if (img) {
+        const progImg = { val: 0 };
+        gsap.to(progImg, {
+          val: 1,
+          duration: 0.95,
+          delay: 0.1, // Inner image delayed 0.1s
+          ease: 'power2.out',
+          onUpdate: () => {
+            const poly = calcWavyPolygon(progImg.val, offset + 0.5, 0.14);
+            img.style.clipPath = poly;
+          },
+          onComplete: () => {
+            img.style.clipPath = 'none';
+          }
+        });
+      }
+    };
+
+    // Trigger once when scrolled into view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          triggerCardReveal();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.15 });
+    observer.observe(card);
+
+    // Keyboard path: on focus or Enter/Space
+    card.addEventListener('focus', triggerCardReveal);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        triggerCardReveal();
+      }
+    });
+
+    // Touch path
+    card.addEventListener('touchstart', triggerCardReveal, { passive: true });
+  });
+}
+
+// ============================================================================
+// 3) CONTACT DIAL: ROTARY DIAL WITH TWO-LAYER SYSTEM
+// Static digit buttons below (1 Email, 2 LinkedIn, 3 GitHub, 4 Resume PDF).
+// Rotating overlay (SVG evenodd stencil with holes) above.
+// Overlay pointer-events: none; stencil path pointer-events: auto so clicks through
+// holes hit the digit underneath. GSAP Draggable rotation bounded 0-60 deg, snaps back.
+// Always renders plain list of same 4 links below.
+// Includes keyboard path, touch path, and prefers-reduced-motion fallback.
+// ============================================================================
+function dialAction(digit) {
+  spawnCherryBurst({ clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 });
+  switch (digit) {
+    case 1:
+      window.location.href = 'mailto:sasikala.gaddam24@sasi.ac.in';
+      break;
+    case 2:
+      window.open('https://linkedin.com/in/gaddam-sasikala-bb1b13326', '_blank', 'noopener,noreferrer');
+      break;
+    case 3:
+      window.open('https://github.com/LuminaQuest', '_blank', 'noopener,noreferrer');
+      break;
+    case 4:
+      window.open('assets/Gaddam_Sasikala_AI_Engineer_Resume.pdf', '_blank');
+      break;
+  }
+}
+
+function initContactDial() {
+  if (typeof gsap === 'undefined' || typeof Draggable === 'undefined') return;
+  gsap.registerPlugin(Draggable);
+
+  const wheelGroup = document.getElementById('rotaryWheelGroup');
+  if (!wheelGroup) return;
+
+  Draggable.create(wheelGroup, {
+    type: 'rotation',
+    bounds: { minRotation: 0, maxRotation: 60 },
+    inertia: false,
+    onDragStart: function() {
+      wheelGroup.style.cursor = 'grabbing';
+    },
+    onRelease: function() {
+      wheelGroup.style.cursor = 'grab';
+      // Snaps back on release (instant for prefers-reduced-motion)
+      gsap.to(this.target, {
+        rotation: 0,
+        duration: prefersReducedMotion ? 0 : 0.65,
+        ease: prefersReducedMotion ? 'none' : 'elastic.out(1, 0.45)'
+      });
+    }
+  });
+
+  // Keyboard navigation for Rotary Dial
+  const dialContainer = document.getElementById('rotaryDialContainer');
+  if (dialContainer) {
+    dialContainer.addEventListener('keydown', (e) => {
+      if (['1', '2', '3', '4'].includes(e.key)) {
+        dialAction(parseInt(e.key, 10));
+      } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        gsap.to(wheelGroup, {
+          rotation: 40,
+          duration: prefersReducedMotion ? 0 : 0.3,
+          onComplete: () => {
+            gsap.to(wheelGroup, { rotation: 0, duration: prefersReducedMotion ? 0 : 0.5, ease: 'elastic.out(1, 0.4)' });
+          }
+        });
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        gsap.to(wheelGroup, { rotation: 0, duration: prefersReducedMotion ? 0 : 0.2 });
+      }
+    });
+  }
+}
+
+// Initialize on DOM load
+window.addEventListener('DOMContentLoaded', () => {
+  initGooHeadline();
+  initCertificateReveals();
+  initContactDial();
+  cleanSplineWatermark();
+});
+
 // --- REMOVE SPLINE WATERMARK & LOGO CLEANLY ---
 function cleanSplineWatermark() {
   const viewer = document.getElementById('spline-viewport');
@@ -1283,24 +1746,16 @@ function cleanSplineWatermark() {
   const removeLogo = () => {
     try {
       if (viewer.shadowRoot) {
-        const logo = viewer.shadowRoot.querySelector('#logo') || 
-                     viewer.shadowRoot.querySelector('a[href*="spline.design"]') ||
-                     viewer.shadowRoot.querySelector('a');
-        if (logo) logo.remove();
+        const logos = viewer.shadowRoot.querySelectorAll('#logo, a[href*="spline.design"], a');
+        logos.forEach(el => el.remove());
       }
     } catch (e) {}
   };
 
   viewer.addEventListener('load', removeLogo);
-  const interval = setInterval(() => {
-    removeLogo();
-    if (viewer.shadowRoot && !viewer.shadowRoot.querySelector('#logo')) {
-      clearInterval(interval);
-    }
-  }, 50);
-  setTimeout(() => clearInterval(interval), 5000);
+  const interval = setInterval(removeLogo, 40);
+  setTimeout(() => clearInterval(interval), 6000);
 }
-window.addEventListener('DOMContentLoaded', cleanSplineWatermark);
 
 // --- CURSOR-TRACKING COMPANION (VISH / AURA MASCOT) ---
 const pupilL = document.getElementById('pupilLeft');
