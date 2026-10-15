@@ -1022,6 +1022,542 @@ footer {
   font-size: 12px;
   margin-top: 70px;
 }
+
+/* ==========================================================================
+   FEATURE 1: ASK MY PORTFOLIO (CLIENT-SIDE BM25 RETRIEVAL AGENT)
+   ========================================================================== */
+.ask-portfolio-drawer {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: min(440px, calc(100vw - 32px));
+  height: 560px;
+  max-height: calc(100vh - 48px);
+  background: var(--card-bg);
+  border: 1px solid var(--cherry-blush);
+  border-radius: 20px;
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 25px rgba(217, 4, 41, 0.25);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(24px) scale(0.96);
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ask-portfolio-drawer.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ask-portfolio-drawer {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+.ask-drawer-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--card-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: rgba(217, 4, 41, 0.06);
+}
+.ask-drawer-title-wrap h4 {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ask-drawer-badge {
+  font-size: 10px;
+  color: var(--cherry-blush);
+  background: rgba(217, 4, 41, 0.15);
+  border: 1px solid rgba(217, 4, 41, 0.3);
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.ask-drawer-caption {
+  font-size: 11px;
+  color: var(--ink-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+.ask-close-btn {
+  background: transparent;
+  border: 1px solid var(--card-border);
+  color: var(--ink);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 1;
+  transition: background 0.2s, color 0.2s;
+}
+.ask-close-btn:hover, .ask-close-btn:focus-visible {
+  background: var(--cherry);
+  color: #fff;
+  border-color: var(--cherry);
+  outline: none;
+}
+.ask-chat-stream {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ask-msg {
+  display: flex;
+  flex-direction: column;
+  max-width: 90%;
+  animation: askFadeIn 0.2s ease;
+}
+@keyframes askFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.ask-msg-bot {
+  align-self: flex-start;
+}
+.ask-msg-user {
+  align-self: flex-end;
+}
+.ask-msg-bubble {
+  padding: 11px 15px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.ask-msg-bot .ask-msg-bubble {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--card-border);
+  color: var(--ink);
+}
+.ask-msg-user .ask-msg-bubble {
+  background: var(--cherry);
+  color: #fff;
+  border: 1px solid transparent;
+}
+.ask-sources-wrap {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.ask-source-chip {
+  background: rgba(217, 4, 41, 0.14);
+  border: 1px solid rgba(217, 4, 41, 0.4);
+  color: var(--cherry-blush);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: inherit;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+.ask-source-chip:hover, .ask-source-chip:focus-visible {
+  background: var(--cherry);
+  color: #fff;
+  transform: translateY(-1px);
+  outline: none;
+}
+.ask-suggestions-wrap {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ask-suggest-chip {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed var(--card-border);
+  color: var(--ink-muted);
+  font-size: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.ask-suggest-chip:hover, .ask-suggest-chip:focus-visible {
+  background: rgba(217, 4, 41, 0.12);
+  border-color: var(--cherry-blush);
+  color: var(--ink);
+  outline: none;
+}
+.ask-input-bar {
+  padding: 12px 16px;
+  border-top: 1px solid var(--card-border);
+  display: flex;
+  gap: 10px;
+  background: rgba(13, 8, 12, 0.6);
+}
+.ask-chat-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--ink);
+  font-size: 13px;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.ask-chat-input:focus {
+  border-color: var(--cherry);
+  box-shadow: 0 0 0 3px rgba(217, 4, 41, 0.15);
+}
+.ask-send-btn {
+  background: var(--cherry);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, transform 0.15s;
+}
+.ask-send-btn:hover, .ask-send-btn:focus-visible {
+  background: var(--cherry-hover);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+/* 2-SECOND SECTION HIGHLIGHT */
+.retrieval-highlight {
+  box-shadow: 0 0 0 3px var(--cherry), 0 0 32px rgba(217, 4, 41, 0.7) !important;
+  border-color: var(--cherry) !important;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .retrieval-highlight {
+    box-shadow: 0 0 0 3px var(--cherry) !important;
+    transition: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   FEATURE 2: THROWABLE CERTIFICATE CARDS (MATTER.JS 0.19.0)
+   ========================================================================== */
+.award-grid.physics-ready {
+  position: relative;
+  min-height: 280px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.1);
+}
+.award-item.physics-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  margin: 0;
+  box-sizing: border-box;
+}
+.award-item.physics-card:active {
+  cursor: grabbing;
+}
+.btn-cert-reset {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
+  color: var(--ink-muted);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.btn-cert-reset:hover, .btn-cert-reset:focus-visible {
+  background: var(--cherry);
+  border-color: var(--cherry);
+  color: #fff;
+  outline: none;
+}
+
+
+/* ==========================================================================
+   FEATURE 2: THROWABLE CERTIFICATE CARDS (MATTER.JS 0.19.0)
+   ========================================================================== */
+.award-grid.physics-ready {
+  position: relative;
+  min-height: 280px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.1);
+}
+.award-item.physics-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  margin: 0;
+  box-sizing: border-box;
+}
+.award-item.physics-card:active {
+  cursor: grabbing;
+}
+.btn-cert-reset {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
+  color: var(--ink-muted);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.btn-cert-reset:hover, .btn-cert-reset:focus-visible {
+  background: var(--cherry);
+  border-color: var(--cherry);
+  color: #fff;
+  outline: none;
+}
+
+
+/* ==========================================================================
+   FEATURE 2: THROWABLE CERTIFICATE CARDS (MATTER.JS 0.19.0)
+   ========================================================================== */
+.award-grid.physics-ready {
+  position: relative;
+  min-height: 280px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.1);
+}
+.award-item.physics-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  margin: 0;
+  box-sizing: border-box;
+}
+.award-item.physics-card:active {
+  cursor: grabbing;
+}
+.btn-cert-reset {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
+  color: var(--ink-muted);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.btn-cert-reset:hover, .btn-cert-reset:focus-visible {
+  background: var(--cherry);
+  border-color: var(--cherry);
+  color: #fff;
+  outline: none;
+}
+
+
+/* ==========================================================================
+   FEATURE 3: TEXT THAT PARTS AROUND THE CURSOR
+   ========================================================================== */
+.parting-text-paragraph {
+  user-select: text;
+  -webkit-user-select: text;
+  position: relative;
+}
+.parting-word {
+  display: inline-block;
+  will-change: transform;
+  pointer-events: auto;
+  transition: transform 0.08s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .parting-word {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   FEATURE 4: FORCE-DIRECTED SKILLS GRAPH (D3-FORCE 3.0.0)
+   ========================================================================== */
+.graph-link {
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 1.5px;
+  stroke-dasharray: 2, 2;
+  transition: stroke 0.2s;
+}
+.graph-link.active {
+  stroke: var(--cherry-blush);
+  stroke-width: 2.5px;
+  stroke-dasharray: none;
+}
+.graph-node {
+  cursor: grab;
+  transition: r 0.2s, filter 0.2s;
+}
+.graph-node:active {
+  cursor: grabbing;
+}
+.graph-node:hover, .graph-node:focus-visible {
+  filter: drop-shadow(0 0 8px var(--cherry));
+  outline: none;
+}
+.graph-node-text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--ink);
+  pointer-events: none;
+  text-anchor: middle;
+  user-select: none;
+  font-weight: 500;
+}
+.graph-node-hub-text {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  fill: #fff;
+  text-anchor: middle;
+  pointer-events: none;
+  user-select: none;
+}
+
+
+/* ==========================================================================
+   FEATURE 5: HANDS-FREE MODE (MEDIAPIPE GESTURE CONTROL)
+   ========================================================================== */
+.hands-free-hud {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  width: 176px;
+  background: var(--card-bg);
+  border: 1px solid var(--cherry-blush);
+  border-radius: 14px;
+  padding: 8px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(217, 4, 41, 0.2);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: hudFadeIn 0.25s ease;
+}
+@keyframes hudFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hands-free-hud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hands-free-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--cherry-blush);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.hands-free-off-btn {
+  background: var(--cherry);
+  border: none;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+.hands-free-off-btn:hover, .hands-free-off-btn:focus-visible {
+  background: var(--cherry-hover);
+  outline: none;
+}
+.hands-free-canvas-wrap {
+  width: 160px;
+  height: 120px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #0d080c;
+  position: relative;
+}
+#handsFreeCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transform: scaleX(-1);
+}
+.hands-free-status {
+  font-size: 9.5px;
+  color: var(--ink-muted);
+  text-align: center;
+  line-height: 1.3;
+}
+.hands-free-alert {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  max-width: 360px;
+  background: rgba(13, 8, 12, 0.95);
+  border: 1px solid var(--cherry);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 12px;
+  color: var(--ink);
+  line-height: 1.45;
+  z-index: 1001;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  animation: alertFadeIn 0.25s ease;
+}
+@keyframes alertFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 </style>
 </head>
 <body data-theme="cherry-noir">
@@ -1071,7 +1607,7 @@ footer {
 </div>
 
 <!-- FLOATING COMPANION -->
-<div class="floating-companion" id="companionAvatar" onclick="companionClick(event)">
+<div class="floating-companion" id="companionAvatar" onclick="companionClick(event)" tabindex="0" role="button" aria-label="Open Ask My Portfolio assistant. Press Enter or Space." onkeydown="companionKey(event)">
   <div class="companion-bubble" id="companionBubble">Interactive agent</div>
   <svg class="companion-body" viewBox="0 0 100 100" fill="none">
     <ellipse cx="50" cy="92" rx="26" ry="5" fill="rgba(217,4,41,0.25)"/>
@@ -1109,6 +1645,9 @@ footer {
   </div>
 
   <div class="nav-actions">
+    <button class="btn-paper-sticker" id="btnHandsFree" onclick="toggleHandsFree()" title="Runs 100% locally in browser; zero video leaves device" style="padding:6px 14px;" aria-label="Try hands-free gesture navigation. Runs fully locally in browser.">
+      Try hands-free
+    </button>
     <a href="assets/Gaddam_Sasikala_AI_Engineer_Resume.pdf" download="Gaddam_Sasikala_AI_Engineer_Resume.pdf" class="btn-paper-sticker" style="padding:6px 14px;text-decoration:none;">
       Resume (PDF)
     </a>
@@ -1122,7 +1661,7 @@ footer {
   <div class="bento-grid">
 
     <!-- 1. HERO BENTO CARD: GOO HEADLINE & SEAMLESS 3D ROBOT -->
-    <div class="bento-card card-hero">
+    <div class="bento-card card-hero" id="hero">
       <div class="hero-left-col">
         
         <!-- ARTISTIC DOTTED PORTRAIT -->
@@ -1146,8 +1685,8 @@ footer {
           <span class="goo-line" id="goo-line-3"><span class="amp">&amp;</span> <span class="serif-italic">Spatial</span> AI</span>
         </h1>
 
-        <p class="hero-description">
-          B.Tech CS (2024–2028). State-level finalist, selected for the National Finale, OpenAI Academy x NxtWave GenAI Buildathon. I architect agentic systems: LangGraph supervisor swarms, ChromaDB RAG, and n8n enterprise automations.
+        <p class="hero-description parting-text-paragraph" id="heroAboutPara" aria-label="B.Tech CS (2024–2028). State-level finalist, selected for the National Finale, OpenAI Academy x NxtWave GenAI Buildathon. I architect agentic systems: LangGraph supervisor swarms, ChromaDB RAG, and n8n enterprise automations.">
+          <span class="parting-word" aria-hidden="true">B.Tech</span> <span class="parting-word" aria-hidden="true">CS</span> <span class="parting-word" aria-hidden="true">(2024–2028).</span> <span class="parting-word" aria-hidden="true">State-level</span> <span class="parting-word" aria-hidden="true">finalist,</span> <span class="parting-word" aria-hidden="true">selected</span> <span class="parting-word" aria-hidden="true">for</span> <span class="parting-word" aria-hidden="true">the</span> <span class="parting-word" aria-hidden="true">National</span> <span class="parting-word" aria-hidden="true">Finale,</span> <span class="parting-word" aria-hidden="true">OpenAI</span> <span class="parting-word" aria-hidden="true">Academy</span> <span class="parting-word" aria-hidden="true">x</span> <span class="parting-word" aria-hidden="true">NxtWave</span> <span class="parting-word" aria-hidden="true">GenAI</span> <span class="parting-word" aria-hidden="true">Buildathon.</span> <span class="parting-word" aria-hidden="true">I</span> <span class="parting-word" aria-hidden="true">architect</span> <span class="parting-word" aria-hidden="true">agentic</span> <span class="parting-word" aria-hidden="true">systems:</span> <span class="parting-word" aria-hidden="true">LangGraph</span> <span class="parting-word" aria-hidden="true">supervisor</span> <span class="parting-word" aria-hidden="true">swarms,</span> <span class="parting-word" aria-hidden="true">ChromaDB</span> <span class="parting-word" aria-hidden="true">RAG,</span> <span class="parting-word" aria-hidden="true">and</span> <span class="parting-word" aria-hidden="true">n8n</span> <span class="parting-word" aria-hidden="true">enterprise</span> <span class="parting-word" aria-hidden="true">automations.</span>
         </p>
 
         <!-- BUTTONS WITHOUT EMOJI -->
@@ -1174,15 +1713,18 @@ footer {
     </div>
 
     <!-- 2) VERIFIED HONORS & BUILDATHONS (CERTIFICATE REVEAL: 2 SVG CLIP-PATHS, 12-POINT WAVY EDGE, SIN(PROGRESS*PI)) -->
-    <div class="bento-card card-awards">
+    <div class="bento-card card-awards" id="awards">
       <div class="section-headline">
         <h3>Verified <span class="serif-word">Honors</span> &amp; Certifications</h3>
-        <span class="btn-botanical-tag">National Finalist</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="btn-cert-reset" id="resetCertCardsBtn" onclick="resetCertCards()" aria-label="Reset certificate cards position">Reset</button>
+          <span class="btn-botanical-tag">National Finalist</span>
+        </div>
       </div>
 
       <div class="award-grid">
         <!-- AWARD 1: OPENAI BUILDATHON -->
-        <div class="award-item" id="cert-card-0" onclick="openCert('assets/cert_openai.png')" tabindex="0" role="button" aria-label="OpenAI Academy Certificate. Press Enter to view.">
+        <div class="award-item" id="cert-card-0" ondblclick="openCert('assets/cert_openai.png')" onkeydown="certCardKey(event, 'assets/cert_openai.png')" tabindex="0" role="button" aria-label="OpenAI Academy Certificate. Double click, tap and hold, or press Enter to view.">
           <img src="assets/cert_openai.png" alt="OpenAI Academy Certificate" class="award-thumb" id="cert-thumb-0" />
           <div class="award-details">
             <h4>State-level finalist, selected for the National Finale, OpenAI Academy x NxtWave GenAI Buildathon.</h4>
@@ -1191,7 +1733,7 @@ footer {
         </div>
 
         <!-- AWARD 2: RESPONSIVE WEBSITE CERT -->
-        <div class="award-item" id="cert-card-1" onclick="openCert('assets/cert_responsive.png')" tabindex="0" role="button" aria-label="Responsive Website Certificate. Press Enter to view.">
+        <div class="award-item" id="cert-card-1" ondblclick="openCert('assets/cert_responsive.png')" onkeydown="certCardKey(event, 'assets/cert_responsive.png')" tabindex="0" role="button" aria-label="Responsive Website Certificate. Double click, tap and hold, or press Enter to view.">
           <img src="assets/cert_responsive.png" alt="Responsive Website Certificate" class="award-thumb" id="cert-thumb-1" />
           <div class="award-details">
             <h4>Build Your Own Responsive Website</h4>
@@ -1200,7 +1742,7 @@ footer {
         </div>
 
         <!-- AWARD 3: STATIC WEBSITE CERT -->
-        <div class="award-item" id="cert-card-2" onclick="openCert('assets/cert_static.png')" tabindex="0" role="button" aria-label="Static Website Certificate. Press Enter to view.">
+        <div class="award-item" id="cert-card-2" ondblclick="openCert('assets/cert_static.png')" onkeydown="certCardKey(event, 'assets/cert_static.png')" tabindex="0" role="button" aria-label="Static Website Certificate. Double click, tap and hold, or press Enter to view.">
           <img src="assets/cert_static.png" alt="Static Website Certificate" class="award-thumb" id="cert-thumb-2" />
           <div class="award-details">
             <h4>Build Your Own Static Website</h4>
@@ -1211,7 +1753,7 @@ footer {
     </div>
 
     <!-- 3. N8N & AUTOMATION FABRIC BENTO -->
-    <div class="bento-card card-n8n">
+    <div class="bento-card card-n8n" id="automation">
       <div class="section-headline">
         <h3>n8n <span class="serif-word">&amp;</span> Zapier Automation</h3>
         <span class="btn-botanical-tag">Bi-directional Webhooks</span>
@@ -1248,7 +1790,7 @@ footer {
     </div>
 
     <!-- 4. LIVE MULTI-AGENT PLAYGROUND BENTO - DEMO (SIMULATED) -->
-    <div class="bento-card card-agent-sim">
+    <div class="bento-card card-agent-sim" id="agent-sim">
       <div class="section-headline">
         <h3>Interactive <span class="serif-word">Swarm</span> Simulator</h3>
         <span class="btn-botanical-tag">Demo (simulated)</span>
@@ -1281,7 +1823,7 @@ footer {
 
       <div class="project-cards-wrap">
         <!-- PROJECT 1: DIGITAL KRISHI OFFICER -->
-        <div class="editorial-project-card">
+        <div class="editorial-project-card" id="proj-krishi">
           <div class="project-card-header">
             <h4>Digital Krishi <span class="serif-italic">Officer</span></h4>
             <div class="editorial-kicker" style="margin:4px 0 0;font-size:10px;color:#22c55e;">State-level finalist, selected for the National Finale, OpenAI Academy x NxtWave GenAI Buildathon.</div>
@@ -1301,7 +1843,7 @@ footer {
         </div>
 
         <!-- PROJECT 2: MULTI-AGENT RAG -->
-        <div class="editorial-project-card">
+        <div class="editorial-project-card" id="proj-rag">
           <div class="project-card-header">
             <h4>Multi-Agent RAG <span class="serif-italic">Assistant</span></h4>
             <div class="editorial-kicker" style="margin:4px 0 0;font-size:10px;">LangGraph • ChromaDB • Evals</div>
@@ -1323,7 +1865,7 @@ footer {
         </div>
 
         <!-- PROJECT 3: AURA NEXUS -->
-        <div class="editorial-project-card">
+        <div class="editorial-project-card" id="proj-aura">
           <div class="project-card-header">
             <h4>AURA // NEXUS <span class="serif-italic">Agentic OS</span></h4>
             <div class="editorial-kicker" style="margin:4px 0 0;font-size:10px;">Spline 3D • ToT • n8n Webhook</div>
@@ -1344,7 +1886,7 @@ footer {
         </div>
 
         <!-- PROJECT 4: SMS-GUARD -->
-        <div class="editorial-project-card">
+        <div class="editorial-project-card" id="proj-sms">
           <div class="project-card-header">
             <h4>SMS-Guard: Regional <span class="serif-italic">Phishing AI</span></h4>
             <div class="editorial-kicker" style="margin:4px 0 0;font-size:10px;">Indic NLP • Fraud Prevention</div>
@@ -1365,13 +1907,16 @@ footer {
     </div>
 
     <!-- 6. TECHNICAL STACK -->
-    <div class="bento-card card-tech">
+    <div class="bento-card card-tech" id="card-tech">
       <div class="section-headline">
         <h3>Core <span class="serif-word">Technical</span> Capabilities</h3>
-        <span class="btn-botanical-tag">Full-Stack AI</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="btn-cert-reset" id="toggleSkillGraphBtn" onclick="toggleSkillGraph()" aria-label="Toggle between skills grid and force-directed interactive graph">Interactive Graph</button>
+          <span class="btn-botanical-tag">Full-Stack AI</span>
+        </div>
       </div>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;">
+      <div id="skillsGridView" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;">
         <div class="skills-column">
           <h5>Agentic AI &amp; LLMs</h5>
           <div class="skill-row">
@@ -1400,6 +1945,15 @@ footer {
           </div>
         </div>
       </div>
+
+      <!-- INTERACTIVE D3 FORCE GRAPH VIEW (LAZY-LOADED) -->
+      <div id="skillsGraphView" style="display:none;position:relative;width:100%;height:380px;border-radius:16px;background:rgba(0,0,0,0.18);overflow:hidden;margin-top:14px;">
+        <svg id="skillsGraphSvg" style="width:100%;height:100%;display:block;"></svg>
+        <div id="skillGraphTooltip" style="position:absolute;bottom:14px;left:18px;font-size:12px;color:var(--cherry-blush);background:rgba(13,8,12,0.85);padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);pointer-events:none;">
+          Click and drag nodes to test physics • Hub nodes connect related tools
+        </div>
+      </div>
+
     </div>
 
     <!-- 7. CONTACT BENTO (3) CONTACT DIAL + PLAIN LIST OF SAME FOUR LINKS BELOW) -->
@@ -1419,7 +1973,7 @@ footer {
         <div class="dial-static-layer">
           <div class="dial-finger-stop"></div>
           
-          <button class="dial-digit-btn" id="digit-btn-1" style="left:192.3px; top:173.6px;" onclick="dialAction(1)" aria-label="1: Email sasikala.gaddam24@sasi.ac.in">
+          <button class="dial-digit-btn" id="digit-btn-1" style="left:192.3px; top:173.6px;" onclick="dialAction(1)" aria-label="1: Email sasikalagaddam30@gmail.com">
             1
           </button>
           <button class="dial-digit-btn" id="digit-btn-2" style="left:156.0px; top:201.4px;" onclick="dialAction(2)" aria-label="2: LinkedIn Profile">
@@ -1455,9 +2009,9 @@ footer {
 
       <!-- ALWAYS RENDER A PLAIN LIST OF THE SAME FOUR LINKS BELOW THE DIAL -->
       <div class="contact-button-stack">
-        <a href="mailto:sasikala.gaddam24@sasi.ac.in" class="contact-row-btn" id="link-plain-1">
+        <a href="mailto:sasikalagaddam30@gmail.com" class="contact-row-btn" id="link-plain-1">
           <span>Email Me</span>
-          <span style="color:var(--cherry-blush);font-size:12px;">sasikala.gaddam24@sasi.ac.in</span>
+          <span style="color:var(--cherry-blush);font-size:12px;">sasikalagaddam30@gmail.com</span>
         </a>
         <a href="https://linkedin.com/in/gaddam-sasikala-bb1b13326" target="_blank" rel="noopener noreferrer" class="contact-row-btn" id="link-plain-2">
           <span>LinkedIn Profile</span>
@@ -1481,6 +2035,39 @@ footer {
     Designed &amp; Engineered by <b>Gaddam Sasikala</b> • Built with Spline 3D, Playfair Typography &amp; Cherry Aesthetics
   </footer>
 </main>
+
+
+<!-- FEATURE 1: ASK MY PORTFOLIO CHAT PANEL -->
+<div class="ask-portfolio-drawer" id="askPortfolioDrawer" role="dialog" aria-modal="true" aria-labelledby="askDrawerTitle">
+  <div class="ask-drawer-header">
+    <div class="ask-drawer-title-wrap">
+      <h4 id="askDrawerTitle">
+        Ask My Portfolio
+        <span class="ask-drawer-badge">BM25 Retrieval</span>
+      </h4>
+      <p class="ask-drawer-caption">Retrieval demo, answers come from this page's content.</p>
+    </div>
+    <button class="ask-close-btn" id="askCloseBtn" onclick="closeAskDrawer()" aria-label="Close Ask My Portfolio panel">&times;</button>
+  </div>
+
+  <div class="ask-chat-stream" id="askChatStream">
+    <div class="ask-msg ask-msg-bot">
+      <div class="ask-msg-bubble">
+        Hello! I am your client-side portfolio retrieval agent. Ask me about Sasikala's projects, technical skills, honors, or background. Answers come strictly from verified content on this page.
+      </div>
+      <div class="ask-suggestions-wrap">
+        <button class="ask-suggest-chip" onclick="askPreset('What projects did you build?')">What projects did you build?</button>
+        <button class="ask-suggest-chip" onclick="askPreset('Tell me about your OpenAI Buildathon finalist honor')">Tell me about your OpenAI Buildathon finalist honor</button>
+        <button class="ask-suggest-chip" onclick="askPreset('What AI and agentic skills do you use?')">What AI and agentic skills do you use?</button>
+      </div>
+    </div>
+  </div>
+
+  <form class="ask-input-bar" id="askInputForm" onsubmit="handleAskSubmit(event)">
+    <input type="text" class="ask-chat-input" id="askChatInput" placeholder="Ask a question about this portfolio..." autocomplete="off" />
+    <button type="submit" class="ask-send-btn" id="askSendBtn">Ask</button>
+  </form>
+</div>
 
 <!-- IMAGE MODAL -->
 <div class="modal-overlay" id="certModal" onclick="closeCert()">
@@ -1668,7 +2255,7 @@ function dialAction(digit) {
   spawnCherryBurst({ clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 });
   switch (digit) {
     case 1:
-      window.location.href = 'mailto:sasikala.gaddam24@sasi.ac.in';
+      window.location.href = 'mailto:sasikalagaddam30@gmail.com';
       break;
     case 2:
       window.open('https://linkedin.com/in/gaddam-sasikala-bb1b13326', '_blank', 'noopener,noreferrer');
@@ -1734,6 +2321,10 @@ function initContactDial() {
 window.addEventListener('DOMContentLoaded', () => {
   initGooHeadline();
   initCertificateReveals();
+  initThrowableCards();
+  initPartingText();
+  initThrowableCards();
+  initThrowableCards();
   initContactDial();
   cleanSplineWatermark();
 });
@@ -1756,6 +2347,293 @@ function cleanSplineWatermark() {
   const interval = setInterval(removeLogo, 40);
   setTimeout(() => clearInterval(interval), 6000);
 }
+
+
+// ============================================================================
+// FEATURE 1: ASK MY PORTFOLIO (BM25 CLIENT-SIDE RETRIEVAL AGENT)
+// Answers ONLY from the site's own content (projects, skills, certificates, resume text).
+// Shows source chips (e.g. "Projects > Multi-Agent RAG").
+// Clicking a chip smooth-scrolls to that section and highlights it for 2s.
+// Fallback: "I don't have that on this site" + 3 suggested questions.
+// Labeled: "Retrieval demo, answers come from this page's content."
+// ============================================================================
+
+const BM25_STOPWORDS = new Set([
+  "a","about","above","after","again","against","all","am","an","and","any","are","aren't",
+  "as","at","be","because","been","before","being","below","between","both","but","by","can't",
+  "cannot","could","couldn't","did","didn't","do","does","doesn't","doing","don't","down","during",
+  "each","few","for","from","further","had","hadn't","has","hasn't","have","haven't","having",
+  "he","he'd","he'll","he's","her","here","here's","hers","herself","him","himself","his","how",
+  "how's","i","i'd","i'll","i'm","i've","if","in","into","is","isn't","it","it's","its","itself",
+  "let's","me","more","most","mustn't","my","myself","no","nor","not","of","off","on","once",
+  "only","or","other","ought","our","ours","ourselves","out","over","own","same","shan't","she",
+  "she'd","she'll","she's","should","shouldn't","so","some","such","than","that","that's","the",
+  "their","theirs","them","themselves","then","there","there's","these","they","they'd","they'll",
+  "they're","they've","this","those","through","to","too","under","until","up","very","was","wasn't",
+  "we","we'd","we'll","we're","we've","were","weren't","what","what's","when","when's","where",
+  "where's","which","while","who","who's","whom","why","why's","with","won't","would","wouldn't",
+  "you","you'd","you'll","you're","you've","your","yours","yourself","yourselves","tell","show","give"
+]);
+
+function tokenizeQuery(text) {
+  return text.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, ' ')
+    .split(/\s+/)
+    .filter(t => t.length > 1 && !BM25_STOPWORDS.has(t));
+}
+
+// Strictly verified corpus derived 100% from page content
+const PORTFOLIO_CORPUS = [
+  {
+    targetId: "heroHeading",
+    chip: "Hero > Bio & Education",
+    keywords: ["who", "sasikala", "gaddam", "bio", "education", "student", "btech", "cs", "computer", "science", "background", "about"],
+    text: "Gaddam Sasikala is a B.Tech Computer Science student (2024-2028). She architects agentic systems, LangGraph supervisor swarms, ChromaDB RAG architectures, and n8n enterprise automations.",
+    answer: "Gaddam Sasikala is a B.Tech Computer Science student (2024-2028). She is a State-level finalist selected for the National Finale in the OpenAI Academy x NxtWave GenAI Buildathon, architecting agentic systems, LangGraph supervisor swarms, ChromaDB RAG, and n8n enterprise workflows."
+  },
+  {
+    targetId: "proj-krishi",
+    chip: "Projects > Digital Krishi Officer",
+    keywords: ["krishi", "agriculture", "farmer", "crop", "disease", "audio", "voice", "whisper", "indictrans2", "gemini", "agro", "rural"],
+    text: "Digital Krishi Officer: Voice-first multilingual AI agro-advisory agent for rural Indian farmers. Integrates OpenAI Whisper speech-to-text, IndicTrans2 dialect translation, and Gemini 1.5 Pro agronomy guidance with ChromaDB pest retrieval.",
+    answer: "Digital Krishi Officer is an AI-powered multilingual agro-advisory system for rural farmers. It features a voice-first pipeline with OpenAI Whisper audio transcription, IndicTrans2 multilingual translation into regional Indian dialects, and Gemini 1.5 Pro agronomy advisory backed by ChromaDB pest & disease retrieval."
+  },
+  {
+    targetId: "proj-rag",
+    chip: "Projects > Multi-Agent RAG Assistant",
+    keywords: ["rag", "multi-agent", "supervisor", "chromadb", "retrieval", "hybrid", "rerank", "render", "fastapi", "docker", "evals", "swarm"],
+    text: "Multi-Agent RAG Assistant: Collaborative multi-agent research and retrieval engine. A LangGraph supervisor routes tasks to domain specialists with ChromaDB reranked retrieval and offline evals suite. Live on Render.",
+    answer: "The Multi-Agent RAG Assistant is a collaborative multi-agent research and retrieval system. A LangGraph supervisor routes tasks to domain specialists with explicit retry logic, ChromaDB hybrid vector search, semantic reranking, and an offline evals suite. It is deployed live on Render."
+  },
+  {
+    targetId: "proj-aura",
+    chip: "Projects > AURA // NEXUS Agentic OS",
+    keywords: ["aura", "nexus", "agentic", "os", "spline", "3d", "robot", "tot", "tree-of-thought", "theme", "spatial", "mcp"],
+    text: "AURA // NEXUS Agentic OS: Autonomous Spatial Agentic Operating System featuring a physics-based Spline 3D canvas, Tree-of-Thought (ToT) reasoning, bi-directional n8n webhooks, and Model Context Protocol (MCP).",
+    answer: "AURA // NEXUS Agentic OS is an autonomous spatial agent command center featuring a real-time interactive 3D robot, Tree-of-Thought (ToT) speculative reasoning traces, bi-directional n8n webhook fabric, and dynamic theme switching."
+  },
+  {
+    targetId: "proj-sms",
+    chip: "Projects > SMS-Guard: Regional Phishing AI",
+    keywords: ["sms", "guard", "phishing", "smishing", "cybersecurity", "fraud", "deberta", "indic", "telugu", "hindi", "tamil", "languages", "security"],
+    text: "SMS-Guard: Regional Phishing AI: Cybersecurity NLP defense detecting deceptive financial phishing and smishing attacks across 8 Indic regional languages (Telugu, Hindi, Tamil) using fine-tuned DeBERTa-v3.",
+    answer: "SMS-Guard is a cybersecurity NLP engine fine-tuned on DeBERTa-v3 to detect regional financial phishing, smishing, and deceptive URLs across 8 Indian languages (including Telugu, Hindi, and Tamil)."
+  },
+  {
+    targetId: "cert-card-0",
+    chip: "Honors > OpenAI Buildathon",
+    keywords: ["openai", "academy", "nxtwave", "genai", "buildathon", "finalist", "national", "finale", "award", "honor", "state-level"],
+    text: "State-level finalist, selected for the National Finale, OpenAI Academy x NxtWave GenAI Buildathon.",
+    answer: "Sasikala achieved State-level finalist, selected for the National Finale, OpenAI Academy x NxtWave GenAI Buildathon for engineering high-impact generative AI architectures."
+  },
+  {
+    targetId: "cert-card-1",
+    chip: "Honors > Certifications",
+    keywords: ["certificate", "certifications", "responsive", "static", "website", "nxtwave", "web"],
+    text: "Build Your Own Responsive Website certificate and Build Your Own Static Website certificate.",
+    answer: "Sasikala holds verified engineering certifications in 'Build Your Own Responsive Website' and 'Build Your Own Static Website', establishing strong frontend and responsive UI engineering foundations."
+  },
+  {
+    targetId: "card-n8n",
+    chip: "Automation > n8n & Zapier Fabric",
+    keywords: ["n8n", "zapier", "automation", "webhook", "webhooks", "slack", "pipeline", "fabric"],
+    text: "Demonstrating how LangGraph agents dispatch events to self-hosted n8n workflows and Zapier REST webhooks for automated enterprise resolution.",
+    answer: "The automation fabric demonstrates how LangGraph agents trigger self-hosted n8n workflows and Zapier REST webhooks for autonomous enterprise resolution, alerting Slack channels and processing real-time events."
+  },
+  {
+    targetId: "card-tech",
+    chip: "Technical Stack > AI & Swarms",
+    keywords: ["skills", "tech", "stack", "tools", "technologies", "langchain", "langgraph", "gemini", "chromadb", "python", "frameworks", "capabilities"],
+    text: "Core Technical Capabilities: LangGraph, LangChain, Tree-of-Thought (ToT), Supervisor Swarms, Gemini Pro and Flash routing, ChromaDB Vector Retrieval, Cross-Encoder Reranking, Guardrails, n8n Automation, Zapier REST, Spline 3D.",
+    answer: "Core technical capabilities include: Agentic AI & LLMs (LangGraph, LangChain, Supervisor Swarms, Tree-of-Thought, Gemini Pro/Flash routing), RAG & Safety (ChromaDB Vector Retrieval, Cross-Encoder Reranking, Guardrails), and Automation & UI (n8n Workflows, Zapier REST, Spline 3D, Figma)."
+  },
+  {
+    targetId: "contact",
+    chip: "Contact > Connect & Resume",
+    keywords: ["contact", "email", "linkedin", "github", "resume", "pdf", "hire", "reach", "connect"],
+    text: "Contact Gaddam Sasikala via email sasikalagaddam30@gmail.com, LinkedIn profile, GitHub @LuminaQuest, and download AI Engineer Resume PDF.",
+    answer: "You can connect with Gaddam Sasikala via email at sasikalagaddam30@gmail.com, view her LinkedIn profile, explore her GitHub repositories at @LuminaQuest, or download her AI Engineer Resume (PDF)."
+  }
+];
+
+// BM25 Class
+class PortfolioRetriever {
+  constructor(corpus) {
+    this.corpus = corpus;
+    this.k1 = 1.2;
+    this.b = 0.75;
+    this.docTokens = corpus.map(doc => {
+      const allText = (doc.chip + " " + doc.keywords.join(" ") + " " + doc.text).toLowerCase();
+      return tokenizeQuery(allText);
+    });
+    this.docLens = this.docTokens.map(t => t.length);
+    this.avgDocLen = this.docLens.reduce((a, b) => a + b, 0) / this.docLens.length;
+    this.N = corpus.length;
+
+    this.df = {};
+    this.docTokens.forEach(tokens => {
+      const unique = new Set(tokens);
+      unique.forEach(term => {
+        this.df[term] = (this.df[term] || 0) + 1;
+      });
+    });
+  }
+
+  search(query) {
+    const qTokens = tokenizeQuery(query);
+    if (qTokens.length === 0) return [];
+
+    const scores = this.corpus.map((doc, idx) => {
+      const tokens = this.docTokens[idx];
+      const docLen = this.docLens[idx];
+      const tf = {};
+      tokens.forEach(t => { tf[t] = (tf[t] || 0) + 1; });
+
+      let score = 0;
+      qTokens.forEach(q => {
+        if (!this.df[q]) return;
+        const dfVal = this.df[q];
+        const idf = Math.log(1 + (this.N - dfVal + 0.5) / (dfVal + 0.5));
+        const freq = tf[q] || 0;
+        const num = freq * (this.k1 + 1);
+        const denom = freq + this.k1 * (1 - this.b + this.b * (docLen / this.avgDocLen));
+        score += idf * (num / denom);
+      });
+
+      return { doc, score };
+    });
+
+    return scores.sort((a, b) => b.score - a.score);
+  }
+}
+
+const portfolioRetriever = new PortfolioRetriever(PORTFOLIO_CORPUS);
+
+function openAskDrawer() {
+  const drawer = document.getElementById('askPortfolioDrawer');
+  if (!drawer) return;
+  drawer.classList.add('open');
+  const input = document.getElementById('askChatInput');
+  if (input) input.focus();
+}
+
+function closeAskDrawer() {
+  const drawer = document.getElementById('askPortfolioDrawer');
+  if (drawer) drawer.classList.remove('open');
+}
+
+function companionKey(e) {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    openAskDrawer();
+  }
+}
+
+// Global highlight and smooth-scroll function
+function highlightSection(targetId) {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  
+  el.scrollIntoView({
+    behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    block: 'center'
+  });
+
+  el.classList.add('retrieval-highlight');
+  setTimeout(() => {
+    el.classList.remove('retrieval-highlight');
+  }, 2000);
+}
+
+function appendChatMessage(role, htmlContent) {
+  const stream = document.getElementById('askChatStream');
+  if (!stream) return;
+  const msg = document.createElement('div');
+  msg.className = 'ask-msg ' + (role === 'user' ? 'ask-msg-user' : 'ask-msg-bot');
+  msg.innerHTML = '<div class="ask-msg-bubble">' + htmlContent + '</div>';
+  stream.appendChild(msg);
+  stream.scrollTop = stream.scrollHeight;
+  return msg;
+}
+
+function processPortfolioQuery(userQuery) {
+  if (!userQuery || !userQuery.trim()) return;
+  const query = userQuery.trim();
+
+  // Render user message
+  appendChatMessage('user', query);
+
+  // Check special meta queries like "projects"
+  const qLower = query.toLowerCase();
+  if (qLower.includes("projects") || qLower.includes("what did you build") || qLower.includes("what have you built")) {
+    const replyHtml = `
+      Sasikala has engineered four verified systems featured on this portfolio:
+      <ol style="margin:8px 0 0 18px;padding:0;">
+        <li><b>Digital Krishi Officer</b>: Multilingual AI agro-advisory agent with Whisper, IndicTrans2 &amp; Gemini 1.5 Pro.</li>
+        <li><b>Multi-Agent RAG Assistant</b>: Supervisor swarm with ChromaDB hybrid vector search &amp; evals (live on Render).</li>
+        <li><b>AURA // NEXUS Agentic OS</b>: Spatial 3D robot UI with n8n bi-directional webhooks &amp; ToT reasoning.</li>
+        <li><b>SMS-Guard: Regional Phishing AI</b>: Cybersecurity NLP engine detecting mobile fraud across 8 Indian languages.</li>
+      </ol>
+      <div class="ask-sources-wrap">
+        <button class="ask-source-chip" onclick="highlightSection('proj-krishi')">Projects &gt; Digital Krishi Officer</button>
+        <button class="ask-source-chip" onclick="highlightSection('proj-rag')">Projects &gt; Multi-Agent RAG</button>
+        <button class="ask-source-chip" onclick="highlightSection('proj-aura')">Projects &gt; AURA // NEXUS</button>
+        <button class="ask-source-chip" onclick="highlightSection('proj-sms')">Projects &gt; SMS-Guard</button>
+      </div>
+    `;
+    appendChatMessage('bot', replyHtml);
+    return;
+  }
+
+  const results = portfolioRetriever.search(query);
+  const topResult = results[0];
+
+  // Relevance threshold: 0.28
+  if (!topResult || topResult.score < 0.28) {
+    const fallbackHtml = `
+      I don't have that on this site.
+      <div style="margin-top:6px;font-size:12px;color:var(--ink-muted);">Here are 3 questions I can answer:</div>
+      <div class="ask-suggestions-wrap">
+        <button class="ask-suggest-chip" onclick="askPreset('What projects did you build?')">What projects did you build?</button>
+        <button class="ask-suggest-chip" onclick="askPreset('Tell me about your OpenAI Buildathon finalist honor')">Tell me about your OpenAI Buildathon finalist honor</button>
+        <button class="ask-suggest-chip" onclick="askPreset('What AI and agentic skills do you use?')">What AI and agentic skills do you use?</button>
+      </div>
+    `;
+    appendChatMessage('bot', fallbackHtml);
+    return;
+  }
+
+  // Generate answer with source chips
+  const doc = topResult.doc;
+  const replyHtml = `
+    <div>${doc.answer}</div>
+    <div class="ask-sources-wrap">
+      <button class="ask-source-chip" onclick="highlightSection('${doc.targetId}')">${doc.chip}</button>
+    </div>
+  `;
+  appendChatMessage('bot', replyHtml);
+}
+
+function handleAskSubmit(e) {
+  e.preventDefault();
+  const input = document.getElementById('askChatInput');
+  if (!input) return;
+  const val = input.value;
+  input.value = '';
+  processPortfolioQuery(val);
+}
+
+function askPreset(text) {
+  processPortfolioQuery(text);
+}
+
+// Global keydown: Esc closes drawer and modal
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeAskDrawer();
+    closeCert();
+  }
+});
 
 // --- CURSOR-TRACKING COMPANION (VISH / AURA MASCOT) ---
 const pupilL = document.getElementById('pupilLeft');
@@ -1808,6 +2686,7 @@ function companionClick(e) {
   compBubble.innerText = statusLines[quoteIdx];
   compBubble.style.opacity = '1';
   compAvatar.classList.add('companion-hop');
+  openAskDrawer();
   setTimeout(() => compAvatar.classList.remove('companion-hop'), 400);
 }
 
@@ -1867,6 +2746,859 @@ function toggleTheme() {
   document.getElementById('theme-title').innerText = next === 'coquette-cream' ? 'Noir Mode' : 'Cream Mode';
 }
 
+
+// ============================================================================
+// FEATURE 2: THROWABLE CERTIFICATE CARDS (MATTER.JS 0.19.0, FIXED 1/120s TIMESTEP)
+// Physical paper: drag, throw, collide with each other and section edges, settle.
+// "Reset" button returns them. Double-click, tap-and-hold, or Enter opens lightbox.
+// Esc closes. Cards stay readable at rest.
+// Lazy-loads Matter.js on demand. Instant reduced-motion fallback.
+// ============================================================================
+
+let matterEngine = null;
+let matterRunner = null;
+let matterBodies = [];
+let matterMouseConstraint = null;
+let cardInitLayout = [];
+let isPhysicsActive = false;
+let physicsAccumulator = 0;
+let lastPhysicsTime = 0;
+let physicsRaf = null;
+
+function certCardKey(e, imgSrc) {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    openCert(imgSrc);
+  }
+}
+
+function initThrowableCards() {
+  if (prefersReducedMotion) {
+    // Instant fallback without physics
+    return;
+  }
+
+  const grid = document.querySelector('.award-grid');
+  if (!grid) return;
+
+  const cardEls = [
+    { el: document.getElementById('cert-card-0'), src: 'assets/cert_openai.png' },
+    { el: document.getElementById('cert-card-1'), src: 'assets/cert_responsive.png' },
+    { el: document.getElementById('cert-card-2'), src: 'assets/cert_static.png' }
+  ];
+
+  // Setup tap-and-hold for mobile
+  cardEls.forEach(({ el, src }) => {
+    if (!el) return;
+    let touchTimer = null;
+    let sX = 0, sY = 0;
+    el.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        sX = e.touches[0].clientX;
+        sY = e.touches[0].clientY;
+        touchTimer = setTimeout(() => {
+          openCert(src);
+          touchTimer = null;
+        }, 500);
+      }
+    }, { passive: true });
+    el.addEventListener('touchmove', (e) => {
+      if (touchTimer && e.touches.length === 1) {
+        const dx = Math.abs(e.touches[0].clientX - sX);
+        const dy = Math.abs(e.touches[0].clientY - sY);
+        if (dx > 10 || dy > 10) {
+          clearTimeout(touchTimer);
+          touchTimer = null;
+        }
+      }
+    }, { passive: true });
+    el.addEventListener('touchend', () => {
+      if (touchTimer) clearTimeout(touchTimer);
+    }, { passive: true });
+  });
+
+  // Lazy load Matter.js 0.19.0 when Recognition section is approached or interacted with
+  const awardsCard = document.querySelector('.card-awards');
+  if (!awardsCard) return;
+
+  const triggerLoad = () => {
+    loadMatterAndStart(grid, cardEls);
+  };
+
+  awardsCard.addEventListener('pointerenter', triggerLoad, { once: true });
+  awardsCard.addEventListener('focusin', triggerLoad, { once: true });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        triggerLoad();
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.05 });
+  observer.observe(awardsCard);
+}
+
+function loadMatterAndStart(grid, cardEls) {
+  if (window.Matter) {
+    startMatterPhysics(grid, cardEls);
+    return;
+  }
+  const s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js';
+  s.async = true;
+  s.onload = () => {
+    startMatterPhysics(grid, cardEls);
+  };
+  document.head.appendChild(s);
+}
+
+function startMatterPhysics(grid, cardEls) {
+  if (typeof Matter === 'undefined' || isPhysicsActive) return;
+
+  const gridRect = grid.getBoundingClientRect();
+  const gridW = grid.clientWidth;
+  const gridH = Math.max(grid.clientHeight, 320);
+
+  // Capture natural resting positions for each card
+  cardInitLayout = cardEls.map(({ el }) => {
+    const r = el.getBoundingClientRect();
+    return {
+      el,
+      x: (r.left - gridRect.left) + r.width / 2,
+      y: (r.top - gridRect.top) + r.height / 2,
+      w: r.width,
+      h: r.height
+    };
+  });
+
+  grid.style.height = gridH + 'px';
+  grid.classList.add('physics-ready');
+
+  // Matter modules
+  const { Engine, World, Bodies, Mouse, MouseConstraint, Events, Body } = Matter;
+  const engine = Engine.create({
+    gravity: { x: 0, y: 0, scale: 0 }
+  });
+  matterEngine = engine;
+
+  // Boundary walls
+  const wallThick = 60;
+  const walls = [
+    Bodies.rectangle(gridW / 2, -wallThick / 2, gridW * 2, wallThick, { isStatic: true }),
+    Bodies.rectangle(gridW / 2, gridH + wallThick / 2, gridW * 2, wallThick, { isStatic: true }),
+    Bodies.rectangle(-wallThick / 2, gridH / 2, wallThick, gridH * 2, { isStatic: true }),
+    Bodies.rectangle(gridW + wallThick / 2, gridH / 2, wallThick, gridH * 2, { isStatic: true })
+  ];
+  World.add(engine.world, walls);
+
+  // Create card physical bodies (paper physics: low restitution, high air drag)
+  window.cardInitLayout = cardInitLayout;
+  matterBodies = cardInitLayout.map(info => {
+    info.el.style.width = info.w + 'px';
+    info.el.style.height = info.h + 'px';
+    info.el.classList.add('physics-card');
+
+    const body = Bodies.rectangle(info.x, info.y, info.w, info.h, {
+      density: 0.002,
+      frictionAir: 0.045, // air drag like paper
+      restitution: 0.18,  // gentle bounce
+      friction: 0.15
+    });
+    body.domEl = info.el;
+    body.halfW = info.w / 2;
+    body.halfH = info.h / 2;
+    return body;
+  });
+  World.add(engine.world, matterBodies);
+  window.matterBodies = matterBodies;
+
+  // Mouse & Touch constraint
+  const mouse = Mouse.create(grid);
+  const mouseConstraint = MouseConstraint.create(engine, {
+    mouse: mouse,
+    constraint: {
+      stiffness: 0.2,
+      render: { visible: false }
+    }
+  });
+  World.add(engine.world, mouseConstraint);
+  matterMouseConstraint = mouseConstraint;
+
+  // Ensure cards stay readable at rest: apply gentle upright restoring torque
+  Events.on(engine, 'beforeUpdate', () => {
+    matterBodies.forEach(b => {
+      if (Math.abs(b.angularVelocity) < 0.1) {
+        b.torque = -0.0008 * b.angle;
+      }
+    });
+  });
+
+  isPhysicsActive = true;
+  lastPhysicsTime = performance.now();
+
+  // Fixed 1/120s timestep loop
+  const fixedTimestep = 1000 / 120;
+  function physicsStep(now) {
+    if (!isPhysicsActive) return;
+    const delta = Math.min(now - lastPhysicsTime, 100);
+    lastPhysicsTime = now;
+    physicsAccumulator += delta;
+
+    while (physicsAccumulator >= fixedTimestep) {
+      Engine.update(engine, fixedTimestep);
+      physicsAccumulator -= fixedTimestep;
+    }
+
+    // Sync bodies to DOM elements
+    matterBodies.forEach(b => {
+      const x = b.position.x - b.halfW;
+      const y = b.position.y - b.halfH;
+      b.domEl.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${b.angle.toFixed(4)}rad)`;
+    });
+
+    physicsRaf = requestAnimationFrame(physicsStep);
+  }
+
+  physicsRaf = requestAnimationFrame(physicsStep);
+}
+
+function resetCertCards() {
+  if (!isPhysicsActive || !matterBodies.length) return;
+  const { Body } = Matter;
+  if (matterMouseConstraint) {
+    matterMouseConstraint.constraint.bodyB = null;
+    matterMouseConstraint.body = null;
+  }
+  cardInitLayout.forEach((info, idx) => {
+    const b = matterBodies[idx];
+    if (b) {
+      Body.setPosition(b, { x: info.x, y: info.y });
+      Body.setAngle(b, 0);
+      Body.setVelocity(b, { x: 0, y: 0 });
+      Body.setAngularVelocity(b, 0);
+      b.domEl.style.transform = `translate3d(${(info.x - b.halfW).toFixed(2)}px, ${(info.y - b.halfH).toFixed(2)}px, 0) rotate(0rad)`;
+    }
+  });
+}
+
+
+// ============================================================================
+// FEATURE 3: TEXT THAT PARTS AROUND THE CURSOR
+// Words within 90px of pointer are pushed away with spring, settle back on leave.
+// Stays selectable and screen-reader accessible (aria-label on p, spans aria-hidden).
+// Disabled on touch and prefers-reduced-motion. No layout shift.
+// ============================================================================
+function initPartingText() {
+  const isTouchDevice = window.matchMedia('(pointer: coarse)').matches || ('ontouchstart' in window);
+  if (isTouchDevice || prefersReducedMotion) {
+    // Strictly disabled on touch and reduced-motion
+    return;
+  }
+
+  const para = document.getElementById('heroAboutPara');
+  if (!para) return;
+
+  const spans = Array.from(para.querySelectorAll('.parting-word'));
+  if (!spans.length) return;
+
+  const wordData = spans.map(span => ({
+    el: span,
+    curX: 0,
+    curY: 0,
+    targetX: 0,
+    targetY: 0,
+    vx: 0,
+    vy: 0
+  }));
+
+  let isPointerOver = false;
+  let pointerX = -9999;
+  let pointerY = -9999;
+  let rafId = null;
+
+  function updateSpring() {
+    let moving = false;
+    const stiffness = 0.18;
+    const damping = 0.76;
+
+    wordData.forEach(item => {
+      // Spring physics
+      const ax = (item.targetX - item.curX) * stiffness;
+      const ay = (item.targetY - item.curY) * stiffness;
+      item.vx = (item.vx + ax) * damping;
+      item.vy = (item.vy + ay) * damping;
+      item.curX += item.vx;
+      item.curY += item.vy;
+
+      if (Math.abs(item.curX) > 0.05 || Math.abs(item.curY) > 0.05 || Math.abs(item.vx) > 0.05 || Math.abs(item.vy) > 0.05) {
+        moving = true;
+        item.el.style.transform = `translate3d(${item.curX.toFixed(2)}px, ${item.curY.toFixed(2)}px, 0)`;
+      } else {
+        item.curX = 0;
+        item.curY = 0;
+        item.vx = 0;
+        item.vy = 0;
+        item.el.style.transform = 'translate3d(0, 0, 0)';
+      }
+    });
+
+    if (moving || isPointerOver) {
+      rafId = requestAnimationFrame(updateSpring);
+    } else {
+      rafId = null;
+    }
+  }
+
+  function onPointerMove(e) {
+    isPointerOver = true;
+    pointerX = e.clientX;
+    pointerY = e.clientY;
+
+    const threshold = 90; // 90px activation radius
+    const maxPush = 26;   // Maximum displacement in px
+
+    wordData.forEach(item => {
+      const rect = item.el.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dx = centerX - pointerX;
+      const dy = centerY - pointerY;
+      const dist = Math.hypot(dx, dy);
+
+      if (dist < threshold && dist > 0) {
+        const factor = (1 - dist / threshold);
+        // Push radially outward
+        item.targetX = (dx / dist) * factor * maxPush;
+        item.targetY = (dy / dist) * factor * maxPush;
+      } else {
+        item.targetX = 0;
+        item.targetY = 0;
+      }
+    });
+
+    if (!rafId) {
+      rafId = requestAnimationFrame(updateSpring);
+    }
+  }
+
+  function onPointerLeave() {
+    isPointerOver = false;
+    wordData.forEach(item => {
+      item.targetX = 0;
+      item.targetY = 0;
+    });
+    if (!rafId) {
+      rafId = requestAnimationFrame(updateSpring);
+    }
+  }
+
+  para.addEventListener('pointermove', onPointerMove);
+  para.addEventListener('pointerleave', onPointerLeave);
+}
+
+
+// ============================================================================
+// FEATURE 4: FORCE-DIRECTED SKILLS GRAPH (D3-FORCE 3.0.0)
+// Lazy-loads D3 only when user clicks "Interactive Graph" or views section.
+// Mouse, keyboard and touch support with instant reduced-motion fallback.
+// ============================================================================
+let d3Loaded = false;
+let d3Simulation = null;
+let isGraphViewActive = false;
+
+const GRAPH_DATA = {
+  nodes: [
+    { id: 'h-agentic', label: 'Agentic AI', isHub: true, r: 28, color: '#d90429' },
+    { id: 'h-rag', label: 'RAG & Safety', isHub: true, r: 28, color: '#ff758f' },
+    { id: 'h-auto', label: 'Automation & UI', isHub: true, r: 28, color: '#ffb703' },
+    
+    // Agentic AI nodes
+    { id: 'n-langgraph', label: 'LangGraph', hub: 'h-agentic', r: 16, color: 'rgba(255,255,255,0.08)' },
+    { id: 'n-langchain', label: 'LangChain', hub: 'h-agentic', r: 14, color: 'rgba(255,255,255,0.08)' },
+    { id: 'n-tot', label: 'Tree-of-Thought', hub: 'h-agentic', r: 15, color: 'rgba(255,255,255,0.08)' },
+    { id: 'n-swarms', label: 'Supervisor Swarms', hub: 'h-agentic', r: 16, color: 'rgba(255,255,255,0.08)' },
+    { id: 'n-gemini', label: 'Gemini Routing', hub: 'h-agentic', r: 15, color: 'rgba(255,255,255,0.08)' },
+
+    // RAG & Safety nodes
+    { id: 'n-chromadb', label: 'ChromaDB', hub: 'h-rag', r: 16, color: 'rgba(255,255,255,0.08)' },
+    { id: 'n-rerank', label: 'Cross-Encoder', hub: 'h-rag', r: 14, color: 'rgba(255,255,255,0.08)' },
+    { id: 'n-guardrails', label: 'Guardrails', hub: 'h-rag', r: 15, color: 'rgba(255,255,255,0.08)' },
+    { id: 'n-hitl', label: 'Human-in-Loop', hub: 'h-rag', r: 14, color: 'rgba(255,255,255,0.08)' },
+
+    // Automation nodes
+    { id: 'n-n8n', label: 'n8n Automation', hub: 'h-auto', r: 16, color: 'rgba(255,255,255,0.08)' },
+    { id: 'n-zapier', label: 'Zapier REST', hub: 'h-auto', r: 14, color: 'rgba(255,255,255,0.08)' },
+    { id: 'n-spline', label: 'Spline 3D', hub: 'h-auto', r: 15, color: 'rgba(255,255,255,0.08)' },
+    { id: 'n-figma', label: 'Figma UI/UX', hub: 'h-auto', r: 14, color: 'rgba(255,255,255,0.08)' }
+  ],
+  links: [
+    { source: 'h-agentic', target: 'n-langgraph' },
+    { source: 'h-agentic', target: 'n-langchain' },
+    { source: 'h-agentic', target: 'n-tot' },
+    { source: 'h-agentic', target: 'n-swarms' },
+    { source: 'h-agentic', target: 'n-gemini' },
+
+    { source: 'h-rag', target: 'n-chromadb' },
+    { source: 'h-rag', target: 'n-rerank' },
+    { source: 'h-rag', target: 'n-guardrails' },
+    { source: 'h-rag', target: 'n-hitl' },
+
+    { source: 'h-auto', target: 'n-n8n' },
+    { source: 'h-auto', target: 'n-zapier' },
+    { source: 'h-auto', target: 'n-spline' },
+    { source: 'h-auto', target: 'n-figma' },
+
+    // Cross-hub architecture links
+    { source: 'n-langgraph', target: 'n-chromadb' },
+    { source: 'n-langgraph', target: 'n-n8n' },
+    { source: 'h-agentic', target: 'h-rag' },
+    { source: 'h-agentic', target: 'h-auto' }
+  ]
+};
+
+function toggleSkillGraph() {
+  const gridView = document.getElementById('skillsGridView');
+  const graphView = document.getElementById('skillsGraphView');
+  const btn = document.getElementById('toggleSkillGraphBtn');
+
+  if (!isGraphViewActive) {
+    gridView.style.display = 'none';
+    graphView.style.display = 'block';
+    btn.innerText = 'Grid View';
+    isGraphViewActive = true;
+    loadD3AndRender();
+  } else {
+    graphView.style.display = 'none';
+    gridView.style.display = 'grid';
+    btn.innerText = 'Interactive Graph';
+    isGraphViewActive = false;
+  }
+}
+
+function loadD3AndRender() {
+  if (window.d3) {
+    renderD3SkillGraph();
+    return;
+  }
+  const s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js';
+  s.async = true;
+  s.onload = () => {
+    d3Loaded = true;
+    renderD3SkillGraph();
+  };
+  document.head.appendChild(s);
+}
+
+function renderD3SkillGraph() {
+  const svg = d3.select('#skillsGraphSvg');
+  svg.selectAll('*').remove();
+
+  const container = document.getElementById('skillsGraphView');
+  const width = container.clientWidth || 800;
+  const height = container.clientHeight || 380;
+
+  svg.attr('viewBox', [0, 0, width, height]);
+
+  const nodes = GRAPH_DATA.nodes.map(d => ({ ...d }));
+  const links = GRAPH_DATA.links.map(d => ({ ...d }));
+
+  if (prefersReducedMotion) {
+    // Instant layout without simulation
+    const cx = width / 2;
+    const cy = height / 2;
+    nodes.forEach((n, i) => {
+      const angle = (i / nodes.length) * 2 * Math.PI;
+      const r = n.isHub ? 80 : 140;
+      n.x = cx + Math.cos(angle) * r;
+      n.y = cy + Math.sin(angle) * r;
+    });
+  }
+
+  const link = svg.append('g')
+    .selectAll('line')
+    .data(links)
+    .join('line')
+    .attr('class', 'graph-link');
+
+  const nodeGroup = svg.append('g')
+    .selectAll('g')
+    .data(nodes)
+    .join('g')
+    .attr('tabindex', 0)
+    .attr('role', 'button')
+    .attr('aria-label', d => d.label + (d.isHub ? ' (Hub category)' : ' (Skill node)'))
+    .on('keydown', (e, d) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        d.x += 15;
+        ticked();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        d.x -= 15;
+        ticked();
+      }
+    });
+
+  nodeGroup.append('circle')
+    .attr('r', d => d.r)
+    .attr('class', 'graph-node')
+    .attr('fill', d => d.color)
+    .attr('stroke', d => d.isHub ? '#fff' : 'rgba(255,255,255,0.25)')
+    .attr('stroke-width', d => d.isHub ? 2 : 1);
+
+  nodeGroup.append('text')
+    .attr('class', d => d.isHub ? 'graph-node-hub-text' : 'graph-node-text')
+    .attr('dy', d => d.isHub ? 4 : 3)
+    .text(d => d.label);
+
+  const tooltip = document.getElementById('skillGraphTooltip');
+  nodeGroup.on('mouseenter', (e, d) => {
+    if (tooltip) {
+      tooltip.innerText = d.isHub ? d.label + ' Hub — Coordinates related tools and swarms' : d.label + ' — Verified skill component';
+    }
+  });
+
+  function ticked() {
+    link
+      .attr('x1', d => d.source.x)
+      .attr('y1', d => d.source.y)
+      .attr('x2', d => d.target.x)
+      .attr('y2', d => d.target.y);
+
+    nodeGroup.attr('transform', d => `translate(${d.x.toFixed(1)}, ${d.y.toFixed(1)})`);
+  }
+
+  if (prefersReducedMotion) {
+    ticked();
+    return;
+  }
+
+  const simulation = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(d => d.id).distance(d => d.source.isHub && d.target.isHub ? 130 : 68))
+    .force('charge', d3.forceManyBody().strength(-140))
+    .force('center', d3.forceCenter(width / 2, height / 2))
+    .force('collision', d3.forceCollide().radius(d => d.r + 8))
+    .on('tick', ticked);
+
+  d3Simulation = simulation;
+
+  // Drag interaction with mouse and touch
+  function dragstarted(event, d) {
+    if (!event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+
+  function dragged(event, d) {
+    d.fx = event.x;
+    d.fy = event.y;
+  }
+
+  function dragended(event, d) {
+    if (!event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
+
+  nodeGroup.call(d3.drag()
+    .on('start', dragstarted)
+    .on('drag', dragged)
+    .on('end', dragended));
+}
+
+
+// ============================================================================
+// FEATURE 5: HANDS-FREE MODE (MEDIAPIPE IN-BROWSER GESTURE NAVIGATION)
+// Camera permission asked ONLY after user clicks "Try hands-free".
+// Tracking runs 100% in browser (no video leaves device).
+// Open palm -> Next section, Closed fist -> Previous section, Pinch-drag -> Scroll.
+// Corner HUD preview with hand skeleton and "Off" button.
+// Plain message fallback if permission denied or tracking fails.
+// ============================================================================
+
+let isHandsFreeActive = false;
+let mediaStream = null;
+let cameraInstance = null;
+let handsInstance = null;
+let lastGestureTime = 0;
+let lastPinchY = null;
+let mediaPipeScriptsLoaded = false;
+
+const SECTION_IDS = ['hero', 'awards', 'automation', 'agent-sim', 'projects', 'card-tech', 'contact'];
+
+function showHandsFreeAlert(msg) {
+  const alertEl = document.getElementById('handsFreeAlert');
+  if (!alertEl) return;
+  alertEl.innerText = msg;
+  alertEl.style.display = 'block';
+  setTimeout(() => {
+    alertEl.style.display = 'none';
+  }, 6000);
+}
+
+function scrollSection(direction) {
+  const scrollPos = window.scrollY + 80;
+  const sections = SECTION_IDS.map(id => document.getElementById(id)).filter(Boolean);
+  
+  // Find current active section index
+  let curIdx = 0;
+  sections.forEach((sec, idx) => {
+    if (sec.offsetTop <= scrollPos) curIdx = idx;
+  });
+
+  const nextIdx = Math.max(0, Math.min(sections.length - 1, curIdx + direction));
+  const target = sections[nextIdx];
+  if (target) {
+    target.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'start'
+    });
+  }
+}
+
+function toggleHandsFree() {
+  if (isHandsFreeActive) {
+    stopHandsFree();
+  } else {
+    startHandsFree();
+  }
+}
+
+async function startHandsFree() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    showHandsFreeAlert("Camera API is not supported in this browser. Everything else continues to work normally.");
+    return;
+  }
+
+  // Request camera permission only after being clicked
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { width: 320, height: 240, frameRate: { max: 30 } },
+      audio: false
+    });
+    mediaStream = stream;
+
+    const video = document.getElementById('handsFreeVideo');
+    if (video) {
+      video.srcObject = stream;
+      await video.play();
+    }
+
+    const hud = document.getElementById('handsFreeHud');
+    if (hud) hud.style.display = 'flex';
+
+    isHandsFreeActive = true;
+    const btn = document.getElementById('btnHandsFree');
+    if (btn) btn.innerText = 'Hands-Free (Active)';
+
+    loadMediaPipeAndStart();
+  } catch (err) {
+    console.warn("Hands-free camera access declined or unavailable:", err);
+    showHandsFreeAlert("Camera permission was denied or is unavailable. Hands-free mode is disabled. All other portfolio features remain fully functional.");
+    stopHandsFree();
+  }
+}
+
+function stopHandsFree() {
+  isHandsFreeActive = false;
+
+  if (mediaStream) {
+    mediaStream.getTracks().forEach(t => t.stop());
+    mediaStream = null;
+  }
+  if (cameraInstance) {
+    try { cameraInstance.stop(); } catch (e) {}
+    cameraInstance = null;
+  }
+  if (handsInstance) {
+    try { handsInstance.close(); } catch (e) {}
+    handsInstance = null;
+  }
+
+  const hud = document.getElementById('handsFreeHud');
+  if (hud) hud.style.display = 'none';
+
+  const btn = document.getElementById('btnHandsFree');
+  if (btn) btn.innerText = 'Try hands-free';
+
+  lastPinchY = null;
+}
+
+function loadMediaPipeAndStart() {
+  if (window.Hands && window.Camera) {
+    initMediaPipePipeline();
+    return;
+  }
+
+  const loadScript = (src) => new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = src;
+    s.async = true;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+
+  Promise.all([
+    loadScript('https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js'),
+    loadScript('https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js')
+  ]).then(() => {
+    mediaPipeScriptsLoaded = true;
+    initMediaPipePipeline();
+  }).catch((err) => {
+    console.warn("Failed to load MediaPipe from CDN:", err);
+    showHandsFreeAlert("Could not load MediaPipe hand tracking libraries. All other portfolio features remain fully functional.");
+    stopHandsFree();
+  });
+}
+
+function initMediaPipePipeline() {
+  const video = document.getElementById('handsFreeVideo');
+  const canvas = document.getElementById('handsFreeCanvas');
+  if (!video || !canvas || typeof Hands === 'undefined') return;
+
+  const ctx = canvas.getContext('2d');
+
+  const hands = new Hands({
+    locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+  });
+
+  hands.setOptions({
+    maxNumHands: 1,
+    modelComplexity: 0,
+    minDetectionConfidence: 0.5,
+    minTrackingConfidence: 0.5
+  });
+
+  hands.onResults((results) => {
+    if (!isHandsFreeActive) return;
+    drawHandSkeleton(ctx, canvas, results);
+    processGestures(results);
+  });
+
+  handsInstance = hands;
+
+  if (typeof Camera !== 'undefined') {
+    const camera = new Camera(video, {
+      onFrame: async () => {
+        if (isHandsFreeActive && handsInstance) {
+          await handsInstance.send({ image: video });
+        }
+      },
+      width: 320,
+      height: 240
+    });
+    camera.start();
+    cameraInstance = camera;
+  }
+}
+
+// Hand skeleton connections for visualization
+const HAND_CONNECTIONS = [
+  [0, 1], [1, 2], [2, 3], [3, 4],       // thumb
+  [0, 5], [5, 6], [6, 7], [7, 8],       // index
+  [5, 9], [9, 10], [10, 11], [11, 12],  // middle
+  [9, 13], [13, 14], [14, 15], [15, 16],// ring
+  [13, 17], [17, 18], [18, 19], [19, 20],// pinky
+  [0, 17]                               // palm base
+];
+
+function drawHandSkeleton(ctx, canvas, results) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (!results.multiHandLandmarks || !results.multiHandLandmarks.length) return;
+  const landmarks = results.multiHandLandmarks[0];
+
+  // Draw bone connections
+  ctx.strokeStyle = '#ff758f';
+  ctx.lineWidth = 2;
+  HAND_CONNECTIONS.forEach(([i, j]) => {
+    const p1 = landmarks[i];
+    const p2 = landmarks[j];
+    ctx.beginPath();
+    ctx.moveTo(p1.x * canvas.width, p1.y * canvas.height);
+    ctx.lineTo(p2.x * canvas.width, p2.y * canvas.height);
+    ctx.stroke();
+  });
+
+  // Draw joint landmarks
+  ctx.fillStyle = '#d90429';
+  landmarks.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x * canvas.width, p.y * canvas.height, 2.5, 0, 2 * Math.PI);
+    ctx.fill();
+  });
+}
+
+function processGestures(results) {
+  if (!results.multiHandLandmarks || !results.multiHandLandmarks.length) return;
+  const lm = results.multiHandLandmarks[0];
+  const now = performance.now();
+
+  const badge = document.getElementById('handsFreeGestureBadge');
+
+  const wrist = lm[0];
+  const thumbTip = lm[4];
+  const indexTip = lm[8];
+  const middleTip = lm[12];
+  const ringTip = lm[16];
+  const pinkyTip = lm[20];
+
+  const indexPip = lm[6];
+  const middlePip = lm[10];
+  const ringPip = lm[14];
+  const pinkyPip = lm[18];
+
+  const dist = (p1, p2) => Math.hypot(p1.x - p2.x, p1.y - p2.y);
+
+  // 1) Pinch-and-drag gesture
+  const pinchDist = dist(thumbTip, indexTip);
+  if (pinchDist < 0.065) {
+    if (badge) badge.innerText = 'Pinch: Scroll';
+    if (lastPinchY !== null) {
+      const deltaY = (wrist.y - lastPinchY);
+      window.scrollBy(0, deltaY * window.innerHeight * 1.8);
+    }
+    lastPinchY = wrist.y;
+    return;
+  } else {
+    lastPinchY = null;
+  }
+
+  // Cooldown check for section jumps
+  if (now - lastGestureTime < 1100) return;
+
+  // 2) Open Palm check: all 4 fingers extended
+  const isExtended = (tip, pip) => dist(tip, wrist) > dist(pip, wrist) * 1.25 && dist(tip, wrist) > 0.32;
+  const isOpenPalm = isExtended(indexTip, indexPip) &&
+                     isExtended(middleTip, middlePip) &&
+                     isExtended(ringTip, ringPip) &&
+                     isExtended(pinkyTip, pinkyPip);
+
+  if (isOpenPalm) {
+    if (badge) badge.innerText = 'Palm: Next';
+    lastGestureTime = now;
+    scrollSection(1);
+    return;
+  }
+
+  // 3) Closed Fist check: all 4 fingers curled
+  const isCurled = (tip, pip) => dist(tip, wrist) < dist(pip, wrist) * 0.95;
+  const isClosedFist = isCurled(indexTip, indexPip) &&
+                       isCurled(middleTip, middlePip) &&
+                       isCurled(ringTip, ringPip) &&
+                       isCurled(pinkyTip, pinkyPip);
+
+  if (isClosedFist) {
+    if (badge) badge.innerText = 'Fist: Prev';
+    lastGestureTime = now;
+    scrollSection(-1);
+    return;
+  }
+
+  if (badge) badge.innerText = 'Tracking';
+}
+
 // --- CERT MODAL ---
 function openCert(src) {
   const modal = document.getElementById('certModal');
@@ -1924,5 +3656,22 @@ function downloadN8n() {
   document.body.removeChild(el);
 }
 </script>
+
+<!-- FEATURE 5: HANDS-FREE CORNER HUD & CAMERA PREVIEW -->
+<div class="hands-free-hud" id="handsFreeHud" style="display:none;" role="region" aria-label="Hands-free camera preview">
+  <div class="hands-free-hud-header">
+    <span class="hands-free-badge" id="handsFreeGestureBadge">Tracking</span>
+    <button class="hands-free-off-btn" id="btnHandsFreeOff" onclick="stopHandsFree()" aria-label="Turn off hands-free mode">Off</button>
+  </div>
+  <div class="hands-free-canvas-wrap">
+    <video id="handsFreeVideo" playsinline style="display:none;"></video>
+    <canvas id="handsFreeCanvas" width="160" height="120"></canvas>
+  </div>
+  <div class="hands-free-status" id="handsFreeStatus">Open palm: Next • Fist: Prev • Pinch: Scroll</div>
+</div>
+
+<!-- HANDS-FREE STATUS ALERT BANNER (Plain message on denied/fail) -->
+<div class="hands-free-alert" id="handsFreeAlert" style="display:none;" role="alert"></div>
+
 </body>
 </html>
