@@ -10,7 +10,6 @@
 
 <!-- GSAP Core & Draggable for Goo Headline & Contact Rotary Dial -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
 
 <!-- Official Spline 3D Viewer Web Component -->
 <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.72/build/spline-viewer.js"></script>
@@ -818,129 +817,6 @@ spline-viewer {
   color: var(--cherry-blush);
 }
 
-/* 3) CONTACT DIAL: TWO-LAYER SYSTEM */
-.rotary-dial-container {
-  position: relative;
-  width: 260px;
-  height: 260px;
-  margin: 14px auto 28px auto;
-  user-select: none;
-  touch-action: none;
-}
-.rotary-dial-container:focus-visible {
-  outline: 2px dashed var(--cherry-blush);
-  outline-offset: 6px;
-  border-radius: 50%;
-}
-
-/* Layer 1: Static Digit Buttons Below */
-.dial-static-layer {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, #1f131a 0%, #0d080c 80%);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  box-shadow: inset 0 4px 16px rgba(0, 0, 0, 0.8), 0 8px 24px rgba(217, 4, 41, 0.25);
-  pointer-events: auto;
-}
-
-/* Rotary Stop Bracket (Physical Detail) */
-.dial-finger-stop {
-  position: absolute;
-  bottom: 34px;
-  left: 48px;
-  width: 14px;
-  height: 24px;
-  background: linear-gradient(135deg, #d90429, #660708);
-  border-radius: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
-  pointer-events: none;
-}
-
-.dial-digit-btn {
-  position: absolute;
-  width: 42px;
-  height: 42px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: var(--cream);
-  font-family: var(--font-display);
-  font-size: 17px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  outline: none;
-  z-index: 1;
-}
-.dial-digit-btn:focus-visible {
-  border-color: var(--cherry-blush);
-  box-shadow: 0 0 14px var(--cherry);
-  background: rgba(217, 4, 41, 0.25);
-}
-.dial-digit-btn:hover {
-  background: rgba(217, 4, 41, 0.2);
-  border-color: var(--cherry);
-  color: #fff;
-  transform: translate(-50%, -50%) scale(1.12);
-}
-.dial-digit-btn:active {
-  transform: translate(-50%, -50%) scale(0.95);
-}
-
-.dial-center-label {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  pointer-events: none;
-}
-.dial-center-title {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--cherry-blush);
-}
-.dial-center-hint {
-  font-size: 8px;
-  color: var(--ink-muted);
-}
-
-/* Layer 2: Rotating Overlay (SVG evenodd stencil with holes) */
-.dial-rotating-overlay {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none; /* Overlay container pointer-events: none */
-  z-index: 10;
-}
-.rotary-wheel-svg {
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: visible;
-}
-.rotary-wheel-stencil {
-  pointer-events: auto; /* Stencil path pointer-events: auto */
-  cursor: grab;
-  fill: rgba(24, 16, 22, 0.55);
-  stroke: rgba(255, 117, 143, 0.3);
-  stroke-width: 1.5;
-  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
-  will-change: transform;
-}
-.rotary-wheel-stencil:active {
-  cursor: grabbing;
-}
-
 /* PLAIN LIST OF SAME 4 LINKS BELOW DIAL */
 .contact-button-stack {
   display: flex;
@@ -1260,144 +1136,6 @@ footer {
 
 
 /* ==========================================================================
-   FEATURE 2: THROWABLE CERTIFICATE CARDS (MATTER.JS 0.19.0)
-   ========================================================================== */
-.award-grid.physics-ready {
-  position: relative;
-  min-height: 280px;
-  overflow: hidden;
-  border-radius: 18px;
-  background: rgba(0, 0, 0, 0.1);
-}
-.award-item.physics-card {
-  position: absolute;
-  top: 0;
-  left: 0;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: none;
-  margin: 0;
-  box-sizing: border-box;
-}
-.award-item.physics-card:active {
-  cursor: grabbing;
-}
-.btn-cert-reset {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--card-border);
-  color: var(--ink-muted);
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 12px;
-  border-radius: 999px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  font-family: inherit;
-  transition: all 0.2s;
-}
-.btn-cert-reset:hover, .btn-cert-reset:focus-visible {
-  background: var(--cherry);
-  border-color: var(--cherry);
-  color: #fff;
-  outline: none;
-}
-
-
-/* ==========================================================================
-   FEATURE 2: THROWABLE CERTIFICATE CARDS (MATTER.JS 0.19.0)
-   ========================================================================== */
-.award-grid.physics-ready {
-  position: relative;
-  min-height: 280px;
-  overflow: hidden;
-  border-radius: 18px;
-  background: rgba(0, 0, 0, 0.1);
-}
-.award-item.physics-card {
-  position: absolute;
-  top: 0;
-  left: 0;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: none;
-  margin: 0;
-  box-sizing: border-box;
-}
-.award-item.physics-card:active {
-  cursor: grabbing;
-}
-.btn-cert-reset {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--card-border);
-  color: var(--ink-muted);
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 12px;
-  border-radius: 999px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  font-family: inherit;
-  transition: all 0.2s;
-}
-.btn-cert-reset:hover, .btn-cert-reset:focus-visible {
-  background: var(--cherry);
-  border-color: var(--cherry);
-  color: #fff;
-  outline: none;
-}
-
-
-/* ==========================================================================
-   FEATURE 2: THROWABLE CERTIFICATE CARDS (MATTER.JS 0.19.0)
-   ========================================================================== */
-.award-grid.physics-ready {
-  position: relative;
-  min-height: 280px;
-  overflow: hidden;
-  border-radius: 18px;
-  background: rgba(0, 0, 0, 0.1);
-}
-.award-item.physics-card {
-  position: absolute;
-  top: 0;
-  left: 0;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: none;
-  margin: 0;
-  box-sizing: border-box;
-}
-.award-item.physics-card:active {
-  cursor: grabbing;
-}
-.btn-cert-reset {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--card-border);
-  color: var(--ink-muted);
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 12px;
-  border-radius: 999px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  font-family: inherit;
-  transition: all 0.2s;
-}
-.btn-cert-reset:hover, .btn-cert-reset:focus-visible {
-  background: var(--cherry);
-  border-color: var(--cherry);
-  color: #fff;
-  outline: none;
-}
-
-
-/* ==========================================================================
    FEATURE 3: TEXT THAT PARTS AROUND THE CURSOR
    ========================================================================== */
 .parting-text-paragraph {
@@ -1416,51 +1154,6 @@ footer {
     transform: none !important;
     transition: none !important;
   }
-}
-
-
-/* ==========================================================================
-   FEATURE 4: FORCE-DIRECTED SKILLS GRAPH (D3-FORCE 3.0.0)
-   ========================================================================== */
-.graph-link {
-  stroke: rgba(255, 255, 255, 0.15);
-  stroke-width: 1.5px;
-  stroke-dasharray: 2, 2;
-  transition: stroke 0.2s;
-}
-.graph-link.active {
-  stroke: var(--cherry-blush);
-  stroke-width: 2.5px;
-  stroke-dasharray: none;
-}
-.graph-node {
-  cursor: grab;
-  transition: r 0.2s, filter 0.2s;
-}
-.graph-node:active {
-  cursor: grabbing;
-}
-.graph-node:hover, .graph-node:focus-visible {
-  filter: drop-shadow(0 0 8px var(--cherry));
-  outline: none;
-}
-.graph-node-text {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  fill: var(--ink);
-  pointer-events: none;
-  text-anchor: middle;
-  user-select: none;
-  font-weight: 500;
-}
-.graph-node-hub-text {
-  font-family: var(--font-display);
-  font-size: 12px;
-  font-weight: 700;
-  fill: #fff;
-  text-anchor: middle;
-  pointer-events: none;
-  user-select: none;
 }
 
 
@@ -1712,41 +1405,38 @@ footer {
       </div>
     </div>
 
-    <!-- 2) VERIFIED HONORS & BUILDATHONS (CERTIFICATE REVEAL: 2 SVG CLIP-PATHS, 12-POINT WAVY EDGE, SIN(PROGRESS*PI)) -->
+    <!-- 2) VERIFIED HONORS & BUILDATHONS -->
     <div class="bento-card card-awards" id="awards">
       <div class="section-headline">
         <h3>Verified <span class="serif-word">Honors</span> &amp; Certifications</h3>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <button class="btn-cert-reset" id="resetCertCardsBtn" onclick="resetCertCards()" aria-label="Reset certificate cards position">Reset</button>
-          <span class="btn-botanical-tag">National Finalist</span>
-        </div>
+        <span class="btn-botanical-tag">National Finalist</span>
       </div>
 
       <div class="award-grid">
         <!-- AWARD 1: OPENAI BUILDATHON -->
-        <div class="award-item" id="cert-card-0" ondblclick="openCert('assets/cert_openai.png')" onkeydown="certCardKey(event, 'assets/cert_openai.png')" tabindex="0" role="button" aria-label="OpenAI Academy Certificate. Double click, tap and hold, or press Enter to view.">
+        <div class="award-item" id="cert-card-0" onclick="openCert('assets/cert_openai.png')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCert('assets/cert_openai.png');}" tabindex="0" role="button" aria-label="View OpenAI Academy Certificate">
           <img src="assets/cert_openai.png" alt="OpenAI Academy Certificate" class="award-thumb" id="cert-thumb-0" />
           <div class="award-details">
             <h4>State-level finalist, selected for the National Finale, OpenAI Academy x NxtWave GenAI Buildathon.</h4>
-            <p>Selected for National Finale with Digital Krishi Officer. India's biggest GenAI buildathon.</p>
+            <p>Selected for National Finale with Digital Krishi Officer. India's biggest GenAI buildathon. Click to view certificate.</p>
           </div>
         </div>
 
         <!-- AWARD 2: RESPONSIVE WEBSITE CERT -->
-        <div class="award-item" id="cert-card-1" ondblclick="openCert('assets/cert_responsive.png')" onkeydown="certCardKey(event, 'assets/cert_responsive.png')" tabindex="0" role="button" aria-label="Responsive Website Certificate. Double click, tap and hold, or press Enter to view.">
+        <div class="award-item" id="cert-card-1" onclick="openCert('assets/cert_responsive.png')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCert('assets/cert_responsive.png');}" tabindex="0" role="button" aria-label="View Responsive Website Certificate">
           <img src="assets/cert_responsive.png" alt="Responsive Website Certificate" class="award-thumb" id="cert-thumb-1" />
           <div class="award-details">
             <h4>Build Your Own Responsive Website</h4>
-            <p>NxtWave CCBP 4.0 Academy • Verified ID: <code>MWILVCMRQ</code>. Bootstrap &amp; Flexbox Architecture.</p>
+            <p>NxtWave CCBP 4.0 Academy • Verified ID: <code>MWILVCMRQ</code>. Bootstrap &amp; Flexbox Architecture. Click to view certificate.</p>
           </div>
         </div>
 
         <!-- AWARD 3: STATIC WEBSITE CERT -->
-        <div class="award-item" id="cert-card-2" ondblclick="openCert('assets/cert_static.png')" onkeydown="certCardKey(event, 'assets/cert_static.png')" tabindex="0" role="button" aria-label="Static Website Certificate. Double click, tap and hold, or press Enter to view.">
+        <div class="award-item" id="cert-card-2" onclick="openCert('assets/cert_static.png')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCert('assets/cert_static.png');}" tabindex="0" role="button" aria-label="View Static Website Certificate">
           <img src="assets/cert_static.png" alt="Static Website Certificate" class="award-thumb" id="cert-thumb-2" />
           <div class="award-details">
             <h4>Build Your Own Static Website</h4>
-            <p>NxtWave CCBP 4.0 Academy • Verified ID: <code>YNZEGFBUKM</code>. HTML5, CSS3 &amp; Web Standards.</p>
+            <p>NxtWave CCBP 4.0 Academy • Verified ID: <code>YNZEGFBUKM</code>. HTML5, CSS3 &amp; Web Standards. Click to view certificate.</p>
           </div>
         </div>
       </div>
@@ -1910,10 +1600,7 @@ footer {
     <div class="bento-card card-tech" id="card-tech">
       <div class="section-headline">
         <h3>Core <span class="serif-word">Technical</span> Capabilities</h3>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <button class="btn-cert-reset" id="toggleSkillGraphBtn" onclick="toggleSkillGraph()" aria-label="Toggle between skills grid and force-directed interactive graph">Interactive Graph</button>
-          <span class="btn-botanical-tag">Full-Stack AI</span>
-        </div>
+        <span class="btn-botanical-tag">Full-Stack AI</span>
       </div>
 
       <div id="skillsGridView" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;">
@@ -1945,69 +1632,18 @@ footer {
           </div>
         </div>
       </div>
-
-      <!-- INTERACTIVE D3 FORCE GRAPH VIEW (LAZY-LOADED) -->
-      <div id="skillsGraphView" style="display:none;position:relative;width:100%;height:380px;border-radius:16px;background:rgba(0,0,0,0.18);overflow:hidden;margin-top:14px;">
-        <svg id="skillsGraphSvg" style="width:100%;height:100%;display:block;"></svg>
-        <div id="skillGraphTooltip" style="position:absolute;bottom:14px;left:18px;font-size:12px;color:var(--cherry-blush);background:rgba(13,8,12,0.85);padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);pointer-events:none;">
-          Click and drag nodes to test physics • Hub nodes connect related tools
-        </div>
-      </div>
-
     </div>
 
-    <!-- 7. CONTACT BENTO (3) CONTACT DIAL + PLAIN LIST OF SAME FOUR LINKS BELOW) -->
+    <!-- 7. CONTACT BENTO -->
     <div class="bento-card card-connect" id="contact">
       <div class="section-headline">
         <h3>Let's <span class="serif-word">Connect</span></h3>
         <span class="btn-botanical-tag">Open to Work</span>
       </div>
-      <p style="color:var(--ink-muted);font-size:13px;margin-bottom:12px;">
-        Rotary dial or plain list to initiate contact. Dial rotation bounded 0-60 degrees.
+      <p style="color:var(--ink-muted);font-size:13px;margin-bottom:16px;">
+        Reach out directly via email, professional profiles, or download my resume.
       </p>
 
-      <!-- 3) CONTACT DIAL: TWO-LAYER SYSTEM (Static Digits Below, Rotating Stencil with Holes Above) -->
-      <div class="rotary-dial-container" id="rotaryDialContainer" tabindex="0" role="region" aria-label="Rotary Contact Dial. Press 1 for Email, 2 for LinkedIn, 3 for GitHub, 4 for Resume PDF.">
-        
-        <!-- Layer 1: Static Digit Buttons Below -->
-        <div class="dial-static-layer">
-          <div class="dial-finger-stop"></div>
-          
-          <button class="dial-digit-btn" id="digit-btn-1" style="left:192.3px; top:173.6px;" onclick="dialAction(1)" aria-label="1: Email sasikalagaddam30@gmail.com">
-            1
-          </button>
-          <button class="dial-digit-btn" id="digit-btn-2" style="left:156.0px; top:201.4px;" onclick="dialAction(2)" aria-label="2: LinkedIn Profile">
-            2
-          </button>
-          <button class="dial-digit-btn" id="digit-btn-3" style="left:110.3px; top:203.4px;" onclick="dialAction(3)" aria-label="3: GitHub Profile LuminaQuest">
-            3
-          </button>
-          <button class="dial-digit-btn" id="digit-btn-4" style="left:71.8px; top:178.9px;" onclick="dialAction(4)" aria-label="4: Download AI Resume PDF">
-            4
-          </button>
-
-          <div class="dial-center-label">
-            <div class="dial-center-title">AURA DIAL</div>
-            <div class="dial-center-hint">Rotate 0-60°</div>
-          </div>
-        </div>
-
-        <!-- Layer 2: Rotating Overlay (SVG evenodd stencil with holes) -->
-        <!-- Overlay pointer-events: none; stencil path pointer-events: auto so clicks through holes hit digit underneath -->
-        <div class="dial-rotating-overlay" id="dialOverlay">
-          <svg class="rotary-wheel-svg" viewBox="0 0 260 260">
-            <g id="rotaryWheelGroup" style="transform-origin: 130px 130px;">
-              <path class="rotary-wheel-stencil" fill-rule="evenodd" d="M 15,130 a 115,115 0 1,0 230,0 a 115,115 0 1,0 -230,0 M 171.25555536596337,173.5918091626795 a 21,21 0 1,0 42,0 a 21,21 0 1,0 -42,0 M 134.99353089275084,201.41663917972903 a 21,21 0 1,0 42,0 a 21,21 0 1,0 -42,0 M 89.32975257220842,203.41036279796919 a 21,21 0 1,0 42,0 a 21,21 0 1,0 -42,0 M 50.78062232295768,178.851858336177 a 21,21 0 1,0 42,0 a 21,21 0 1,0 -42,0" />
-              <!-- Center Hub Ring -->
-              <circle cx="130" cy="130" r="30" fill="#0d080c" stroke="var(--cherry)" stroke-width="2" pointer-events="auto" />
-              <circle cx="130" cy="130" r="8" fill="var(--cherry-blush)" pointer-events="none" />
-            </g>
-          </svg>
-        </div>
-
-      </div>
-
-      <!-- ALWAYS RENDER A PLAIN LIST OF THE SAME FOUR LINKS BELOW THE DIAL -->
       <div class="contact-button-stack">
         <a href="mailto:sasikalagaddam30@gmail.com" class="contact-row-btn" id="link-plain-1">
           <span>Email Me</span>
@@ -2026,7 +1662,6 @@ footer {
           <span>&darr;</span>
         </a>
       </div>
-
     </div>
 
   </div>
@@ -2243,89 +1878,11 @@ function initCertificateReveals() {
 }
 
 // ============================================================================
-// 3) CONTACT DIAL: ROTARY DIAL WITH TWO-LAYER SYSTEM
-// Static digit buttons below (1 Email, 2 LinkedIn, 3 GitHub, 4 Resume PDF).
-// Rotating overlay (SVG evenodd stencil with holes) above.
-// Overlay pointer-events: none; stencil path pointer-events: auto so clicks through
-// holes hit the digit underneath. GSAP Draggable rotation bounded 0-60 deg, snaps back.
-// Always renders plain list of same 4 links below.
-// Includes keyboard path, touch path, and prefers-reduced-motion fallback.
-// ============================================================================
-function dialAction(digit) {
-  spawnCherryBurst({ clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 });
-  switch (digit) {
-    case 1:
-      window.location.href = 'mailto:sasikalagaddam30@gmail.com';
-      break;
-    case 2:
-      window.open('https://linkedin.com/in/gaddam-sasikala-bb1b13326', '_blank', 'noopener,noreferrer');
-      break;
-    case 3:
-      window.open('https://github.com/LuminaQuest', '_blank', 'noopener,noreferrer');
-      break;
-    case 4:
-      window.open('assets/Gaddam_Sasikala_AI_Engineer_Resume.pdf', '_blank');
-      break;
-  }
-}
-
-function initContactDial() {
-  if (typeof gsap === 'undefined' || typeof Draggable === 'undefined') return;
-  gsap.registerPlugin(Draggable);
-
-  const wheelGroup = document.getElementById('rotaryWheelGroup');
-  if (!wheelGroup) return;
-
-  Draggable.create(wheelGroup, {
-    type: 'rotation',
-    bounds: { minRotation: 0, maxRotation: 60 },
-    inertia: false,
-    onDragStart: function() {
-      wheelGroup.style.cursor = 'grabbing';
-    },
-    onRelease: function() {
-      wheelGroup.style.cursor = 'grab';
-      // Snaps back on release (instant for prefers-reduced-motion)
-      gsap.to(this.target, {
-        rotation: 0,
-        duration: prefersReducedMotion ? 0 : 0.65,
-        ease: prefersReducedMotion ? 'none' : 'elastic.out(1, 0.45)'
-      });
-    }
-  });
-
-  // Keyboard navigation for Rotary Dial
-  const dialContainer = document.getElementById('rotaryDialContainer');
-  if (dialContainer) {
-    dialContainer.addEventListener('keydown', (e) => {
-      if (['1', '2', '3', '4'].includes(e.key)) {
-        dialAction(parseInt(e.key, 10));
-      } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        e.preventDefault();
-        gsap.to(wheelGroup, {
-          rotation: 40,
-          duration: prefersReducedMotion ? 0 : 0.3,
-          onComplete: () => {
-            gsap.to(wheelGroup, { rotation: 0, duration: prefersReducedMotion ? 0 : 0.5, ease: 'elastic.out(1, 0.4)' });
-          }
-        });
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        e.preventDefault();
-        gsap.to(wheelGroup, { rotation: 0, duration: prefersReducedMotion ? 0 : 0.2 });
-      }
-    });
-  }
-}
-
 // Initialize on DOM load
 window.addEventListener('DOMContentLoaded', () => {
   initGooHeadline();
   initCertificateReveals();
-  initThrowableCards();
   initPartingText();
-  initThrowableCards();
-  initThrowableCards();
-  initContactDial();
   cleanSplineWatermark();
 });
 
@@ -2748,242 +2305,6 @@ function toggleTheme() {
 
 
 // ============================================================================
-// FEATURE 2: THROWABLE CERTIFICATE CARDS (MATTER.JS 0.19.0, FIXED 1/120s TIMESTEP)
-// Physical paper: drag, throw, collide with each other and section edges, settle.
-// "Reset" button returns them. Double-click, tap-and-hold, or Enter opens lightbox.
-// Esc closes. Cards stay readable at rest.
-// Lazy-loads Matter.js on demand. Instant reduced-motion fallback.
-// ============================================================================
-
-let matterEngine = null;
-let matterRunner = null;
-let matterBodies = [];
-let matterMouseConstraint = null;
-let cardInitLayout = [];
-let isPhysicsActive = false;
-let physicsAccumulator = 0;
-let lastPhysicsTime = 0;
-let physicsRaf = null;
-
-function certCardKey(e, imgSrc) {
-  if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault();
-    openCert(imgSrc);
-  }
-}
-
-function initThrowableCards() {
-  if (prefersReducedMotion) {
-    // Instant fallback without physics
-    return;
-  }
-
-  const grid = document.querySelector('.award-grid');
-  if (!grid) return;
-
-  const cardEls = [
-    { el: document.getElementById('cert-card-0'), src: 'assets/cert_openai.png' },
-    { el: document.getElementById('cert-card-1'), src: 'assets/cert_responsive.png' },
-    { el: document.getElementById('cert-card-2'), src: 'assets/cert_static.png' }
-  ];
-
-  // Setup tap-and-hold for mobile
-  cardEls.forEach(({ el, src }) => {
-    if (!el) return;
-    let touchTimer = null;
-    let sX = 0, sY = 0;
-    el.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        sX = e.touches[0].clientX;
-        sY = e.touches[0].clientY;
-        touchTimer = setTimeout(() => {
-          openCert(src);
-          touchTimer = null;
-        }, 500);
-      }
-    }, { passive: true });
-    el.addEventListener('touchmove', (e) => {
-      if (touchTimer && e.touches.length === 1) {
-        const dx = Math.abs(e.touches[0].clientX - sX);
-        const dy = Math.abs(e.touches[0].clientY - sY);
-        if (dx > 10 || dy > 10) {
-          clearTimeout(touchTimer);
-          touchTimer = null;
-        }
-      }
-    }, { passive: true });
-    el.addEventListener('touchend', () => {
-      if (touchTimer) clearTimeout(touchTimer);
-    }, { passive: true });
-  });
-
-  // Lazy load Matter.js 0.19.0 when Recognition section is approached or interacted with
-  const awardsCard = document.querySelector('.card-awards');
-  if (!awardsCard) return;
-
-  const triggerLoad = () => {
-    loadMatterAndStart(grid, cardEls);
-  };
-
-  awardsCard.addEventListener('pointerenter', triggerLoad, { once: true });
-  awardsCard.addEventListener('focusin', triggerLoad, { once: true });
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        triggerLoad();
-        observer.disconnect();
-      }
-    });
-  }, { threshold: 0.05 });
-  observer.observe(awardsCard);
-}
-
-function loadMatterAndStart(grid, cardEls) {
-  if (window.Matter) {
-    startMatterPhysics(grid, cardEls);
-    return;
-  }
-  const s = document.createElement('script');
-  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js';
-  s.async = true;
-  s.onload = () => {
-    startMatterPhysics(grid, cardEls);
-  };
-  document.head.appendChild(s);
-}
-
-function startMatterPhysics(grid, cardEls) {
-  if (typeof Matter === 'undefined' || isPhysicsActive) return;
-
-  const gridRect = grid.getBoundingClientRect();
-  const gridW = grid.clientWidth;
-  const gridH = Math.max(grid.clientHeight, 320);
-
-  // Capture natural resting positions for each card
-  cardInitLayout = cardEls.map(({ el }) => {
-    const r = el.getBoundingClientRect();
-    return {
-      el,
-      x: (r.left - gridRect.left) + r.width / 2,
-      y: (r.top - gridRect.top) + r.height / 2,
-      w: r.width,
-      h: r.height
-    };
-  });
-
-  grid.style.height = gridH + 'px';
-  grid.classList.add('physics-ready');
-
-  // Matter modules
-  const { Engine, World, Bodies, Mouse, MouseConstraint, Events, Body } = Matter;
-  const engine = Engine.create({
-    gravity: { x: 0, y: 0, scale: 0 }
-  });
-  matterEngine = engine;
-
-  // Boundary walls
-  const wallThick = 60;
-  const walls = [
-    Bodies.rectangle(gridW / 2, -wallThick / 2, gridW * 2, wallThick, { isStatic: true }),
-    Bodies.rectangle(gridW / 2, gridH + wallThick / 2, gridW * 2, wallThick, { isStatic: true }),
-    Bodies.rectangle(-wallThick / 2, gridH / 2, wallThick, gridH * 2, { isStatic: true }),
-    Bodies.rectangle(gridW + wallThick / 2, gridH / 2, wallThick, gridH * 2, { isStatic: true })
-  ];
-  World.add(engine.world, walls);
-
-  // Create card physical bodies (paper physics: low restitution, high air drag)
-  window.cardInitLayout = cardInitLayout;
-  matterBodies = cardInitLayout.map(info => {
-    info.el.style.width = info.w + 'px';
-    info.el.style.height = info.h + 'px';
-    info.el.classList.add('physics-card');
-
-    const body = Bodies.rectangle(info.x, info.y, info.w, info.h, {
-      density: 0.002,
-      frictionAir: 0.045, // air drag like paper
-      restitution: 0.18,  // gentle bounce
-      friction: 0.15
-    });
-    body.domEl = info.el;
-    body.halfW = info.w / 2;
-    body.halfH = info.h / 2;
-    return body;
-  });
-  World.add(engine.world, matterBodies);
-  window.matterBodies = matterBodies;
-
-  // Mouse & Touch constraint
-  const mouse = Mouse.create(grid);
-  const mouseConstraint = MouseConstraint.create(engine, {
-    mouse: mouse,
-    constraint: {
-      stiffness: 0.2,
-      render: { visible: false }
-    }
-  });
-  World.add(engine.world, mouseConstraint);
-  matterMouseConstraint = mouseConstraint;
-
-  // Ensure cards stay readable at rest: apply gentle upright restoring torque
-  Events.on(engine, 'beforeUpdate', () => {
-    matterBodies.forEach(b => {
-      if (Math.abs(b.angularVelocity) < 0.1) {
-        b.torque = -0.0008 * b.angle;
-      }
-    });
-  });
-
-  isPhysicsActive = true;
-  lastPhysicsTime = performance.now();
-
-  // Fixed 1/120s timestep loop
-  const fixedTimestep = 1000 / 120;
-  function physicsStep(now) {
-    if (!isPhysicsActive) return;
-    const delta = Math.min(now - lastPhysicsTime, 100);
-    lastPhysicsTime = now;
-    physicsAccumulator += delta;
-
-    while (physicsAccumulator >= fixedTimestep) {
-      Engine.update(engine, fixedTimestep);
-      physicsAccumulator -= fixedTimestep;
-    }
-
-    // Sync bodies to DOM elements
-    matterBodies.forEach(b => {
-      const x = b.position.x - b.halfW;
-      const y = b.position.y - b.halfH;
-      b.domEl.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${b.angle.toFixed(4)}rad)`;
-    });
-
-    physicsRaf = requestAnimationFrame(physicsStep);
-  }
-
-  physicsRaf = requestAnimationFrame(physicsStep);
-}
-
-function resetCertCards() {
-  if (!isPhysicsActive || !matterBodies.length) return;
-  const { Body } = Matter;
-  if (matterMouseConstraint) {
-    matterMouseConstraint.constraint.bodyB = null;
-    matterMouseConstraint.body = null;
-  }
-  cardInitLayout.forEach((info, idx) => {
-    const b = matterBodies[idx];
-    if (b) {
-      Body.setPosition(b, { x: info.x, y: info.y });
-      Body.setAngle(b, 0);
-      Body.setVelocity(b, { x: 0, y: 0 });
-      Body.setAngularVelocity(b, 0);
-      b.domEl.style.transform = `translate3d(${(info.x - b.halfW).toFixed(2)}px, ${(info.y - b.halfH).toFixed(2)}px, 0) rotate(0rad)`;
-    }
-  });
-}
-
-
-// ============================================================================
 // FEATURE 3: TEXT THAT PARTS AROUND THE CURSOR
 // Words within 90px of pointer are pushed away with spring, settle back on leave.
 // Stays selectable and screen-reader accessible (aria-label on p, spans aria-hidden).
@@ -3095,215 +2416,6 @@ function initPartingText() {
 
   para.addEventListener('pointermove', onPointerMove);
   para.addEventListener('pointerleave', onPointerLeave);
-}
-
-
-// ============================================================================
-// FEATURE 4: FORCE-DIRECTED SKILLS GRAPH (D3-FORCE 3.0.0)
-// Lazy-loads D3 only when user clicks "Interactive Graph" or views section.
-// Mouse, keyboard and touch support with instant reduced-motion fallback.
-// ============================================================================
-let d3Loaded = false;
-let d3Simulation = null;
-let isGraphViewActive = false;
-
-const GRAPH_DATA = {
-  nodes: [
-    { id: 'h-agentic', label: 'Agentic AI', isHub: true, r: 28, color: '#d90429' },
-    { id: 'h-rag', label: 'RAG & Safety', isHub: true, r: 28, color: '#ff758f' },
-    { id: 'h-auto', label: 'Automation & UI', isHub: true, r: 28, color: '#ffb703' },
-    
-    // Agentic AI nodes
-    { id: 'n-langgraph', label: 'LangGraph', hub: 'h-agentic', r: 16, color: 'rgba(255,255,255,0.08)' },
-    { id: 'n-langchain', label: 'LangChain', hub: 'h-agentic', r: 14, color: 'rgba(255,255,255,0.08)' },
-    { id: 'n-tot', label: 'Tree-of-Thought', hub: 'h-agentic', r: 15, color: 'rgba(255,255,255,0.08)' },
-    { id: 'n-swarms', label: 'Supervisor Swarms', hub: 'h-agentic', r: 16, color: 'rgba(255,255,255,0.08)' },
-    { id: 'n-gemini', label: 'Gemini Routing', hub: 'h-agentic', r: 15, color: 'rgba(255,255,255,0.08)' },
-
-    // RAG & Safety nodes
-    { id: 'n-chromadb', label: 'ChromaDB', hub: 'h-rag', r: 16, color: 'rgba(255,255,255,0.08)' },
-    { id: 'n-rerank', label: 'Cross-Encoder', hub: 'h-rag', r: 14, color: 'rgba(255,255,255,0.08)' },
-    { id: 'n-guardrails', label: 'Guardrails', hub: 'h-rag', r: 15, color: 'rgba(255,255,255,0.08)' },
-    { id: 'n-hitl', label: 'Human-in-Loop', hub: 'h-rag', r: 14, color: 'rgba(255,255,255,0.08)' },
-
-    // Automation nodes
-    { id: 'n-n8n', label: 'n8n Automation', hub: 'h-auto', r: 16, color: 'rgba(255,255,255,0.08)' },
-    { id: 'n-zapier', label: 'Zapier REST', hub: 'h-auto', r: 14, color: 'rgba(255,255,255,0.08)' },
-    { id: 'n-spline', label: 'Spline 3D', hub: 'h-auto', r: 15, color: 'rgba(255,255,255,0.08)' },
-    { id: 'n-figma', label: 'Figma UI/UX', hub: 'h-auto', r: 14, color: 'rgba(255,255,255,0.08)' }
-  ],
-  links: [
-    { source: 'h-agentic', target: 'n-langgraph' },
-    { source: 'h-agentic', target: 'n-langchain' },
-    { source: 'h-agentic', target: 'n-tot' },
-    { source: 'h-agentic', target: 'n-swarms' },
-    { source: 'h-agentic', target: 'n-gemini' },
-
-    { source: 'h-rag', target: 'n-chromadb' },
-    { source: 'h-rag', target: 'n-rerank' },
-    { source: 'h-rag', target: 'n-guardrails' },
-    { source: 'h-rag', target: 'n-hitl' },
-
-    { source: 'h-auto', target: 'n-n8n' },
-    { source: 'h-auto', target: 'n-zapier' },
-    { source: 'h-auto', target: 'n-spline' },
-    { source: 'h-auto', target: 'n-figma' },
-
-    // Cross-hub architecture links
-    { source: 'n-langgraph', target: 'n-chromadb' },
-    { source: 'n-langgraph', target: 'n-n8n' },
-    { source: 'h-agentic', target: 'h-rag' },
-    { source: 'h-agentic', target: 'h-auto' }
-  ]
-};
-
-function toggleSkillGraph() {
-  const gridView = document.getElementById('skillsGridView');
-  const graphView = document.getElementById('skillsGraphView');
-  const btn = document.getElementById('toggleSkillGraphBtn');
-
-  if (!isGraphViewActive) {
-    gridView.style.display = 'none';
-    graphView.style.display = 'block';
-    btn.innerText = 'Grid View';
-    isGraphViewActive = true;
-    loadD3AndRender();
-  } else {
-    graphView.style.display = 'none';
-    gridView.style.display = 'grid';
-    btn.innerText = 'Interactive Graph';
-    isGraphViewActive = false;
-  }
-}
-
-function loadD3AndRender() {
-  if (window.d3) {
-    renderD3SkillGraph();
-    return;
-  }
-  const s = document.createElement('script');
-  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js';
-  s.async = true;
-  s.onload = () => {
-    d3Loaded = true;
-    renderD3SkillGraph();
-  };
-  document.head.appendChild(s);
-}
-
-function renderD3SkillGraph() {
-  const svg = d3.select('#skillsGraphSvg');
-  svg.selectAll('*').remove();
-
-  const container = document.getElementById('skillsGraphView');
-  const width = container.clientWidth || 800;
-  const height = container.clientHeight || 380;
-
-  svg.attr('viewBox', [0, 0, width, height]);
-
-  const nodes = GRAPH_DATA.nodes.map(d => ({ ...d }));
-  const links = GRAPH_DATA.links.map(d => ({ ...d }));
-
-  if (prefersReducedMotion) {
-    // Instant layout without simulation
-    const cx = width / 2;
-    const cy = height / 2;
-    nodes.forEach((n, i) => {
-      const angle = (i / nodes.length) * 2 * Math.PI;
-      const r = n.isHub ? 80 : 140;
-      n.x = cx + Math.cos(angle) * r;
-      n.y = cy + Math.sin(angle) * r;
-    });
-  }
-
-  const link = svg.append('g')
-    .selectAll('line')
-    .data(links)
-    .join('line')
-    .attr('class', 'graph-link');
-
-  const nodeGroup = svg.append('g')
-    .selectAll('g')
-    .data(nodes)
-    .join('g')
-    .attr('tabindex', 0)
-    .attr('role', 'button')
-    .attr('aria-label', d => d.label + (d.isHub ? ' (Hub category)' : ' (Skill node)'))
-    .on('keydown', (e, d) => {
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        d.x += 15;
-        ticked();
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        d.x -= 15;
-        ticked();
-      }
-    });
-
-  nodeGroup.append('circle')
-    .attr('r', d => d.r)
-    .attr('class', 'graph-node')
-    .attr('fill', d => d.color)
-    .attr('stroke', d => d.isHub ? '#fff' : 'rgba(255,255,255,0.25)')
-    .attr('stroke-width', d => d.isHub ? 2 : 1);
-
-  nodeGroup.append('text')
-    .attr('class', d => d.isHub ? 'graph-node-hub-text' : 'graph-node-text')
-    .attr('dy', d => d.isHub ? 4 : 3)
-    .text(d => d.label);
-
-  const tooltip = document.getElementById('skillGraphTooltip');
-  nodeGroup.on('mouseenter', (e, d) => {
-    if (tooltip) {
-      tooltip.innerText = d.isHub ? d.label + ' Hub — Coordinates related tools and swarms' : d.label + ' — Verified skill component';
-    }
-  });
-
-  function ticked() {
-    link
-      .attr('x1', d => d.source.x)
-      .attr('y1', d => d.source.y)
-      .attr('x2', d => d.target.x)
-      .attr('y2', d => d.target.y);
-
-    nodeGroup.attr('transform', d => `translate(${d.x.toFixed(1)}, ${d.y.toFixed(1)})`);
-  }
-
-  if (prefersReducedMotion) {
-    ticked();
-    return;
-  }
-
-  const simulation = d3.forceSimulation(nodes)
-    .force('link', d3.forceLink(links).id(d => d.id).distance(d => d.source.isHub && d.target.isHub ? 130 : 68))
-    .force('charge', d3.forceManyBody().strength(-140))
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .force('collision', d3.forceCollide().radius(d => d.r + 8))
-    .on('tick', ticked);
-
-  d3Simulation = simulation;
-
-  // Drag interaction with mouse and touch
-  function dragstarted(event, d) {
-    if (!event.active) simulation.alphaTarget(0.3).restart();
-    d.fx = d.x;
-    d.fy = d.y;
-  }
-
-  function dragged(event, d) {
-    d.fx = event.x;
-    d.fy = event.y;
-  }
-
-  function dragended(event, d) {
-    if (!event.active) simulation.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
-  }
-
-  nodeGroup.call(d3.drag()
-    .on('start', dragstarted)
-    .on('drag', dragged)
-    .on('end', dragended));
 }
 
 
