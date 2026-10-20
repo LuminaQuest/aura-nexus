@@ -1157,6 +1157,202 @@ footer {
 }
 
 
+
+/* ==========================================================================
+   INSANE UI INTERACTIONS: MODULAR STYLING
+   ========================================================================== */
+
+/* 1. TACTILE 3D KEYCAP DEPRESSION */
+.btn-paper-sticker {
+  position: relative;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.45), 0 6px 14px rgba(0,0,0,0.3);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  will-change: transform;
+}
+.btn-paper-sticker:active {
+  transform: translateY(3px) !important;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.45), 0 2px 5px rgba(0,0,0,0.2) !important;
+}
+
+/* 2. PLUCKABLE ELASTIC STRING DIVIDER */
+.elastic-string-divider {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  margin: 10px 0;
+  cursor: crosshair;
+  user-select: none;
+  touch-action: none;
+}
+.elastic-string-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+.elastic-string-path {
+  fill: none;
+  stroke: var(--cherry-blush);
+  stroke-width: 2.5px;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 8px rgba(255, 117, 143, 0.5));
+  transition: stroke 0.2s;
+}
+.elastic-string-hint {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-muted);
+  pointer-events: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* 3. HOLOGRAPHIC SPECULAR FOIL ON CERTIFICATE CARDS */
+.award-item {
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.holo-foil-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 15%,
+    rgba(255, 0, 80, 0.22) 30%,
+    rgba(255, 200, 0, 0.22) 45%,
+    rgba(0, 255, 180, 0.22) 60%,
+    rgba(0, 160, 255, 0.22) 75%,
+    transparent 90%
+  );
+  background-size: 250% 250%;
+  mix-blend-mode: color-dodge;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.award-item:hover .holo-foil-overlay {
+  opacity: 0.85;
+}
+.holo-glare-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255,255,255,0.25) 0%, transparent 65%);
+  mix-blend-mode: overlay;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.award-item:hover .holo-glare-overlay {
+  opacity: 1;
+}
+
+/* 4. SPATIAL BENTO PERSPECTIVE */
+.bento-card {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  transform-style: preserve-3d;
+}
+.editorial-project-card {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+  transform-style: preserve-3d;
+}
+
+/* 5. TEXT SCRAMBLE GLOW */
+.scramble-dud {
+  color: var(--cherry-blush);
+  opacity: 0.8;
+  font-family: var(--font-mono);
+}
+
+/* 6. HANDS-FREE HUD & NOTIFICATIONS */
+.hands-free-hud {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  width: 176px;
+  background: rgba(13, 8, 12, 0.92);
+  border: 1px solid var(--cherry-blush);
+  border-radius: 14px;
+  padding: 10px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(217, 4, 41, 0.25);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: hudPopIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes hudPopIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.hands-free-hud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hands-free-badge {
+  font-size: 9px;
+  font-weight: 800;
+  color: #10b981;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: var(--font-mono);
+}
+.hands-free-off-btn {
+  background: var(--cherry);
+  border: none;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.hands-free-off-btn:hover {
+  background: #ff0033;
+  transform: scale(1.05);
+}
+.hands-free-canvas-wrap {
+  width: 156px;
+  height: 118px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.hands-free-status {
+  font-size: 9px;
+  color: var(--ink-muted);
+  text-align: center;
+  line-height: 1.3;
+  font-family: var(--font-mono);
+}
+.hands-free-alert {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  max-width: 360px;
+  background: rgba(13, 8, 12, 0.95);
+  border: 1px solid var(--cherry);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 12px;
+  color: var(--ink);
+  line-height: 1.45;
+  z-index: 1001;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
 </style>
 </head>
 <body data-theme="cherry-noir">
@@ -1244,6 +1440,12 @@ footer {
   </div>
 
   <div class="nav-actions">
+    <button class="btn-paper-sticker" id="btnHandsFree" onclick="toggleHandsFree()" title="Touchless spatial gesture navigation via local webcam" style="padding:6px 14px;">
+      Try hands-free
+    </button>
+    <button class="btn-paper-sticker" id="btnSoundToggle" onclick="toggleSound()" title="Toggle synthesized micro-audio feedback" style="padding:6px 14px;">
+      <span id="sound-title">🔊 Sound</span>
+    </button>
     <a href="assets/Gaddam_Sasikala_AI_Engineer_Resume.pdf" download="Gaddam_Sasikala_AI_Engineer_Resume.pdf" class="btn-paper-sticker" style="padding:6px 14px;text-decoration:none;">
       Resume (PDF)
     </a>
@@ -1306,6 +1508,14 @@ footer {
       <div class="spline-seamless-stage">
         <spline-viewer id="spline-viewport" url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"></spline-viewer>
       </div>
+    </div>
+
+    <!-- INTERACTION: PLUCKABLE ELASTIC SVG STRING DIVIDER -->
+    <div class="elastic-string-divider" id="elasticDivider" role="region" aria-label="Interactive elastic string. Hover or drag across to pluck.">
+      <svg class="elastic-string-svg" id="elasticSvg" viewBox="0 0 1000 60" preserveAspectRatio="none">
+        <path id="elasticStringPath" class="elastic-string-path" d="M 0,30 Q 500,30 1000,30" />
+      </svg>
+      <div class="elastic-string-hint">~ Pluck the string ~</div>
     </div>
 
     <!-- 2) VERIFIED HONORS & BUILDATHONS -->
@@ -2378,7 +2588,532 @@ function downloadN8n() {
   el.click();
   document.body.removeChild(el);
 }
+
+
+// ============================================================================
+// INSANE UI/UX INTERACTIONS ENGINE
+// 1. Elastic Magnetic Buttons (gsap.quickTo)
+// 2. Synthesized Web Audio Micro-Feedback
+// 3. Text Scramble Matrix Decoder
+// 4. Pluckable Elastic SVG String
+// 5. Spatial 3D Bento Depth Tilt
+// 6. Certificate Holographic Specular Glare
+// 7. Hands-Free Local In-Browser Gesture Control
+// ============================================================================
+
+// --- 1. SYNTHESIZED WEB AUDIO ENGINE (ZERO MP3 DOWNLOADS) ---
+let audioCtx = null;
+let isAudioEnabled = true;
+
+function getAudioContext() {
+  if (!audioCtx) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioContextClass) {
+      audioCtx = new AudioContextClass();
+    }
+  }
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
+
+function playSynthesizedSound(type = 'click') {
+  if (!isAudioEnabled) return;
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    
+    if (type === 'click') {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(780, now);
+      osc.frequency.exponentialRampToValueAtTime(320, now + 0.035);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.035);
+    } else if (type === 'hover') {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(240, now);
+      gain.gain.setValueAtTime(0.03, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.04);
+    } else if (type === 'pluck') {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.exponentialRampToValueAtTime(110, now + 0.28);
+      gain.gain.setValueAtTime(0.14, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.28);
+    }
+  } catch(e) {}
+}
+
+function toggleSound() {
+  isAudioEnabled = !isAudioEnabled;
+  const title = document.getElementById('sound-title');
+  if (title) {
+    title.innerText = isAudioEnabled ? '🔊 Sound' : '🔇 Muted';
+  }
+  if (isAudioEnabled) playSynthesizedSound('click');
+}
+
+// Attach sound to buttons automatically
+document.addEventListener('click', (e) => {
+  if (e.target.closest('button, a, .award-item, .contact-row-btn')) {
+    playSynthesizedSound('click');
+  }
+});
+
+// --- 2. ELASTIC MAGNETIC BUTTONS (GSAP QUICKTO) ---
+function initMagneticButtons() {
+  if (prefersReducedMotion || typeof gsap === 'undefined') return;
+  const buttons = document.querySelectorAll('.btn-cherry-jelly, .btn-paper-sticker, .btn-botanical-tag, .contact-row-btn');
+  
+  buttons.forEach(btn => {
+    const xTo = gsap.quickTo(btn, "x", { duration: 0.35, ease: "power3.out" });
+    const yTo = gsap.quickTo(btn, "y", { duration: 0.35, ease: "power3.out" });
+    
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) * 0.32;
+      const dy = (e.clientY - cy) * 0.32;
+      xTo(dx);
+      yTo(dy);
+    });
+    
+    btn.addEventListener('mouseleave', () => {
+      gsap.to(btn, { x: 0, y: 0, duration: 0.65, ease: "elastic.out(1.15, 0.4)" });
+    });
+  });
+}
+
+// --- 3. TEXT SCRAMBLE MATRIX DECODER ---
+class TextScramble {
+  constructor(el) {
+    this.el = el;
+    this.chars = '!<>-_\\/[]{}—=+*^?#________01';
+    this.original = el.innerText;
+    this.isScrambling = false;
+  }
+  scramble() {
+    if (this.isScrambling) return;
+    this.isScrambling = true;
+    const original = this.original;
+    const len = original.length;
+    let frame = 0;
+    const maxFrames = 18;
+    
+    const update = () => {
+      let output = '';
+      let done = 0;
+      for (let i = 0; i < len; i++) {
+        const threshold = (i / len) * maxFrames;
+        if (frame > threshold) {
+          output += original[i];
+          done++;
+        } else {
+          const randChar = this.chars[Math.floor(Math.random() * this.chars.length)];
+          output += `<span class="scramble-dud">${randChar}</span>`;
+        }
+      }
+      this.el.innerHTML = output;
+      frame++;
+      if (done < len) {
+        requestAnimationFrame(update);
+      } else {
+        this.el.innerText = original;
+        this.isScrambling = false;
+      }
+    };
+    requestAnimationFrame(update);
+  }
+}
+
+function initTextScramble() {
+  const titles = document.querySelectorAll('.editorial-project-card h4, .section-headline h3');
+  titles.forEach(el => {
+    const sc = new TextScramble(el);
+    el.addEventListener('mouseenter', () => {
+      sc.scramble();
+      playSynthesizedSound('hover');
+    });
+  });
+}
+
+// --- 4. PLUCKABLE ELASTIC STRING DIVIDER ---
+function initPluckableString() {
+  const wrap = document.getElementById('elasticDivider');
+  const path = document.getElementById('elasticStringPath');
+  if (!wrap || !path) return;
+  
+  let isPlucking = false;
+  let springY = 30;
+  let targetY = 30;
+  let vy = 0;
+  let rafId = null;
+  
+  const updateSpring = () => {
+    const stiffness = 0.16;
+    const damping = 0.82;
+    const ay = (targetY - springY) * stiffness;
+    vy = (vy + ay) * damping;
+    springY += vy;
+    
+    path.setAttribute('d', `M 0,30 Q 500,${springY.toFixed(2)} 1000,30`);
+    
+    if (Math.abs(springY - targetY) > 0.05 || Math.abs(vy) > 0.05 || isPlucking) {
+      rafId = requestAnimationFrame(updateSpring);
+    } else {
+      springY = 30;
+      targetY = 30;
+      path.setAttribute('d', 'M 0,30 Q 500,30 1000,30');
+      rafId = null;
+    }
+  };
+  
+  wrap.addEventListener('pointerdown', (e) => {
+    isPlucking = true;
+    const rect = wrap.getBoundingClientRect();
+    targetY = ((e.clientY - rect.top) / rect.height) * 60;
+    springY = targetY;
+    if (!rafId) rafId = requestAnimationFrame(updateSpring);
+  });
+  
+  wrap.addEventListener('pointermove', (e) => {
+    const rect = wrap.getBoundingClientRect();
+    const yRatio = (e.clientY - rect.top) / rect.height;
+    if (e.buttons > 0 || Math.abs(yRatio - 0.5) < 0.35) {
+      isPlucking = true;
+      targetY = Math.max(5, Math.min(55, yRatio * 60));
+      springY = targetY;
+      if (!rafId) rafId = requestAnimationFrame(updateSpring);
+    }
+  });
+  
+  const releaseString = () => {
+    if (isPlucking) {
+      isPlucking = false;
+      targetY = 30;
+      playSynthesizedSound('pluck');
+      if (!rafId) rafId = requestAnimationFrame(updateSpring);
+    }
+  };
+  wrap.addEventListener('pointerup', releaseString);
+  wrap.addEventListener('pointerleave', releaseString);
+}
+
+// --- 5. SPATIAL BENTO PERSPECTIVE & CERTIFICATE HOLOGRAPHIC FOIL ---
+function initSpatialBentoAndHolo() {
+  if (prefersReducedMotion) return;
+  
+  // Bento Cards 3D Tilt
+  const bentoCards = document.querySelectorAll('.bento-card, .editorial-project-card');
+  bentoCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `perspective(1000px) rotateX(${(-y * 6).toFixed(2)}deg) rotateY(${(x * 6).toFixed(2)}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+    });
+  });
+  
+  // Certificate Holographic Foil
+  const certCards = document.querySelectorAll('.award-item');
+  certCards.forEach(card => {
+    if (!card.querySelector('.holo-foil-overlay')) {
+      const foil = document.createElement('div');
+      foil.className = 'holo-foil-overlay';
+      const glare = document.createElement('div');
+      glare.className = 'holo-glare-overlay';
+      card.appendChild(foil);
+      card.appendChild(glare);
+    }
+    
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      card.style.setProperty('--glare-x', `${(x * 100).toFixed(1)}%`);
+      card.style.setProperty('--glare-y', `${(y * 100).toFixed(1)}%`);
+      const foil = card.querySelector('.holo-foil-overlay');
+      if (foil) {
+        foil.style.backgroundPosition = `${(x * 100).toFixed(1)}% ${(y * 100).toFixed(1)}%`;
+      }
+    });
+  });
+}
+
+// --- 6. RELIABLE HANDS-FREE GESTURE CONTROL ---
+let isHandsFreeActive = false;
+let mediaStream = null;
+let handsDetector = null;
+let lastGestureTime = 0;
+let lastPinchY = null;
+const SECTION_IDS = ['hero', 'awards', 'automation', 'agent-sim', 'projects', 'card-tech', 'contact'];
+
+function showHandsFreeAlert(msg) {
+  const alertEl = document.getElementById('handsFreeAlert');
+  if (!alertEl) return;
+  alertEl.innerText = msg;
+  alertEl.style.display = 'block';
+  setTimeout(() => { alertEl.style.display = 'none'; }, 6000);
+}
+
+function scrollSection(direction) {
+  const scrollPos = window.scrollY + 100;
+  const sections = SECTION_IDS.map(id => document.getElementById(id)).filter(Boolean);
+  let curIdx = 0;
+  sections.forEach((sec, idx) => {
+    if (sec.offsetTop <= scrollPos) curIdx = idx;
+  });
+  const nextIdx = Math.max(0, Math.min(sections.length - 1, curIdx + direction));
+  const target = sections[nextIdx];
+  if (target) {
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function toggleHandsFree() {
+  if (isHandsFreeActive) {
+    stopHandsFree();
+  } else {
+    startHandsFree();
+  }
+}
+
+async function startHandsFree() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    showHandsFreeAlert("Camera API is not supported in this browser.");
+    return;
+  }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { width: 320, height: 240, frameRate: { ideal: 30 } },
+      audio: false
+    });
+    mediaStream = stream;
+    
+    const video = document.getElementById('handsFreeVideo');
+    if (video) {
+      video.srcObject = stream;
+      await video.play();
+    }
+    
+    const hud = document.getElementById('handsFreeHud');
+    if (hud) hud.style.display = 'flex';
+    
+    const btn = document.getElementById('btnHandsFree');
+    if (btn) btn.innerText = 'Hands-Free (Active)';
+    
+    isHandsFreeActive = true;
+    loadMediaPipeAndStart();
+  } catch(err) {
+    console.warn("Camera access declined or unavailable:", err);
+    showHandsFreeAlert("Camera permission was not granted. Hands-free mode is disabled.");
+    stopHandsFree();
+  }
+}
+
+function stopHandsFree() {
+  isHandsFreeActive = false;
+  if (mediaStream) {
+    mediaStream.getTracks().forEach(t => t.stop());
+    mediaStream = null;
+  }
+  const video = document.getElementById('handsFreeVideo');
+  if (video) video.srcObject = null;
+  
+  const hud = document.getElementById('handsFreeHud');
+  if (hud) hud.style.display = 'none';
+  
+  const btn = document.getElementById('btnHandsFree');
+  if (btn) btn.innerText = 'Try hands-free';
+}
+
+function loadMediaPipeAndStart() {
+  if (window.Hands) {
+    initHandsPipeline();
+    return;
+  }
+  const s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js';
+  s.async = true;
+  s.onload = () => {
+    initHandsPipeline();
+  };
+  s.onerror = () => {
+    // If MediaPipe CDN is blocked, camera preview still works
+    console.warn("MediaPipe script CDN unreachable; basic mirror camera preview active.");
+  };
+  document.head.appendChild(s);
+}
+
+function initHandsPipeline() {
+  if (typeof Hands === 'undefined') return;
+  const hands = new Hands({
+    locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+  });
+  hands.setOptions({
+    maxNumHands: 1,
+    modelComplexity: 0,
+    minDetectionConfidence: 0.55,
+    minTrackingConfidence: 0.5
+  });
+  
+  hands.onResults(onHandResults);
+  handsDetector = hands;
+  
+  const video = document.getElementById('handsFreeVideo');
+  async function detectLoop() {
+    if (!isHandsFreeActive || !handsDetector || !video) return;
+    if (video.readyState >= 2) {
+      await handsDetector.send({ image: video });
+    }
+    requestAnimationFrame(detectLoop);
+  }
+  detectLoop();
+}
+
+function onHandResults(results) {
+  const canvas = document.getElementById('handsFreeCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  const badge = document.getElementById('handsFreeGestureBadge');
+  
+  if (!results.multiHandLandmarks || !results.multiHandLandmarks.length) {
+    if (badge) badge.innerText = '🟢 ACTIVE: WAITING';
+    lastPinchY = null;
+    return;
+  }
+  
+  const landmarks = results.multiHandLandmarks[0];
+  
+  // Draw landmarks skeleton
+  ctx.fillStyle = '#ff758f';
+  ctx.strokeStyle = '#d90429';
+  ctx.lineWidth = 2;
+  
+  landmarks.forEach(pt => {
+    ctx.beginPath();
+    ctx.arc(pt.x * canvas.width, pt.y * canvas.height, 2.5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  
+  // Gesture Classification
+  const wrist = landmarks[0];
+  const thumbTip = landmarks[4];
+  const indexTip = landmarks[8];
+  const indexPip = landmarks[6];
+  const middleTip = landmarks[12];
+  const middlePip = landmarks[10];
+  const ringTip = landmarks[16];
+  const ringPip = landmarks[14];
+  const pinkyTip = landmarks[20];
+  const pinkyPip = landmarks[18];
+  
+  const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+  const now = performance.now();
+  
+  // 1) Pinch detection (thumb tip + index tip)
+  const pinchDist = dist(thumbTip, indexTip);
+  if (pinchDist < 0.08) {
+    if (badge) badge.innerText = '🤏 PINCH: SCROLL';
+    const curY = (thumbTip.y + indexTip.y) / 2;
+    if (lastPinchY !== null) {
+      const deltaY = (curY - lastPinchY) * 1200;
+      window.scrollBy({ top: deltaY, behavior: 'auto' });
+    }
+    lastPinchY = curY;
+    return;
+  }
+  lastPinchY = null;
+  
+  // Cooldown check for section jumps
+  if (now - lastGestureTime < 1100) return;
+  
+  // 2) Open Palm check: all 4 fingers extended away from wrist
+  const isExtended = (tip, pip) => dist(tip, wrist) > dist(pip, wrist) * 1.25 && dist(tip, wrist) > 0.32;
+  const isOpenPalm = isExtended(indexTip, indexPip) &&
+                     isExtended(middleTip, middlePip) &&
+                     isExtended(ringTip, ringPip) &&
+                     isExtended(pinkyTip, pinkyPip);
+                     
+  if (isOpenPalm) {
+    if (badge) badge.innerText = '🖐️ PALM: NEXT';
+    lastGestureTime = now;
+    scrollSection(1);
+    playSynthesizedSound('hover');
+    return;
+  }
+  
+  // 3) Closed Fist check: fingers curled close to wrist
+  const isCurled = (tip, pip) => dist(tip, wrist) < dist(pip, wrist) * 0.95;
+  const isClosedFist = isCurled(indexTip, indexPip) &&
+                       isCurled(middleTip, middlePip) &&
+                       isCurled(ringTip, ringPip) &&
+                       isCurled(pinkyTip, pinkyPip);
+                       
+  if (isClosedFist) {
+    if (badge) badge.innerText = '✊ FIST: PREV';
+    lastGestureTime = now;
+    scrollSection(-1);
+    playSynthesizedSound('hover');
+    return;
+  }
+  
+  if (badge) badge.innerText = '🟢 ACTIVE: TRACKING';
+}
+
+// Initialize all features on DOMContentLoaded
+window.addEventListener('DOMContentLoaded', () => {
+  initMagneticButtons();
+  initTextScramble();
+  initPluckableString();
+  initSpatialBentoAndHolo();
+});
+
 </script>
 
+
+<!-- HANDS-FREE GESTURE CONTROL HUD (MIRRORED LIVE VIDEO + OVERLAY SKELETON) -->
+<div class="hands-free-hud" id="handsFreeHud" style="display:none;" role="region" aria-label="Hands-free gesture camera preview">
+  <div class="hands-free-hud-header">
+    <span class="hands-free-badge" id="handsFreeGestureBadge">🟢 GESTURE CONTROL: ACTIVE</span>
+    <button class="hands-free-off-btn" id="btnHandsFreeOff" onclick="stopHandsFree()" aria-label="Turn off hands-free mode">✕ Close</button>
+  </div>
+  <div class="hands-free-canvas-wrap">
+    <video id="handsFreeVideo" playsinline autoplay muted style="width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:block;border-radius:8px;"></video>
+    <canvas id="handsFreeCanvas" width="160" height="120" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;transform:scaleX(-1);"></canvas>
+  </div>
+  <div class="hands-free-status" id="handsFreeStatus">🖐️ Open Palm: Next • ✊ Fist: Prev • 🤏 Pinch: Scroll</div>
+</div>
+
+<!-- HANDS-FREE TOAST ALERT BANNER -->
+<div class="hands-free-alert" id="handsFreeAlert" style="display:none;" role="alert"></div>
+
 </body>
+
 </html>
